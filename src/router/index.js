@@ -1,0 +1,67 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Gerentes from '../views/Gerentes.vue'
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
+import Cadastro from '../views/Cadastro.vue'
+import Questao from '../views/Questao.vue'
+import provedor from "../provedor";
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '',
+    name: 'home',
+    component: Home
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: Home
+  },
+  {
+    path: '/gerentes',
+    name: 'gerentes',
+    component: Gerentes
+  },
+  {
+    path: '/cadastro',
+    name: 'cadastro',
+    component: Cadastro
+
+  },
+  {
+    path: '/questao',
+    name: 'questao',
+    component: Questao
+
+  },
+  {
+    path:'/login' ,
+    name:'login',
+    component: Login,
+    meta: {
+      publica: true
+    }
+  },
+]
+
+
+
+const router = new VueRouter({
+  mode: 'history',
+  routes
+})
+
+
+router.beforeEach((routeTo, routeFrom, next) => {
+  if (!routeTo.meta.publica && !provedor.state.token) {
+    return next({
+      path:'/login'
+    });
+  }
+  next();
+})
+
+export default router
