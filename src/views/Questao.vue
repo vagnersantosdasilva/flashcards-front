@@ -28,7 +28,7 @@
     <!-- Listagem de erros e acertos-->
     <b-row v-else-if="questionarioConcluido" style="margin-top: 150px;" >
       <b-row class="col-md-12" style="margin-left: 0">
-        <h5 class="text-center">Parabéns, Vagner Santos da Silva! </h5>
+        <h5 class="text-center">{{mensagemFinalizacao}} {{nomeUsuario}}</h5>
       </b-row>
       <b-row class="col-md-12 " style="margin-left: 0">
           <b-row class="d-flex justify-content-center " style="margin: 0">
@@ -183,8 +183,20 @@ export default {
 
     acertos(){
       return this.listAcerto.length+"/"+this.qtdPerguntas;
-    }
+    },
 
+    mensagemFinalizacao(){
+      if (this.listAcerto.length && this.qtdPerguntas){
+        if ((this.listAcerto.length / this.qtdPerguntas) > 0.8 )return 'Fantástico,'
+        if ((this.listAcerto.length / this.qtdPerguntas) > 0.6 )return 'Muito bem,'
+        if ((this.listAcerto.length / this.qtdPerguntas) <=  0.6 )return 'Continue praticando,'
+      }
+      return 'OK,'
+    },
+
+    nomeUsuario(){
+      return `${this.$store.state.usuario.firstName}!`;
+    }
   },
 
   methods: {
@@ -226,6 +238,8 @@ export default {
         this.questao = this.listPergunta.pop();
       }
       else this.questionarioConcluido = true
+      console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+
       this.respondeu=false;
     },
 
