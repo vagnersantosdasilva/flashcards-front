@@ -1,10 +1,10 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-bytebank">
-    <a class="navbar-brand" href="#">ByteBank</a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+    <a class="navbar-brand ml-2" href="/" style="margin: 10px">Flashcards</a>
     <button class="navbar-toggler" type="button">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse">
+    <div class="collapse navbar-collapse justify-content-end" >
       <BarraNavegacaoQuandoLogado v-if="usuarioestaLogado" @logout="efetuarLogout" />
       <BarraNavegacaoQuandoDeslogado v-else @login="efetuarLogin" />
     </div>

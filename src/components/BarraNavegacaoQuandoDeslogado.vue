@@ -1,5 +1,5 @@
 <template>
-  <ul class="navbar-nav mr-auto">
+  <ul class="navbar-nav mr-auto" style="margin-right: 10px">
     <li class="nav-item">
       <router-link class="nav-link" to="/login">Login</router-link>
     </li>

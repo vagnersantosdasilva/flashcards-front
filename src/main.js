@@ -7,6 +7,7 @@ import http from './http'
 import provedor from './provedor'
 
 import {BootstrapVue, BootstrapVueIcons, IconsPlugin} from 'bootstrap-vue'
+import Boxicons from 'boxicons';
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
@@ -14,7 +15,7 @@ Vue.use(BootstrapVueIcons)
 Vue.use(IconsPlugin)
 
 Vue.config.productionTip = false
-
+Vue.prototype.$boxicons = Boxicons;
 Vue.prototype.$http = http
 new Vue({
   router,

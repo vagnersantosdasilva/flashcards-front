@@ -1,24 +1,28 @@
 <template>
-  <ul class="navbar-nav mr-auto">
+
+  <ul class="navbar-nav mr-auto" style="margin-right: 10px">
+
     <li class="nav-item">
-      <router-link class="nav-link" to="/">Home</router-link>
-    </li>
-    <li class="nav-item">
-      <router-link to="/gerentes" class="nav-link">
-        Gerentes
+      <router-link class="nav-link" to="/">
+        <box-icon name="home"  />
       </router-link>
     </li>
 
     <li class="nav-item">
       <router-link to="/cadastro" class="nav-link">
-        Cadastrar Flashcards
+        <box-icon name="cog" />
       </router-link>
     </li>
 
     <li class="nav-item">
-      <a href="#" class="nav-link" @click.prevent="efetuarLogout">Logout</a>
+      <a href="#" class="nav-link" @click.prevent="efetuarLogout">
+        <box-icon name="log-out" />
+      </a>
     </li>
+
+
   </ul>
+
 </template>
 
 <script>
@@ -30,3 +34,4 @@ export default {
   }
 }
 </script>
+

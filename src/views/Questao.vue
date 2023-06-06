@@ -23,8 +23,6 @@
 
     </b-row>
 
-    <!-- Controle de perguntas e respostas -->
-
     <!-- Listagem de erros e acertos-->
     <b-row v-else-if="questionarioConcluido" style="margin-top: 150px;" >
       <b-row class="col-md-12" style="margin-left: 0">
@@ -84,9 +82,11 @@
 
     </b-row>
 
+    <!-- Controle de perguntas e respostas -->
     <b-row
         class="d-flex justify-content-lg-center"
         v-else
+        style="margin-top: 150px"
     >
       <b-row class="col-md-12 mt-4">
         <h5 class="text-center">{{ questao.pergunta }}?</h5>
@@ -94,7 +94,7 @@
       <b-row class="col-md-12 " >
           <div v-if="!respondeu">
             <b-row class="d-flex justify-content-center">
-              <div class="col-especial" style="max-width: 350px;min-width: 350px;height: 200px" @click="respondeu=true">
+              <div class="flashcard"  @click="respondeu=true">
                 <b-row class="d-flex justify-content-center  resposta" >
                   <strong>?</strong>
                 </b-row>
@@ -103,14 +103,13 @@
           </div>
 
           <div v-else>
-<!--            <b-row class="d-flex justify-content-center" >
-              <b-row class="d-flex justify-content-center pergunta" style="min-height: 45px;max-width: 400px" >
-
-              </b-row>
-            </b-row>-->
-            <b-row class="d-flex justify-content-center mt-3 mb-3">
+            <b-row class="d-flex justify-content-center">
               <b-row  class="d-flex justify-content-center" >
-                <div class="col-especial" style="max-width: 350px;min-width: 350px;height: 200px">
+                <div class="flashcard"
+                     :class="{
+                      'flashcard-acertou': acertou,
+                      'erro': errou}"
+                >
                   <b-row class="d-flex justify-content-center resposta" >
                     <strong>{{questao.resposta}}</strong>
                   </b-row>
@@ -176,6 +175,8 @@ export default {
       },
       questionarioConcluido:false,
       qtdPerguntas:null,
+      acertou:null,
+      errou:null,
     }
   },
 
@@ -229,18 +230,31 @@ export default {
 
     async proximaPergunta(questao, acerto){
       //await this.$http.put(``)
+
       questao.acerto = acerto
-      console.log('atualizacao de questao antes da proxima pergunta!!!',questao)
-      if (this.questao.acerto) this.listAcerto.push(questao)
-      else this.listErro.push(questao);
-
-      if (this.listPergunta.length>0) {
-        this.questao = this.listPergunta.pop();
+      if (acerto) {
+        this.acertou = true
+        this.errou = false
+      }else{
+        this.acertou = false
+        this.errou = true
       }
-      else this.questionarioConcluido = true
-      console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+      setTimeout(()=>{
+        if (this.questao.acerto) this.listAcerto.push(questao)
+        else this.listErro.push(questao);
 
-      this.respondeu=false;
+        if (this.listPergunta.length>0) {
+          this.questao = this.listPergunta.pop();
+        }
+        else this.questionarioConcluido = true
+        console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+
+        this.respondeu=false;
+        this.acertou=null
+        this.errou =null
+      },300)
+      console.log('atualizacao de questao antes da proxima pergunta!!!',questao)
+
     },
 
     corrigirErros(){
@@ -343,12 +357,31 @@ body{
   background-color: #ffffff;
   cursor:pointer;
   margin: 30px;
-  max-width: 300px;
-  min-width: 300px;
+  max-width: 350px;
+  min-width: 350px;
 
 }
 
 .col-especial:hover{
+  /*background-color: #f4f5f6;
+  box-shadow: inset 0 0 1px 1px #b2caee;*/
+  box-shadow: 0px 0px 3px 3px #a7a9af;
+}
+
+.flashcard {
+  display: block;
+  border: 1px solid #cfdccf;
+  align-content: center;
+  background-color: #ffffff;
+  cursor:pointer;
+  margin: 30px;
+  max-width: 400px;
+  min-width: 300px;
+  height: 200px;
+
+}
+
+.flashcard:hover{
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
   box-shadow: 0px 0px 3px 3px #a7a9af;
@@ -365,6 +398,15 @@ body{
 }
 .row {
   border:0px dashed blue;
+}
+
+.flashcard-acertou {
+  border: 2px solid #32cd32; /* Cor verde para as bordas */
+  transition: border-color 0.3s ease; /* Transição suave das bordas */
+}
+.erro {
+  border: 2px solid #ff0000; /* Cor vermelha para as bordas */
+  transition: border-color 0.3s ease; /* Transição suave das bordas */
 }
 @media screen and (max-width: 960px) {
   .linha {
