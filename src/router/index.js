@@ -6,7 +6,8 @@ import Login from '../views/Login.vue'
 import Cadastro from '../views/Cadastro.vue'
 import Questao from '../views/Questao.vue'
 import provedor from "../provedor";
-
+import CadastroUsuario from "../views/CadastroUsuario.vue";
+import ResetPublico from "../views/ResetPublico.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -15,11 +16,7 @@ const routes = [
     name: 'home',
     component: Home
   },
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
+
   {
     path: '/gerentes',
     name: 'gerentes',
@@ -38,9 +35,25 @@ const routes = [
 
   },
   {
+    path: '/cadastro_usuario',
+    name: 'cadastroUsuario',
+    component: CadastroUsuario,
+    meta: {
+      publica: true
+    }
+  },
+  {
     path:'/login' ,
     name:'login',
     component: Login,
+    meta: {
+      publica: true
+    }
+  },
+  {
+    path:'/reset' ,
+    name:'reset',
+    component: ResetPublico,
     meta: {
       publica: true
     }

@@ -318,8 +318,7 @@ export default {
     async salvarCategoria() {
       this.idCard = null;
       this.novoAssunto = !this.novoAssunto;
-      const userid = localStorage.getItem("userid");
-      this.categoria.usuarioId = userid;
+      this.categoria.usuarioId = this.$store.state.usuario.id;
       if (this.categoria.nome && this.categoria.id ==null) {
         await this.$http.post("api/categoria", this.categoria)
             .then((response) => {

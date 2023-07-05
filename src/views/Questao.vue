@@ -89,13 +89,13 @@
         style="margin-top: 150px"
     >
       <b-row class="col-md-12 mt-4">
-        <h5 class="text-center">{{ questao.pergunta }}?</h5>
+        <h5 class="text-center">{{ questao.pergunta }}</h5>
       </b-row>
       <b-row class="col-md-12 " >
           <div v-if="!respondeu">
             <b-row class="d-flex justify-content-center">
               <div class="flashcard"  @click="respondeu=true">
-                <b-row class="d-flex justify-content-center  resposta" >
+                <b-row class="d-flex text-center" style="margin-top: 80px" >
                   <strong>?</strong>
                 </b-row>
               </div>
@@ -104,17 +104,21 @@
 
           <div v-else>
             <b-row class="d-flex justify-content-center">
-              <b-row  class="d-flex justify-content-center" >
-                <div class="flashcard"
+
+              <div class="flashcard"
                      :class="{
                       'flashcard-acertou': acertou,
                       'erro': errou}"
                 >
-                  <b-row class="d-flex justify-content-center resposta" >
+                  <b-row class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
                     <strong>{{questao.resposta}}</strong>
                   </b-row>
+
+                  <div class="resposta" v-else>
+                      <strong>{{questao.resposta}}</strong>
+                  </div>
                 </div>
-              </b-row>
+
               <b-row clas="col-12 d-flex justify-content-center mt-4" >
                 <b-col>
                   <b-row class="d-flex justify-content-end">
@@ -322,8 +326,8 @@ export default {
 
 .resposta {
   height: 50px;
-  margin-top: 80px;
-  text-align: center;
+  margin-top: 30px;
+  text-align: justify;
   word-wrap: break-word;
   font-size: 16px;
 }

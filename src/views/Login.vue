@@ -23,13 +23,15 @@
                   <b-button variant="primary" block size="lg" class="w-100 mb-2" @click="login">Entrar</b-button>
                 </div>
                 <div class="text-center">
-                  <b-button variant="success" size="lg" class="w-100">Cadastrar</b-button>
+                  <b-button variant="success" size="lg" class="w-100" @click="cadastrar">Cadastrar</b-button>
                 </div>
               </form>
               <hr>
-              <div class="d-flex justify-content-sm-end">
-                <a href="#" class="text-primary">Esqueceu a senha?</a>
-              </div>
+              <router-link to="reset">
+                <div class="d-flex justify-content-sm-end">
+                  <a href="" class="text-primary">Esqueceu a senha?</a>
+                </div>
+              </router-link>
               <b-row class="d-flex justify-content-center w-100">
                 <b-row class="d-flex justify-content-center w-50">
                   <b-col >
@@ -42,7 +44,7 @@
                   </b-col>
                   <b-col>
                     <b-row class="d-flex justify-content-center">
-                      <b-button variant="outline-primary" class="w-75 mt-4">
+                      <b-button variant="outline-primary" class="w-75 mt-4" @click="loginWithGoogle">
                         <b-icon icon="Google"></b-icon>
                       </b-button>
                     </b-row>
@@ -60,6 +62,7 @@
           </b-card>
         </b-col>
       </b-row>
+
     </b-container>
   </div>
 </template>
@@ -68,7 +71,14 @@
 
 //import http from '@/http'
 //import axios from 'axios'
+//import cadastroUsuario from "./CadastroUsuario.vue";
+
+//import axios from "axios";
+
 export default {
+  components:{
+
+  },
   data() {
     return {
       email: '',
@@ -94,6 +104,10 @@ export default {
           })
     },
 
+    cadastrar(){
+      this.$router.push({name:'cadastroUsuario'})
+    },
+
     async getUserInfo() {
       try {
         const config = {
@@ -115,7 +129,15 @@ export default {
       } catch (erro) {
         console.log(erro)
       }
+    },
+
+    async loginWithGoogle() {
+
+      this.$http.get(`/login/google`).then((response)=>{
+        console.log(response);
+      })
     }
+
   },
   watch:{
   /*  usernameResponse:function (novo){

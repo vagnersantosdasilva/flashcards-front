@@ -1,7 +1,7 @@
 import Vuex from 'vuex';
 import Vue from 'vue';
 import http from "./http";
-
+import { decode } from 'jsonwebtoken';
 Vue.use(Vuex);
 
 const estado = {
@@ -28,13 +28,13 @@ const actions = {
     efetuarLogin ({ commit }, usuario) {
         return new Promise( (resolve, reject) => {
 
-            const CLIENT_ID = 'cliente'
-            const CLIENT_SECRET = '123'
+            //const CLIENT_ID = 'cliente'
+            //const CLIENT_SECRET = '123'
 
             const headers = {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
+                'Accept': 'application/json'
+
             };
 
             const data = {
@@ -43,13 +43,16 @@ const actions = {
                 password: usuario.password
             };
 
-            http.post(`oauth/token?grant_type=password&username=${usuario.email}&password=${usuario.password}`, data, {headers})
+            http.post(`api/public/login`, data, {headers})
                 .then(response => {
                     console.log("autenticacao!!!",response.data);
+                    const jwt_decoded = decode(response.data.token.replace("Bearer ",""));
                     commit('DEFINIR_USUARIO_LOGADO', {
-                        token: response.data.access_token,
-                        usuario: {username:response.data.username},
-                        refreshToken:response.data.refresh_token,
+                        token: response.data.token,
+                        usuario: {
+                            username:jwt_decoded.sub ,
+                            idUser:jwt_decoded.idUser
+                        }
                     })
                     resolve(response.data)
                 })
