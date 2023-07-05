@@ -208,7 +208,7 @@ export default {
     async getCategorias(){
       const usuario = this.$store.state.usuario
       console.log('Usuario !!',usuario)
-      await this.$http.get(`api/usuario/${usuario.id}/categoria`).then((response)=>{
+      await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
         this.categorias = response.data
       }).catch((error) => {
         console.log(error);

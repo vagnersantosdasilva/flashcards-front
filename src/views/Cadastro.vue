@@ -250,7 +250,8 @@ export default {
     async deleteQuestao(questao){
       console.log('questao:',questao);
       if (questao.id){
-        await this.$http.delete(`api/questao/${questao.id}`)
+        const idUser = this.$store.state.usuario.idUser;
+        await this.$http.delete(`api/usuario/${idUser}/categoria/${questao.categoriaId}/questao/${questao.id}`)
             .then(()=>{
               this.getQuestoes(questao.categoriaId)
             }).catch((erro)=>{
@@ -264,7 +265,8 @@ export default {
         console.log(questao)
         if (questao.pergunta && questao.resposta && questao.id){
           questao.categoriaId = this.categoria.id
-          await this.$http.put(`api/questao`,questao)
+          questao.usuarioId = this.$store.state.usuario.idUser;
+          await this.$http.put(`api/usuario/${questao.usuarioId}/questao`,questao)
               .then((response)=>{
                 console.log(response.data)
               })
@@ -276,7 +278,8 @@ export default {
       if (this.questao.pergunta && this.questao.resposta){
         this.questao.categoria = this.categoria
         this.questao.categoriaId = this.categoria.id
-        await this.$http.post(`api/questao`,this.questao)
+        this.questao.usuarioId = this.$store.state.usuario.idUser;
+        await this.$http.post(`api/usuario/${this.questao.usuarioId}/questao`,this.questao)
             .then((response)=>{
               this.questoes.push(response.data)
               this.questao = {
@@ -305,7 +308,8 @@ export default {
 
     async removerCategoria(){
       if (this.categoria.id){
-        await this.$http.delete(`api/categoria/${this.categoria.id}`)
+
+        await this.$http.delete(`api/usuario/${this.categoria.usuarioId}/categoria/${this.categoria.id}`)
             .then(()=>{
               this.categoria = {}
               this.edicao =false;
@@ -318,7 +322,7 @@ export default {
     async salvarCategoria() {
       this.idCard = null;
       this.novoAssunto = !this.novoAssunto;
-      this.categoria.usuarioId = this.$store.state.usuario.id;
+      this.categoria.usuarioId = this.$store.state.usuario.idUser;
       if (this.categoria.nome && this.categoria.id ==null) {
         await this.$http.post("api/categoria", this.categoria)
             .then((response) => {
@@ -343,7 +347,8 @@ export default {
     },
 
     async getQuestoes(idCategoria){
-      await this.$http.get(`api/categoria/${idCategoria}/questao`).then((response)=>{
+      const idUsuario = this.$store.state.usuario.idUser;
+      await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`).then((response)=>{
         this.questoes = response.data;
       }).catch((erro)=>{
         console.log(erro)
@@ -361,7 +366,7 @@ export default {
     async getCategorias(){
       const usuario = this.$store.state.usuario
       console.log('Usuario !!',usuario)
-      await this.$http.get(`api/usuario/${usuario.id}/categoria`).then((response)=>{
+      await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
         this.categorias = response.data
       }).catch((error) => {
         console.log(error);

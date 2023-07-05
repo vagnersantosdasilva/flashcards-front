@@ -96,7 +96,8 @@ export default {
     async login() {
       this.$store.dispatch('efetuarLogin', this.usuario)
           .then( () => {
-             this.getUserInfo()
+             //this.getUserInfo()
+            this.$router.push({ name: 'home'})
           })
           .catch((error)=>{
             console.log(error);
