@@ -200,7 +200,7 @@ export default {
     },
 
     nomeUsuario(){
-      return `${this.$store.state.usuario.firstName}!`;
+      return `${this.$store.state.usuario.username}!`.split("@")[0];
     }
   },
 
@@ -223,7 +223,8 @@ export default {
     },
 
     async getPergunta(idCategoria){
-      await this.$http.get(`api/categoria/${idCategoria}/questao`).then((response)=>{
+      const idUsuario  = this.$store.state.usuario.idUser
+      await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`).then((response)=>{
         console.log(response);
         this.listPergunta = response.data;
         this.qtdPerguntas = this.listPergunta.length
