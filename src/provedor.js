@@ -7,7 +7,8 @@ Vue.use(Vuex);
 const estado = {
     token:null,
     refreshToken:null,
-    usuario:{}
+    usuario:{},
+    isLoading:null,
 }
 
 const mutations = {
@@ -21,6 +22,10 @@ const mutations = {
         state.token = null
         state.usuario = {}
         state.refreshToken = null
+    },
+
+    DEFINIR_ESTADO_DE_CARREGAMENTO(state,isLoading){
+        state.isLoading = isLoading
     }
 }
 
@@ -64,8 +69,15 @@ const actions = {
     }
 }
 
+const getters = {
+    estaCarregando: state => state.isLoading
+};
+
 export default new Vuex.Store({
     state:estado,
     mutations,
-    actions
+    actions,
+    getters
 })
+
+

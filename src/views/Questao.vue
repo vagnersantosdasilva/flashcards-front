@@ -88,10 +88,19 @@
         v-else
         style="margin-top: 150px"
     >
-      <b-row class="col-md-12 mt-4">
-        <h5 class="text-center">{{ questao.pergunta }}</h5>
-      </b-row>
-      <b-row class="col-md-12 " >
+
+      <div v-if="qtdPerguntas==0">
+        <b-row class="col-md-12 mt-4">
+          <h5 class="text-center">Nenhuma pergunta cadastrada!</h5>
+        </b-row>
+
+      </div>
+
+      <div v-else>
+        <b-row class="col-md-12 mt-4">
+          <h5 class="text-center">{{ questao.pergunta }}</h5>
+        </b-row>
+        <b-row class="col-md-12 " >
           <div v-if="!respondeu">
             <b-row class="d-flex justify-content-center">
               <div class="flashcard"  @click="respondeu=true">
@@ -147,6 +156,7 @@
           </div>
 
       </b-row>
+      </div>
     </b-row>
 
 
@@ -176,6 +186,7 @@ export default {
         resposta:null,
         acerto:null,
         categoriaId:null,
+        usuarioId:null,
       },
       questionarioConcluido:false,
       qtdPerguntas:null,
@@ -224,6 +235,7 @@ export default {
 
     async getPergunta(idCategoria){
       const idUsuario  = this.$store.state.usuario.idUser
+      this.questao.usuarioId = idUsuario;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`).then((response)=>{
         console.log(response);
         this.listPergunta = response.data;
@@ -234,9 +246,9 @@ export default {
     },
 
     async proximaPergunta(questao, acerto){
-      //await this.$http.put(``)
-
-      questao.acerto = acerto
+      const idUsuario  = this.$store.state.usuario.idUser
+      questao.acerto = acerto;
+      questao.usuarioId = idUsuario;
       if (acerto) {
         this.acertou = true
         this.errou = false
@@ -244,21 +256,27 @@ export default {
         this.acertou = false
         this.errou = true
       }
-      setTimeout(()=>{
-        if (this.questao.acerto) this.listAcerto.push(questao)
-        else this.listErro.push(questao);
 
-        if (this.listPergunta.length>0) {
-          this.questao = this.listPergunta.pop();
-        }
-        else this.questionarioConcluido = true
-        console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+      await this.$http.put(`api/usuario/${idUsuario}/questao/responder`,questao)
+          .then(()=>{
+            setTimeout(()=>{
+              if (this.questao.acerto) this.listAcerto.push(questao)
+              else this.listErro.push(questao);
 
-        this.respondeu=false;
-        this.acertou=null
-        this.errou =null
-      },300)
-      console.log('atualizacao de questao antes da proxima pergunta!!!',questao)
+              if (this.listPergunta.length>0) {
+                this.questao = this.listPergunta.pop();
+              }
+              else this.questionarioConcluido = true
+              console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+
+              this.respondeu=false;
+              this.acertou=null
+              this.errou =null
+            },300)
+            console.log('atualizacao de questao antes da proxima pergunta!!!',questao)
+          }).catch((erro)=>{
+            console.log("Erro ao responder questao",erro);
+          })
 
     },
 

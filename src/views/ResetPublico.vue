@@ -3,38 +3,52 @@
 
     <b-container>
       <div v-if="resetAtivo">
-
+        Aqui será o formulario para reset de senha
       </div>
       <div v-else >
-        <b-row class="justify-content-center">
+        <b-row class="d-flex justify-content-center mt-4" >
+          <div class="loader-container md-6 text-center mt-4" v-if="estaCarregando" >
+            <i class="fas fa-hourglass fa-spin fa-3x"></i>
+          </div>
+          <b-col md="6" v-else>
 
-        <b-col md="6">
-
-          <b-card class="shadow-lg">
-            <b-card-title>Recuperação de Senha</b-card-title>
-            <b-card-body>
-              <div class="text-center mb-4">
-
-              </div>
-              <form>
-                <div class="form-group mt-2">
-                  <b-form-input placeholder="Email cadastrado " class="form-control-lg" v-model="usuario.email"></b-form-input>
+            <b-card class="shadow-lg">
+              <b-card-title>Recuperação de Senha</b-card-title>
+              <b-card-body v-if="emailEnviado">
+                <div class="text-start mb-4" style="font-size: 14px;color:darkolivegreen;" v-if="emailEnviadoSucesso">
+                  <b>
+                    E-mail enviado com sucesso! Verifique sua caixa de e-mail e clique no link de redirecionamento para
+                    completar o processo de reset de sua senha de acesso.
+                  </b>
                 </div>
-
-                <div class="form-group mt-2 ">
-                  <b-button variant="primary" block size="lg" class="w-100 mb-2" @click.prevent="enviarTokenReset">Enviar</b-button>
+                <div class="text-start mb-4" style="font-size: 14px; color:indianred" v-else>
+                  <b>Ocorreu um erro ao tentar enviar o link de redefinição de senha para
+                  o e-mail informado. Verifique se você digitou o e-mail corretamente. Se o problema persistir, tente repetir o processo mais tarde.</b>
                 </div>
+              </b-card-body>
+              <b-card-body  v-else>
+                <div class="text-start mb-4" style="font-size: 14px;">
+                  Para recuperar sua senha, insira o e-mail cadastrado abaixo e clique em enviar.
+                  Um link de ativação será enviado para o seu endereço de e-mail. Siga as instruções contidas no e-mail para
+                  prosseguir com o processo de recuperação de senha.
+                </div>
+                <div>
+                  <form>
+                    <div class="form-group mt-2">
+                      <b-form-input placeholder="Email cadastrado " class="form-control-lg" v-model="usuario.email"></b-form-input>
+                    </div>
 
-              </form>
-              <hr>
-              <div class="d-flex justify-content-sm-end">
+                    <div class="form-group mt-2 ">
+                      <b-button variant="primary" block size="lg" class="w-100 mb-2" @click.prevent="enviarTokenReset">Enviar</b-button>
+                    </div>
 
-              </div>
-
-            </b-card-body>
-          </b-card>
-        </b-col>
-      </b-row>
+                  </form>
+                  <hr>
+                </div>
+              </b-card-body>
+            </b-card>
+          </b-col>
+        </b-row>
       </div>
 
     </b-container>
@@ -42,6 +56,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   data(){
     return {
@@ -49,17 +65,27 @@ export default {
         email:null
       },
       resetAtivo:false,
+      emailEnviado:false,
+      emailEnviadoSucesso:false,
     };
   },
 
   methods:{
     async enviarTokenReset(){
-      this.$http.get(`public/resetpassword?email=${this.usuario.email}`)
+      this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', true);
+      this.emailEnviado = false;
+      this.emailEnviadoSucesso=false;
+      this.$http.get(`api/public/reset/usuario?email=${this.usuario.email}`)
           .then(()=>{
-        console.log("Sucesso no envio de email!");
-      }).catch((erro)=>{
-        console.log(erro);
-      })
+            this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', false);
+            this.emailEnviado = true;
+            this.emailEnviadoSucesso=true;
+          }).catch((erro)=>{
+            this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', false);
+            console.log(erro);
+            this.emailEnviado = false;
+            this.emailEnviadoSucesso=false;
+          })
     }
   },
   mounted() {
@@ -69,6 +95,10 @@ export default {
       this.$store.commit('DEFINIR_USUARIO_LOGADO', {token:token});
       this.resetAtivo =true;
     }
+  },
+
+  computed:{
+    ...mapGetters(['estaCarregando'])
   }
 }
 </script>
@@ -77,4 +107,22 @@ export default {
 .login {
   margin: 100px auto;
 }
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background-color: rgba(255, 255, 255, 0.8);*/
+  z-index: 9999;
+}
+
+.loader-icon {
+  max-width: 100px; /* Customize the size as needed */
+}
 </style>
+

@@ -5,6 +5,23 @@
       <b-row class="justify-content-center">
 
         <b-col md="6">
+          <div class="login-content">
+            <h3>Bem-vindo ao nosso aplicativo de Flashcards!</h3>
+            <p>
+              Estude de forma eficaz e aprimore sua retenção de
+              conhecimento com nossa técnica de repetição espaçada.
+            </p>
+            <p>
+              Crie seus próprios flashcards com perguntas e respostas
+              personalizadas e melhore sua aprendizagem.
+            </p>
+            <p>
+              Cadastre-se agora e comece a criar seus flashcards!
+            </p>
+          </div>
+        </b-col>
+
+        <b-col md="6">
           <p class="text-danger" v-if="erroAutenticacao">Ocorreu um erro ao tentar autenticar</p>
           <b-card class="shadow-lg">
             <b-card-title>Login</b-card-title>

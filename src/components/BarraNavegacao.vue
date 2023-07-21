@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-info">
     <a class="navbar-brand ml-2" href="/" style="margin: 10px">Flashcards</a>
-    <button class="navbar-toggler" type="button">
+    <button class="navbar-toggler" type="button" @click="toggleMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse justify-content-end" >
+    <div class="collapse navbar-collapse justify-content-end" :class="{ 'show': isMenuOpen }">
       <BarraNavegacaoQuandoLogado v-if="usuarioestaLogado" @logout="efetuarLogout" />
       <BarraNavegacaoQuandoDeslogado v-else @login="efetuarLogin" />
     </div>
@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-
+      isMenuOpen: false
     };
   },
   computed: {
@@ -32,11 +32,28 @@ export default {
     }
   },
   methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+
     efetuarLogout () {
       this.$store.commit('DESLOGAR_USUARIO')
       this.$router.push({ name: 'login' })
     },
-    
+
   },
 };
 </script>
+
+
+<style scoped>
+  .show{
+    justify-content: start;
+    text-align: justify;
+    //border: 1px dashed black;
+
+    margin-left:  5px;
+    padding: 1px;
+    color:black
+  }
+</style>
