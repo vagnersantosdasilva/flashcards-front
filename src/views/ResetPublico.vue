@@ -3,7 +3,7 @@
 
     <b-container>
       <div v-if="resetAtivo">
-        Aqui será o formulario para reset de senha
+        <FormularioResetPublico usuario="usuario"></FormularioResetPublico>
       </div>
       <div v-else >
         <b-row class="d-flex justify-content-center mt-4" >
@@ -57,12 +57,15 @@
 
 <script>
 import {mapGetters} from "vuex";
+import FormularioResetPublico from "../components/FormularioResetPublico.vue";
+import {decode} from "jsonwebtoken";
 
 export default {
+  components: {FormularioResetPublico},
   data(){
     return {
       usuario:{
-        email:null
+        email:null,
       },
       resetAtivo:false,
       emailEnviado:false,
@@ -91,8 +94,16 @@ export default {
   mounted() {
     if(this.$route.query.token) {
       const token = this.$route.query.token;
+      //const username = this.$route.query.username;
       console.log('token recuperado', token)
-      this.$store.commit('DEFINIR_USUARIO_LOGADO', {token:token});
+      const jwt_decoded = decode(token);
+      this.$store.commit('DEFINIR_USUARIO_LOGADO', {
+        token: token,
+        usuario: {
+          username:jwt_decoded.sub ,
+          idUser:jwt_decoded.idUser
+        }
+      })
       this.resetAtivo =true;
     }
   },
