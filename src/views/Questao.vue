@@ -9,18 +9,23 @@
       <b-row class="d-flex justify-content-center  ">
         <h4 class="text-center">Escolha a matéria de estudos</h4>
       </b-row>
-
-      <div
-          class="col-especial text-center mt-2 linha"
-          @click = "selectTopico(categoria.id)"
-          v-for="categoria in categorias"
-          :key="categoria.id"
-      >
-        <div style="margin: 40px">
-          <em>{{categoria.nome}}</em>
+      <b-row class="d-flex justify-content-center ms-2">
+        <div
+            class="col-especial text-start mt-2 linha ms-1 "
+            @click = "selectTopico(categoria.id)"
+            v-for="categoria in categorias"
+            :key="categoria.id"
+            style="height: 80px;"
+        >
+          <div style="margin: 10px">
+            <b><em>{{categoria.nome}}</em></b>
+          </div>
+          <div style="margin:10px;">
+            <p style="width: 50%;color:limegreen;" v-if="true"><em>Revisão disponível</em></p>
+            <p v-else style="color:orangered;"><em>Nenhuma revisão disponível</em></p>
+          </div>
         </div>
-      </div>
-
+      </b-row>
     </b-row>
 
     <!-- Listagem de erros e acertos-->
@@ -192,6 +197,7 @@ export default {
       qtdPerguntas:null,
       acertou:null,
       errou:null,
+      correcao:false,
     }
   },
 
@@ -257,30 +263,35 @@ export default {
         this.errou = true
       }
 
-      await this.$http.put(`api/usuario/${idUsuario}/questao/responder`,questao)
-          .then(()=>{
-            setTimeout(()=>{
-              if (this.questao.acerto) this.listAcerto.push(questao)
-              else this.listErro.push(questao);
+      if (this.correcao==false) {
+        await this.$http.put(`api/usuario/${idUsuario}/questao/responder`, questao)
+            .then(() => {
+              setTimeout(() => {
+               this.atualiza(questao);
+              }, 300)
+              console.log('atualizacao de questao antes da proxima pergunta!!!', questao)
+            }).catch((erro) => {
+              console.log("Erro ao responder questao", erro);
+            })
+      }else this.atualiza(questao);
+    },
 
-              if (this.listPergunta.length>0) {
-                this.questao = this.listPergunta.pop();
-              }
-              else this.questionarioConcluido = true
-              console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+    atualiza(questao){
+      if (this.questao.acerto) this.listAcerto.push(questao)
+      else this.listErro.push(questao);
 
-              this.respondeu=false;
-              this.acertou=null
-              this.errou =null
-            },300)
-            console.log('atualizacao de questao antes da proxima pergunta!!!',questao)
-          }).catch((erro)=>{
-            console.log("Erro ao responder questao",erro);
-          })
+      if (this.listPergunta.length > 0) {
+        this.questao = this.listPergunta.pop();
+      } else this.questionarioConcluido = true
+      console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
 
+      this.respondeu = false;
+      this.acertou = null
+      this.errou = null
     },
 
     corrigirErros(){
+      this.correcao = true;
       this.listPergunta =[];
       this.listAcerto =[];
       this.qtdPerguntas = this.listErro.length;
@@ -291,6 +302,7 @@ export default {
     },
 
     voltarParaCategorias(){
+      this.correcao =false;
       this.listPergunta =[];
       this.listAcerto =[];
       this.qtdPerguntas = null;
