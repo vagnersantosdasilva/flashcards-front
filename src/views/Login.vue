@@ -49,6 +49,7 @@
                   <a href="" class="text-primary">Esqueceu a senha?</a>
                 </div>
               </router-link>
+              <!--
               <b-row class="d-flex justify-content-center w-100">
                 <b-row class="d-flex justify-content-center w-50">
                   <b-col >
@@ -75,6 +76,7 @@
                   </b-col>
                 </b-row>
               </b-row>
+              -->
             </b-card-body>
           </b-card>
         </b-col>

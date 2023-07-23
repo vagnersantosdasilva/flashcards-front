@@ -1,126 +1,122 @@
 <template>
   <div>
     <b-container>
-      <b-row class="justify-content-center mt-4">
-        <form @submit.prevent="cadastrar">
-          <b-form-group
-              class="form-group mt-2"
-              label="Primeiro nome:"
-              :invalid-feedback="errors.firstName"
-          >
-            <b-form-input
-                v-model="usuario.firstName"
-                name="firstname"
-                autocomplete="false"
-                placeholder="Primeiro nome"
-                class="form-control-lg"
+      <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+        <alert-custom
+            :show="showDismissibleAlert"
+            :alert="erroResponse"
+        >
 
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-              class="form-group mt-2"
-              label="Último nome:"
-              :invalid-feedback="errors.lastName"
-          >
-            <b-form-input
-                v-model="usuario.lastName"
-                autocomplete="false"
-                type="text"
-                placeholder="Último nome"
-                class="form-control-lg"
-
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group
-              class="form-group mt-2"
-              label="Email:"
-              :invalid-feedback="errors.email"
-          >
-            <b-form-input
-                v-model="usuario.email"
-                autocomplete="false"
-                placeholder="Email"
-                class="form-control-lg"
-
-                type="email"
-            ></b-form-input>
-          </b-form-group>
-
-          <b-form-group class="form-group mt-2" label="Confirmar senha:" :invalid-feedback="errors.confirmPassword">
-            <b-input-group>
-              <b-form-input
-                  v-model="usuario.password"
-                  autocomplete="false"
-                  :type="passwordInputType"
-                  placeholder="Senha"
-                  class="form-control-lg"
-
-              ></b-form-input>
-              <b-input-group-append >
-                <b-input-group-text
-                    @mousedown="changeInputType('text')"
-                    @mouseup="changeInputType('password')"
-                    style="height: 50px;">
-                  <i
-                      :class="
-                          passwordInputType === 'password'
-                            ? 'far fa-eye'
-                            : 'far fa-eye-slash'
-                        "
-                  ></i>
-                </b-input-group-text>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-
-          <b-form-group
-              class="form-group mt-2"
-              label="Confirmar senha:"
-
-              :invalid-feedback="errors.confirmPassword"
-              :state="errors.state.confirmPassword"
-          >
-            <b-input-group>
-              <b-form-input
-                  v-model="usuario.confirmPassword"
-                  autocomplete="false"
-                  :type="passwordInputType"
-                  placeholder="Confirme a senha"
-                  class="form-control-lg"
-
-                  :state="errors.state.confirmPassword"
-                  trim
-              ></b-form-input>
-              <b-input-group-append >
-                <b-input-group-text
-                    @mousedown="changeInputType('text')"
-                    @mouseup="changeInputType('password')"
-                    style="height: 50px;">
-                  <i
-                      :class="
-                          passwordInputType === 'password'
-                            ? 'far fa-eye'
-                            : 'far fa-eye-slash'
-                        "
-                  ></i>
-                </b-input-group-text>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-
-          <b-row class="d-flex justify-content-start col-12 mt-3">
-            <b-button variant="primary" type="submit">Cadastrar</b-button>
-          </b-row>
-        </form>
+        </alert-custom>
       </b-row>
+      <!--
+      <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+              <b-alert v-model="showDismissibleAlert" variant="danger" dismissible>
+                {{erro}}
+              </b-alert>
+            </b-row>
+       -->
+      <b-row class="d-flex justify-content-center mt-2">
+        <b-col md="6" style="margin: 40px;">
+        <b-card class=" shadow-lg" >
+          <b-card-title>Cadastro</b-card-title>
+          <b-card-body>
+            <form @submit.prevent="cadastrar">
+              <b-form-group
+                  class="form-group mt-2"
+                  label="Email:"
+                  :invalid-feedback="errors.username"
+              >
+                <b-form-input
+                    v-model="usuario.username"
+                    autocomplete="false"
+                    placeholder="Email"
+                    class="form-control-lg"
+
+                    type="email"
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group class="form-group mt-2" label="Confirmar senha:" :invalid-feedback="errors.confirmPassword">
+                <b-input-group>
+                  <b-form-input
+                      v-model="usuario.password"
+                      autocomplete="false"
+                      :type="passwordInputType"
+                      placeholder="Senha"
+                      class="form-control-lg"
+
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-input-group-text
+                        @mousedown="changeInputType('text')"
+                        @mouseup="changeInputType('password')"
+                        style="height: 50px;">
+                      <i
+                          :class="
+                              passwordInputType === 'password'
+                                ? 'far fa-eye'
+                                : 'far fa-eye-slash'
+                            "
+                      ></i>
+                    </b-input-group-text>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+
+              <b-form-group
+                  class="form-group mt-2"
+                  label="Confirmar senha:"
+
+                  :invalid-feedback="errors.confirmPassword"
+                  :state="errors.state.confirmPassword"
+              >
+                <b-input-group>
+                  <b-form-input
+                      v-model="usuario.confirmPassword"
+                      autocomplete="false"
+                      :type="passwordInputType"
+                      placeholder="Confirme a senha"
+                      class="form-control-lg"
+
+                      :state="errors.state.confirmPassword"
+                      trim
+                  ></b-form-input>
+                  <b-input-group-append>
+                    <b-input-group-text
+                        @mousedown="changeInputType('text')"
+                        @mouseup="changeInputType('password')"
+                        style="height: 50px;">
+                      <i
+                          :class="
+                              passwordInputType === 'password'
+                                ? 'far fa-eye'
+                                : 'far fa-eye-slash'
+                            "
+                      ></i>
+                    </b-input-group-text>
+                  </b-input-group-append>
+                </b-input-group>
+              </b-form-group>
+
+              <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
+                <b-button variant="primary" type="submit">Cadastrar</b-button>
+              </b-row>
+            </form>
+          </b-card-body>
+        </b-card>
+        </b-col>
+      </b-row>
+
     </b-container>
   </div>
 </template>
 
 <script>
+import AlertCustom from "../components/AlertCustom.vue";
+
 export default {
+  components: {AlertCustom},
   computed: {
     steteConfirm() {
       if (this.confirmPassword )return this.confirmPassword.length >= 4
@@ -132,37 +128,46 @@ export default {
         return 'Enter at least 4 characters.'
       }
       return 'Please enter something.'
+    },
+    erro(){
+      return this.messageError;
     }
   },
 
   data() {
     return {
+      showDismissibleAlert:false,
+      messageError:false,
       usuario: {
-        firstName: null,
-        lastName: null,
-        email: null,
+
+        username: null,
         password: null,
         confirmPassword: null,
       },
       errors: {
-        firstName: null,
-        lastName: null,
-        email: null,
+
+        username: null,
         password: null,
         confirmPassword: null,
 
         state:{
-          firstName: null,
-          lastName: null,
-          email: null,
+          username: null,
           password: null,
           confirmPassword: null,
         }
       },
       passwordInputType:'password',
+      erroResponse:{},
     };
   },
   methods: {
+
+    countDownChanged(dismissCountDown) {
+      this.dismissCountDown = dismissCountDown
+    },
+    showAlert() {
+      this.dismissCountDown = this.dismissSecs
+    },
 
     changeInputType(type) {
       this.passwordInputType = type;
@@ -186,16 +191,14 @@ export default {
 
     resetErros(){
       this.errors = {
-        firstName: null,
-        lastName: null,
-        email: null,
+        username: null,
         password: null,
         confirmPassword: null,
 
         state: {
           firstName: null,
           lastName: null,
-          email: null,
+          username: null,
           password: null,
           confirmPassword: null,
         }
@@ -204,14 +207,21 @@ export default {
     cadastrar() {
       //this.errors = {}; // Limpar os erros anteriores
       if(this.validar()) {
+        this.showDismissibleAlert =false;
         // Realizar o registro do usuário ou qualquer outra ação necessária
         console.log(this.usuario);
 
-        this.$http.post(`public/registration/users`, this.usuario).then((response) => {
+        this.$http.post(`api/public/usuario`, this.usuario).then((response) => {
           console.log(response);
           this.$router.push({name:'login'})
         }).catch((error) => {
-          console.log(error)
+           console.log(error)
+          this.erroResponse = error;
+          if (error.response.data.message!=null){
+            this.messageError=error.response.data.message;
+          }
+          else this.messageError = error.message;
+          this.showDismissibleAlert =true;
         })
         this.resetErros();
       }
