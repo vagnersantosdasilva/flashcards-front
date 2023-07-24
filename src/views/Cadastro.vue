@@ -18,7 +18,15 @@
         </div>
         <div>
           <b-button variant="link" >
-            <b-icon icon="trash" @click="removerCategoria"></b-icon>
+            <b-icon
+                icon="trash"
+                @click="showMsgBoxTwo(
+                    'Atenção!',
+                    'A matéria e todos as questões serão apagadas. Você tem certeza ?',
+                    'categoria',
+                    null
+                    )">
+            </b-icon>
           </b-button>
           <b-button variant="link" >
             <b-icon icon="save" @click="salvarCategoria()"></b-icon>
@@ -228,6 +236,36 @@ export default {
 
   methods: {
 
+    showMsgBoxTwo(titulo,mensagem, funcao , objeto) {
+      this.boxTwo = ''
+      this.$bvModal.msgBoxConfirm(mensagem, {
+        title: titulo,
+        size: 'sm',
+        buttonSize: 'sm',
+        okVariant: 'danger',
+        cancelVariant:'primary',
+        okTitle: 'SIM',
+        cancelTitle: 'NÃO',
+        footerClass: 'p-2',
+        hideHeaderClose: false,
+        centered: true
+      })
+          .then(value => {
+            if (value && funcao == 'categoria'){
+              this.removerCategoria()
+            }
+
+            if (value && funcao == 'questao'){
+              this.deleteQuestao(objeto);
+            }
+
+          })
+          .catch(err => {
+            console.log(err);
+          })
+    },
+
+
     voltar(){
       if (this.edicao) this.edicao = false;
       else this.$router.push({name:'home'});
@@ -247,6 +285,7 @@ export default {
         categoriaId:null
       }
     },
+
     async deleteQuestao(questao){
       console.log('questao:',questao);
       if (questao.id){
