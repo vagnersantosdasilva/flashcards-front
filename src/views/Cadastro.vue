@@ -267,7 +267,11 @@ export default {
 
 
     voltar(){
-      if (this.edicao) this.edicao = false;
+      if (this.edicao) {
+        this.edicao = false;
+        this.categoria = {};
+      }
+
       else this.$router.push({name:'home'});
     },
 
