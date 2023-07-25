@@ -1,6 +1,13 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-info">
-    <a class="navbar-brand ml-2" href="/" style="margin: 10px">Flashcards</a>
+    <a class="navbar-brand ml-2"
+       style="margin: 10px; font-family: 'Pacifico'; color:#222;"
+    >
+      <router-link to="/" class="nav-link" >
+        Simples Flashcards
+      </router-link>
+
+    </a>
     <button class="navbar-toggler" type="button" @click="toggleMenu">
       <span class="navbar-toggler-icon"></span>
     </button>

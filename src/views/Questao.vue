@@ -103,23 +103,41 @@
 
       <div v-else>
         <b-row class="col-md-12 mt-4">
+          <!--
           <h5 class="text-center">{{ questao.pergunta }}</h5>
+          -->
         </b-row>
         <b-row class="col-md-12 " >
           <div v-if="!respondeu">
-            <b-row class="d-flex justify-content-center">
-              <div class="flashcard"  @click="respondeu=true">
-                <b-row class="d-flex text-center" style="margin-top: 80px" >
-                  <strong>?</strong>
-                </b-row>
-              </div>
+            <b-row class="d-flex justify-content-center ">
+              <b-card class="col-12 col-md-6 flashcard"
+                      style="cursor: pointer; height: 300px;background-color: #fff"
+                      @click="respondeu=true"
+              >
+                <b-card-title style="font-size: 16px;" class="mb-4">
+                  {{ questao.pergunta }}
+                </b-card-title>
+                <b-card-body>
+                    <b-col class="d-flex justify-content-center align-items-center mt-4">
+                      <p class="my-4" style="font-size: 18px; font-weight: bold">?</p>
+                    </b-col>
+                </b-card-body>
+              </b-card>
             </b-row>
+            <!--
+                        <b-row class="d-flex justify-content-center">
+                          <div class="flashcard"  @click="respondeu=true">
+                            <b-row class="d-flex text-center" style="margin-top: 80px" >
+                              <strong>?</strong>
+                            </b-row>
+                          </div>
+                        </b-row>
+                       -->
           </div>
 
           <div v-else>
             <b-row class="d-flex justify-content-center">
-
-              <div class="flashcard"
+<!--              <div class="flashcard"
                      :class="{
                       'flashcard-acertou': acertou,
                       'erro': errou}"
@@ -131,7 +149,27 @@
                   <div class="resposta" v-else>
                       <strong>{{questao.resposta}}</strong>
                   </div>
-                </div>
+                </div>-->
+              <b-row class=" d-flex justify-content-center">
+                <b-card class="col-12 col-md-6 flashcard"
+                        style="height: 300px;background-color: #fff"
+                        :class="{
+                      'flashcard-acertou': acertou,
+                      'erro': errou}"
+                >
+                  <b-card-title style="font-size: 16px;color:grey"> {{questao.pergunta}}</b-card-title>
+                  <div class="ms-0">
+                    <div class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
+                      <strong>{{questao.resposta}}</strong>
+                    </div>
+
+                    <div class="d-flex justify-content-start resposta" v-else>
+                      <strong>{{questao.resposta}}</strong>
+                    </div>
+                  </div>
+
+                </b-card>
+              </b-row>
 
               <b-row clas="col-12 d-flex justify-content-center mt-4" >
                 <b-col>
@@ -273,7 +311,11 @@ export default {
             }).catch((erro) => {
               console.log("Erro ao responder questao", erro);
             })
-      }else this.atualiza(questao);
+      }else {
+        setTimeout(() => {
+          this.atualiza(questao);
+        }, 300)
+      }
     },
 
     atualiza(questao){
@@ -360,7 +402,7 @@ export default {
   margin-top: 30px;
   text-align: justify;
   word-wrap: break-word;
-  font-size: 16px;
+  font-size: 14px;
 }
 .card-resposta{
   display: block;
