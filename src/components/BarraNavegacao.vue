@@ -12,9 +12,13 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse justify-content-end" :class="{ 'show': isMenuOpen }">
-      <BarraNavegacaoQuandoLogado v-if="usuarioestaLogado" @logout="efetuarLogout" />
+      <div v-if="usuarioestaLogado">
+        <BarraNavegacaoQuandoLogado @logout="efetuarLogout" />
+
+      </div>
       <BarraNavegacaoQuandoDeslogado v-else @login="efetuarLogin" />
     </div>
+
   </nav>
 </template>
 

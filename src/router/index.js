@@ -8,6 +8,7 @@ import Questao from '../views/Questao.vue'
 import provedor from "../provedor";
 import CadastroUsuario from "../views/CadastroUsuario.vue";
 import ResetPublico from "../views/ResetPublico.vue";
+import Perfil from "../views/Perfil.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -57,6 +58,12 @@ const routes = [
     meta: {
       publica: true
     }
+  },
+  {
+    path:'/perfil' ,
+    name:'perfil',
+    component: Perfil,
+
   },
 ]
 

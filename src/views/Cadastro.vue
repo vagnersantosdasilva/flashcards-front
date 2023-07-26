@@ -369,9 +369,9 @@ export default {
       if (this.categoria.nome && this.categoria.id ==null) {
         await this.$http.post("api/categoria", this.categoria)
             .then((response) => {
-              this.categoria = response.data
-              console.log('para salvar :', this.categoria);
-              this.categorias.push(this.categoria)
+              const categoriaNova = response.data
+              this.categorias.push(categoriaNova)
+              this.categoria = {};
             })
             .catch((erro) => {
               console.log(erro)

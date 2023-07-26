@@ -9,21 +9,20 @@
       <b-row class="d-flex justify-content-center  ">
         <h4 class="text-center">Escolha a matéria de estudos</h4>
       </b-row>
-      <b-row class="d-flex justify-content-center ms-2">
+      <b-row
+          class="d-flex justify-content-center ms-0"
+      >
         <div
-            class="col-especial text-start mt-2 linha ms-1 "
+            class="col-especial mt-0 linha ms-1 "
             @click = "selectTopico(categoria.id)"
             v-for="categoria in categorias"
             :key="categoria.id"
             style="height: 80px;"
         >
-          <div style="margin: 10px">
+          <div style="margin: 25px" class="text-center">
             <b><em>{{categoria.nome}}</em></b>
           </div>
-          <div style="margin:10px;">
-            <p style="width: 50%;color:limegreen;" v-if="true"><em>Revisão disponível</em></p>
-            <p v-else style="color:orangered;"><em>Nenhuma revisão disponível</em></p>
-          </div>
+
         </div>
       </b-row>
     </b-row>
