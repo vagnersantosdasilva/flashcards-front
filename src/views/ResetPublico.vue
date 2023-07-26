@@ -3,7 +3,7 @@
 
     <b-container>
       <div v-if="resetAtivo">
-        <FormularioResetPublico usuario="usuario"></FormularioResetPublico>
+        <FormularioResetPublico />
       </div>
       <div v-else >
         <b-row class="d-flex justify-content-center mt-4" >

@@ -9,6 +9,7 @@ import provedor from "../provedor";
 import CadastroUsuario from "../views/CadastroUsuario.vue";
 import ResetPublico from "../views/ResetPublico.vue";
 import Perfil from "../views/Perfil.vue";
+import ResetPrivado from "../views/ResetPrivado.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -59,6 +60,15 @@ const routes = [
       publica: true
     }
   },
+  {
+    path:'/resetPrivado',
+    name:'resetPrivado',
+    component: ResetPrivado,
+    meta:{
+      publica: false
+    }
+  },
+
   {
     path:'/perfil' ,
     name:'perfil',

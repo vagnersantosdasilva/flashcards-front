@@ -89,6 +89,9 @@
 import {mapGetters} from "vuex";
 
 export  default {
+  props:{
+    error:Object,
+  },
   data() {
     return {
       usuario: {
@@ -152,20 +155,23 @@ export  default {
       this.usuario.idUsuario = this.$store.state.usuario.idUser;
       this.usuario.username = this.$store.state.usuario.username;
       if(this.validar()) {
-        // Realizar o registro do usuário ou qualquer outra ação necessária
-          console.log(this.usuario);
+          this.estaCarregando=true;
           this.$http.post(`api/reset/usuario`, this.usuario).then((response) => {
             console.log(response);
             this.$router.push({name:'home'})
+            this.success=true;
           }).catch((error) => {
-          console.log(error)
-          })
-          //this.resetErros();
+            this.error = Object.assign({},error)
+          });
+          this.estaCarregando=false;
       }
     },
   },
   computed:{
     ...mapGetters(['estaCarregando'])
+  },
+  mounted() {
+    this.success=false;
   }
 }
 </script>

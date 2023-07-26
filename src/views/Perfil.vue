@@ -19,6 +19,7 @@
                 variant="secondary"
                 class="col-12 col-md-6 mt-2 align-content-end"
                 style="height: 60px;border-radius: 0"
+                @click="$router.push('resetPrivado')"
             > Alterar Senha
             </b-button>
           </b-col>
