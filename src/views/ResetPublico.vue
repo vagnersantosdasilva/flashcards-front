@@ -2,6 +2,12 @@
   <div class="login">
 
     <b-container>
+      <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+        <alert-custom
+            :show="showDismissibleAlert"
+            :alert="erroResponse"
+        />
+      </b-row>
       <div v-if="resetAtivo">
         <FormularioResetPublico />
       </div>
@@ -59,11 +65,14 @@
 import {mapGetters} from "vuex";
 import FormularioResetPublico from "../components/FormularioResetPublico.vue";
 import {decode} from "jsonwebtoken";
+import AlertCustom from "../components/AlertCustom.vue";
 
 export default {
-  components: {FormularioResetPublico},
+  components: {AlertCustom, FormularioResetPublico},
   data(){
     return {
+      showDismissibleAlert:false,
+      erroResponse:{},
       usuario:{
         email:null,
       },
@@ -75,6 +84,7 @@ export default {
 
   methods:{
     async enviarTokenReset(){
+      this.showDismissibleAlert=false;
       this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', true);
       this.emailEnviado = false;
       this.emailEnviadoSucesso=false;
@@ -88,6 +98,9 @@ export default {
             console.log(erro);
             this.emailEnviado = false;
             this.emailEnviadoSucesso=false;
+            this.showDismissibleAlert=true;
+            this.erroResponse = Object.assign({},erro);
+
           })
     }
   },

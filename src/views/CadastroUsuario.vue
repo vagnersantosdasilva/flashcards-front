@@ -216,11 +216,7 @@ export default {
           this.$router.push({name:'login'})
         }).catch((error) => {
            console.log(error)
-          this.erroResponse = error;
-          if (error.response.data.message!=null){
-            this.messageError=error.response.data.message;
-          }
-          else this.messageError = error.message;
+          this.erroResponse = Object.assign({},error);
           this.showDismissibleAlert =true;
         })
         this.resetErros();

@@ -19,7 +19,7 @@
         </b-row>
       </div>
       <div v-else>
-        <FormularioResetPublico />
+        <FormularioResetPublico @onError="tratarErro"/>
       </div>
     </b-container>
   </div>
@@ -39,10 +39,19 @@ export default {
       },
       showDismissibleAlert:false,
       messageError:false,
+      erroResponse:{},
     };
   },
 
   methods:{
+    tratarErro(erro) {
+      console.log("erro tratado", erro);
+      this.showDismissibleAlert = true;
+      if (erro) {
+        this.erroResponse = erro;
+      }
+    },
+
     async enviarTokenReset(){
       this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', true);
       this.emailEnviado = false;

@@ -1,5 +1,14 @@
 <template>
   <div class="container">
+
+    <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+      <alert-custom
+          :show="showDismissibleAlert"
+          :alert="erroResponse"
+      >
+
+      </alert-custom>
+    </b-row>
     <!-- Listagem de Cateogorias -->
     <b-row
         class="d-flex justify-content-lg-center col-12 "
@@ -207,9 +216,12 @@
 </template>
 
 <script>
+import AlertCustom from "../components/AlertCustom.vue";
+
 export default {
 
   components: {
+    AlertCustom
 
   },
 
@@ -235,6 +247,8 @@ export default {
       acertou:null,
       errou:null,
       correcao:false,
+      showDismissibleAlert:false,
+      erroResponse:{},
     }
   },
 
@@ -261,11 +275,13 @@ export default {
   methods: {
     async getCategorias(){
       const usuario = this.$store.state.usuario
-      console.log('Usuario !!',usuario)
+      this.showDismissibleAlert=false;
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
         this.categorias = response.data
       }).catch((error) => {
         console.log(error);
+        this.showDismissibleAlert=true;
+        this.erroResponse = Object.assign({},error);
       });
 
     },
@@ -279,13 +295,17 @@ export default {
     async getPergunta(idCategoria){
       const idUsuario  = this.$store.state.usuario.idUser
       this.questao.usuarioId = idUsuario;
-      await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`).then((response)=>{
-        console.log(response);
-        this.listPergunta = response.data;
-        this.qtdPerguntas = this.listPergunta.length
-        this.questao = this.listPergunta.pop();
-
-      })
+      this.showDismissibleAlert=false;
+      await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`)
+          .then((response)=>{
+            console.log(response);
+            this.listPergunta = response.data;
+            this.qtdPerguntas = this.listPergunta.length
+            this.questao = this.listPergunta.pop();
+          }).catch((error)=>{
+            this.erroResponse = Object.assign({},error);
+            this.showDismissibleAlert=true;
+          });
     },
 
     async proximaPergunta(questao, acerto){
@@ -301,14 +321,15 @@ export default {
       }
 
       if (this.correcao==false) {
+        this.showDismissibleAlert=false;
         await this.$http.put(`api/usuario/${idUsuario}/questao/responder`, questao)
             .then(() => {
               setTimeout(() => {
                this.atualiza(questao);
               }, 300)
-              console.log('atualizacao de questao antes da proxima pergunta!!!', questao)
             }).catch((erro) => {
-              console.log("Erro ao responder questao", erro);
+              this.showDismissibleAlert=true;
+              this.erroResponse = Object.assign(erro);
             })
       }else {
         setTimeout(() => {

@@ -1,5 +1,11 @@
 <template>
   <div v-if="edicao" class="container">
+    <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+      <alert-custom
+          :show="showDismissibleAlert"
+          :alert="erroResponse"
+      />
+    </b-row>
     <b-row class="d-flex justify-content-between ml-4">
       <b-button style="max-width: 10px; margin-left: 0px" variant="link" @click="voltar">
         <b-icon icon="arrow-left" >
@@ -207,12 +213,15 @@
 
 
 
+import AlertCustom from "../components/AlertCustom.vue";
+
 export default {
   computed: {
 
   },
 
   components: {
+    AlertCustom
 
   },
 
@@ -230,14 +239,16 @@ export default {
         pergunta:null,
         resposta:null,
         categoriaId:null
-      }
+      },
+      showDismissibleAlert:false,
+      erroResponse:{},
     }
   },
 
   methods: {
 
     showMsgBoxTwo(titulo,mensagem, funcao , objeto) {
-      this.boxTwo = ''
+      this.showDismissibleAlert=false;
       this.$bvModal.msgBoxConfirm(mensagem, {
         title: titulo,
         size: 'sm',
@@ -262,6 +273,8 @@ export default {
           })
           .catch(err => {
             console.log(err);
+            this.showDismissibleAlert=true;
+            this.erroResponse = Object.assign({},err);
           })
     },
 
@@ -275,46 +288,35 @@ export default {
       else this.$router.push({name:'home'});
     },
 
-    listaCategoriaSair(){
-
-    },
-
-    selecaoCategoriaSair(){
-      this.edicao = !this.edicao;
-      this.categoria = {}
-      this.questao = {
-        id:null,
-        pergunta:null,
-        resposta:null,
-        categoriaId:null
-      }
-    },
-
     async deleteQuestao(questao){
-      console.log('questao:',questao);
+      this.showDismissibleAlert=false;
       if (questao.id){
         const idUser = this.$store.state.usuario.idUser;
         await this.$http.delete(`api/usuario/${idUser}/categoria/${questao.categoriaId}/questao/${questao.id}`)
             .then(()=>{
               this.getQuestoes(questao.categoriaId)
             }).catch((erro)=>{
-              console.log(erro)
+              this.showDismissibleAlert=true;
+              this.erroResponse = Object.assign({},erro);
             })
       }
     },
 
     async salvarQuestao(questao){
+      this.showDismissibleAlert=false;
       if (questao){
         console.log(questao)
         if (questao.pergunta && questao.resposta && questao.id){
           questao.categoriaId = this.categoria.id
           questao.usuarioId = this.$store.state.usuario.idUser;
+
           await this.$http.put(`api/usuario/${questao.usuarioId}/questao`,questao)
-              .then((response)=>{
-                console.log(response.data)
+              .then(()=>{
+
               })
               .catch((erro)=>{
-                console.log(erro)
+                this.showDismissibleAlert=true;
+                this.erroResponse = Object.assign({},erro);
               })
         }
       }
@@ -333,7 +335,8 @@ export default {
               }
             })
             .catch((erro)=>{
-              console.log(erro)
+              this.showDismissibleAlert=true;
+              this.erroResponse = Object.assign({},erro);
             })
       }
     },
@@ -341,15 +344,9 @@ export default {
     novoAssuntoMethod(){
       this.novoAssunto=!this.novoAssunto;
     },
-    editarAssunto2(cat) {
-      this.edicao = true;
-      this.idCard = cat.id;
-      this.$nextTick(() => {
-        this.$refs.title.focus();
-      });
-    },
 
     async removerCategoria(){
+      this.showDismissibleAlert=false;
       if (this.categoria.id){
 
         await this.$http.delete(`api/usuario/${this.categoria.usuarioId}/categoria/${this.categoria.id}`)
@@ -358,11 +355,15 @@ export default {
               this.edicao =false;
               this.getCategorias();
             })
-            .catch((erro)=>{console.log(erro)})
+            .catch((erro)=>{
+              this.showDismissibleAlert=true;
+              this.erroResponse = Object.assign({},erro);
+            })
       }
     },
 
     async salvarCategoria() {
+      this.showDismissibleAlert=false;
       this.idCard = null;
       this.novoAssunto = !this.novoAssunto;
       this.categoria.usuarioId = this.$store.state.usuario.idUser;
@@ -374,27 +375,30 @@ export default {
               this.categoria = {};
             })
             .catch((erro) => {
-              console.log(erro)
+              this.showDismissibleAlert=true;
+              this.erroResponse = Object.assign({},erro);
             });
       }
       else{
         if (this.categoria.nome){
           await this.$http.put("api/categoria",this.categoria)
-              .then((response)=>{
-                console.log(response)
+              .then(()=>{
               }).catch((erro)=>{
-                console.log(erro)
+                this.showDismissibleAlert=true;
+                this.erroResponse = Object.assign({},erro);
               })
         }
       }
     },
 
     async getQuestoes(idCategoria){
+      this.showDismissibleAlert=false;
       const idUsuario = this.$store.state.usuario.idUser;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`).then((response)=>{
         this.questoes = response.data;
       }).catch((erro)=>{
-        console.log(erro)
+        this.showDismissibleAlert=true;
+        this.erroResponse = Object.assign({},erro);
       })
     },
 
@@ -407,21 +411,16 @@ export default {
     },
 
     async getCategorias(){
-      const usuario = this.$store.state.usuario
-      console.log('Usuario !!',usuario)
+      this.showDismissibleAlert=false;
+      const usuario = this.$store.state.usuario;
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
         this.categorias = response.data
       }).catch((error) => {
-        console.log(error);
+        this.showDismissibleAlert=true;
+        this.erroResponse = Object.assign({},error);
       });
 
     },
-
-    async createCategoria(){
-      await this.$http.post("api/categoria").then((response)=>{
-        this.categoria = response.data
-      });
-    }
 
   },
   mounted() {

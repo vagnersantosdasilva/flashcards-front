@@ -162,6 +162,7 @@ export  default {
             this.success=true;
           }).catch((error) => {
             this.error = Object.assign({},error)
+            this.$emit("onError", error);
           });
           this.estaCarregando=false;
       }
