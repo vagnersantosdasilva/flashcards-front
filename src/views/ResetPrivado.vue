@@ -40,6 +40,7 @@ export default {
       showDismissibleAlert:false,
       messageError:false,
       erroResponse:{},
+      estaCarregando:false,
     };
   },
 
@@ -53,6 +54,7 @@ export default {
     },
 
     async enviarTokenReset(){
+      this.estaCarregando=true;
       this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', true);
       this.emailEnviado = false;
       this.emailEnviadoSucesso=false;
@@ -61,11 +63,13 @@ export default {
             this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', false);
             this.emailEnviado = true;
             this.emailEnviadoSucesso=true;
+            this.estaCarregando=false;
           }).catch((erro)=>{
-        this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', false);
-        console.log(erro);
-        this.emailEnviado = false;
-        this.emailEnviadoSucesso=false;
+            this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', false);
+            this.emailEnviado = false;
+            this.emailEnviadoSucesso=false;
+            this.estaCarregando=true;
+            this.erroResponse = Object.assign({},erro);
       })
     }
   },

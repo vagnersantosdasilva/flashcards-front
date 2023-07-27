@@ -1,208 +1,228 @@
 <template>
   <div v-if="edicao" class="container">
-    <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
-      <alert-custom
-          :show="showDismissibleAlert"
-          :alert="erroResponse"
-      />
-    </b-row>
-    <b-row class="d-flex justify-content-between ml-4">
-      <b-button style="max-width: 10px; margin-left: 0px" variant="link" @click="voltar">
-        <b-icon icon="arrow-left" >
-        </b-icon>
-      </b-button>
-    </b-row>
-    <b-card>
-      <b-card-title class="d-flex justify-content-between">
-        <div>
-          <b-form-input
-              placeholder="Qual é a matéria de estudo?"
-              v-model="categoria.nome"
-              style="border: 0; min-width:300px; "
-          >
-          </b-form-input>
-        </div>
-        <div>
-          <b-button variant="link" >
-            <b-icon
-                icon="trash"
-                @click="showMsgBoxTwo(
+
+    <div class="loader-container md-6 text-center mt-4"  v-if="estaCarregando" >
+      <b-row class="mt-4">
+        <i class="fas fa-hourglass fa-spin fa-3x"></i>
+      </b-row>
+    </div>
+
+    <div v-else>
+      <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+        <alert-custom
+            :show="showDismissibleAlert"
+            :alert="erroResponse"
+        />
+      </b-row>
+      <b-row class="d-flex justify-content-between ml-4">
+        <b-button style="max-width: 10px; margin-left: 0px" variant="link" @click="voltar">
+          <b-icon icon="arrow-left">
+          </b-icon>
+        </b-button>
+      </b-row>
+      <b-card>
+        <b-card-title class="d-flex justify-content-between">
+          <div>
+            <b-form-input
+                placeholder="Qual é a matéria de estudo?"
+                v-model="categoria.nome"
+                style="border: 0; min-width:300px; "
+            >
+            </b-form-input>
+          </div>
+          <div>
+            <b-button variant="link" >
+              <b-icon
+                  icon="trash"
+                  @click="showMsgBoxTwo(
                     'Atenção!',
                     'A matéria e todos as questões serão apagadas. Você tem certeza ?',
                     'categoria',
                     null
                     )">
-            </b-icon>
-          </b-button>
-          <b-button variant="link" >
-            <b-icon icon="save" @click="salvarCategoria()"></b-icon>
-          </b-button>
-        </div>
-      </b-card-title>
-
-
-
-      <b-card class="mt-1" >
-
-        <b-card-title class="d-flex justify-content-between">
-          <div style="font-size: 16px; margin-left: 11px; color:dodgerblue" >Novo flashcard :</div>
-          <div>
-            <b-button variant="link" >
-              <b-icon icon="trash" ></b-icon>
+              </b-icon>
             </b-button>
-            <b-button variant="link" >
-              <b-icon icon="save" @click="salvarQuestao()"></b-icon>
-            </b-button>
-          </div>
-        </b-card-title>
-
-        <b-row class="mt-2">
-          <b-col class="col-3" align-self="center">
-            P.
-          </b-col>
-          <b-col align-self="center">
-            <b-form-input
-                style="border: 0"
-                placeholder="Adicione uma pergunta"
-                class="col-especial-cadastro col-8 mt-2"
-                v-model="questao.pergunta"
-            >
-            </b-form-input>
-          </b-col>
-          <b-col class="col-1"></b-col>
-        </b-row >
-        <b-row class="mt-2">
-          <b-col class="col-3" align-self="center">
-            R.
-          </b-col>
-          <b-col class="col" align-self="center">
-            <b-form-input
-                placeholder="Adicione a resposta para a pergunta"
-                class="col-especial-cadastro col-8"
-                v-model="questao.resposta"
-                style="border: 0"
-            >
-            </b-form-input>
-          </b-col>
-          <b-col class="col-1"></b-col>
-        </b-row>
-      </b-card>
-
-      <b-card class="mt-1" v-for="(q,index) in questoes" :key="index">
-        <b-card-title class="d-flex justify-content-between" >
-          <div style="font-size: 16px; margin-left: 11px;color:dodgerblue">Flashcard {{index+1}}:</div>
-          <div>
             <b-button variant="link">
-              <b-icon icon="trash" @click="deleteQuestao(q)"></b-icon>
-            </b-button>
-            <b-button variant="link" @click="salvarQuestao(q)">
-              <b-icon icon="save"></b-icon>
+              <b-icon icon="save" @click="salvarCategoria()"></b-icon>
             </b-button>
           </div>
         </b-card-title>
 
-        <b-row class="mt-2">
-          <b-col class="col-3" align-self="center">
-            P.
-          </b-col>
-          <b-col align-self="center">
-            <b-form-input
-                style="border: 0"
-                placeholder="Adicione uma pergunta"
-                class="col-especial-cadastro col-8 mt-2"
-                v-model="q.pergunta"
-            >
-            </b-form-input>
-          </b-col>
-          <b-col class="col-1"></b-col>
-        </b-row >
-        <b-row class="mt-2">
-          <b-col class="col-3" align-self="center">
-            R.
-          </b-col>
-          <b-col class="col" align-self="center">
-            <b-form-input
-                placeholder="Adicione a resposta para a pergunta"
-                class="col-especial-cadastro col-8"
-                v-model="q.resposta"
-                style="border: 0"
-            >
 
-            </b-form-input>
-          </b-col>
-          <b-col class="col-1"></b-col>
+        <b-card class="mt-1">
 
-        </b-row>
+          <b-card-title class="d-flex justify-content-between">
+            <div style="font-size: 16px; margin-left: 11px; color:dodgerblue">Novo flashcard :</div>
+            <div>
+              <b-button variant="link" >
+                <b-icon icon="trash"></b-icon>
+              </b-button>
+              <b-button variant="link" >
+                <b-icon icon="save" @click="salvarQuestao()"></b-icon>
+              </b-button>
+            </div>
+          </b-card-title>
+
+          <b-row class="mt-2">
+            <b-col class="col-3" align-self="center">
+              P.
+            </b-col>
+            <b-col align-self="center">
+              <b-form-input
+                  style="border: 0"
+                  placeholder="Adicione uma pergunta"
+                  class="col-especial-cadastro col-8 mt-2"
+                  v-model="questao.pergunta"
+              >
+              </b-form-input>
+            </b-col>
+            <b-col class="col-1"></b-col>
+          </b-row>
+          <b-row class="mt-2">
+            <b-col class="col-3" align-self="center">
+              R.
+            </b-col>
+            <b-col class="col" align-self="center">
+              <b-form-input
+                  placeholder="Adicione a resposta para a pergunta"
+                  class="col-especial-cadastro col-8"
+                  v-model="questao.resposta"
+                  style="border: 0"
+              >
+              </b-form-input>
+            </b-col>
+            <b-col class="col-1"></b-col>
+          </b-row>
+        </b-card>
+
+        <b-card class="mt-1" v-for="(q,index) in questoes" :key="index">
+          <b-card-title class="d-flex justify-content-between">
+            <div style="font-size: 16px; margin-left: 11px;color:dodgerblue">Flashcard {{ index + 1 }}:<i class="fas fa-hourglass fa-spin fa-2x ms-4" style="font-size: 14px;" v-show="q.isRemoving"></i></div>
+            <div>
+              <b-button variant="link">
+                <b-icon icon="trash" @click="deleteQuestao(q)"></b-icon>
+              </b-button>
+              <b-button variant="link" @click="salvarQuestao(q)">
+                <b-icon icon="save"></b-icon>
+              </b-button>
+            </div>
+          </b-card-title>
+
+          <b-row class="mt-2">
+            <b-col class="col-3" align-self="center">
+              P.
+            </b-col>
+            <b-col align-self="center">
+              <b-form-input
+                  style="border: 0"
+                  placeholder="Adicione uma pergunta"
+                  class="col-especial-cadastro col-8 mt-2"
+                  v-model="q.pergunta"
+              >
+              </b-form-input>
+            </b-col>
+            <b-col class="col-1"></b-col>
+          </b-row>
+          <b-row class="mt-2">
+            <b-col class="col-3" align-self="center">
+              R.
+            </b-col>
+            <b-col class="col" align-self="center">
+              <b-form-input
+                  placeholder="Adicione a resposta para a pergunta"
+                  class="col-especial-cadastro col-8"
+                  v-model="q.resposta"
+                  style="border: 0"
+              >
+
+              </b-form-input>
+            </b-col>
+            <b-col class="col-1"></b-col>
+
+          </b-row>
 
 
+        </b-card>
 
       </b-card>
-
-    </b-card>
+    </div>
   </div>
   <div v-else class="container">
-    <b-row class="d-flex justify-content-between ml-4">
-      <b-button style="max-width: 10px; margin-left: 0px" variant="link" @click="voltar">
-        <b-icon icon="arrow-left" >
-        </b-icon>
-      </b-button>
-    </b-row>
-    <b-card>
-      <b-card-title class="d-flex justify-content-between">
-        <div style="font-size: 16px; margin-left: 11px;margin-top: 7px" >Assuntos de estudo:</div>
+    <div class="loader-container md-6 text-center mt-4"  v-if="estaCarregando" >
+      <b-row class="mt-4">
+        <i class="fas fa-hourglass fa-spin fa-3x"></i>
+      </b-row>
+    </div>
+    <div v-else>
+      <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+        <alert-custom
+            :show="showDismissibleAlert"
+            :alert="erroResponse"
+        />
+      </b-row>
+      <b-row class="d-flex justify-content-between ml-4">
+        <b-button style="max-width: 10px; margin-left: 0px" variant="link" @click="voltar">
+          <b-icon icon="arrow-left">
+          </b-icon>
+        </b-button>
+      </b-row>
+      <b-card>
+        <b-card-title class="d-flex justify-content-between">
+          <div style="font-size: 16px; margin-left: 11px;margin-top: 7px">Assuntos de estudo:</div>
+          <div>
+            <b-button variant="link" @click="novoAssuntoMethod">
+              <b-icon icon="plus-circle"></b-icon>
+            </b-button>
+
+          </div>
+        </b-card-title>
+
         <div>
-          <b-button   variant="link" @click="novoAssuntoMethod">
-            <b-icon icon="plus-circle"></b-icon>
-          </b-button>
+          <b-row
+              class="d-flex justify-content-lg-center "
+              style="margin: 10px;"
+              v-if="novoAssunto"
+          >
+            <b-card
+                class="col-especial-cadastro text-center mt-2"
+            >
+              <b-row>
+                <b-col>
+                  <b-form-group>
+                    <b-form-input
+                        v-model="categoria.nome"
+                        placeholder="Digite aqui qual será o novo assunto para estudo"
+                    >
+                    </b-form-input>
+                  </b-form-group>
+                </b-col>
+                <b-col class="col-1">
+                  <b-button variant="link" class="primary" @click="salvarCategoria">
+                    <b-icon icon="save"></b-icon>
+                  </b-button>
+                </b-col>
+              </b-row>
+
+            </b-card>
+          </b-row>
+          <b-row
+              class="d-flex justify-content-lg-center "
+              style="margin: 10px;"
+              v-for="cat in categorias"
+              :key="cat.id"
+          >
+            <b-card
+                class="col-especial-cadastro text-center mt-2"
+                @click="editarCategoria(cat)"
+            >
+              <b-card-text> {{ cat.nome }}</b-card-text>
+            </b-card>
+          </b-row>
 
         </div>
-      </b-card-title>
 
-      <div >
-        <b-row
-            class="d-flex justify-content-lg-center "
-            style="margin: 10px;"
-            v-if="novoAssunto"
-        >
-          <b-card
-              class="col-especial-cadastro text-center mt-2"
-          >
-            <b-row>
-              <b-col>
-                <b-form-group>
-                  <b-form-input
-                      v-model="categoria.nome"
-                      placeholder="Digite aqui qual será o novo assunto para estudo"
-                  >
-                  </b-form-input>
-                </b-form-group>
-              </b-col>
-              <b-col class="col-1">
-                <b-button variant="link" class="primary" @click="salvarCategoria">
-                  <b-icon icon="save"></b-icon>
-                </b-button>
-              </b-col>
-            </b-row>
-
-          </b-card>
-        </b-row>
-        <b-row
-            class="d-flex justify-content-lg-center "
-            style="margin: 10px;"
-            v-for="cat in categorias"
-            :key="cat.id"
-        >
-          <b-card
-              class="col-especial-cadastro text-center mt-2"
-              @click="editarCategoria(cat)"
-          >
-            <b-card-text > {{ cat.nome }} </b-card-text>
-          </b-card>
-        </b-row>
-
-      </div>
-
-    </b-card>
+      </b-card>
+    </div>
   </div>
 
 
@@ -242,6 +262,7 @@ export default {
       },
       showDismissibleAlert:false,
       erroResponse:{},
+      estaCarregando:false,
     }
   },
 
@@ -292,12 +313,19 @@ export default {
       this.showDismissibleAlert=false;
       if (questao.id){
         const idUser = this.$store.state.usuario.idUser;
+        questao.isRemoving = true;
         await this.$http.delete(`api/usuario/${idUser}/categoria/${questao.categoriaId}/questao/${questao.id}`)
             .then(()=>{
-              this.getQuestoes(questao.categoriaId)
+              //this.getQuestoes(questao.categoriaId,true)
+              questao.isRemoving = false;
+              const index = this.questoes.findIndex((i) => i.id === questao.id);
+                if (index !== -1) {
+                  this.questoes.splice(index, 1);
+              }
             }).catch((erro)=>{
               this.showDismissibleAlert=true;
               this.erroResponse = Object.assign({},erro);
+              questao.isRemoving = false;
             })
       }
     },
@@ -326,7 +354,11 @@ export default {
         this.questao.usuarioId = this.$store.state.usuario.idUser;
         await this.$http.post(`api/usuario/${this.questao.usuarioId}/questao`,this.questao)
             .then((response)=>{
-              this.questoes.push(response.data)
+              const questao = {
+                isRemoving:false,
+                ...response.data
+              }
+              this.questoes.push(questao)
               this.questao = {
                 id:null,
                 pergunta:null,
@@ -367,38 +399,50 @@ export default {
       this.idCard = null;
       this.novoAssunto = !this.novoAssunto;
       this.categoria.usuarioId = this.$store.state.usuario.idUser;
+      this.estaCarregando=true;
       if (this.categoria.nome && this.categoria.id ==null) {
         await this.$http.post("api/categoria", this.categoria)
             .then((response) => {
               const categoriaNova = response.data
               this.categorias.push(categoriaNova)
               this.categoria = {};
+              this.estaCarregando=false;
             })
             .catch((erro) => {
               this.showDismissibleAlert=true;
               this.erroResponse = Object.assign({},erro);
+              this.estaCarregando=false;
             });
       }
       else{
         if (this.categoria.nome){
+          this.estaCarregando=true;
           await this.$http.put("api/categoria",this.categoria)
               .then(()=>{
+                this.estaCarregando=false;
               }).catch((erro)=>{
                 this.showDismissibleAlert=true;
                 this.erroResponse = Object.assign({},erro);
+                this.estaCarregando=false;
               })
         }
       }
     },
 
-    async getQuestoes(idCategoria){
+    async getQuestoes(idCategoria , isDaemon){
       this.showDismissibleAlert=false;
       const idUsuario = this.$store.state.usuario.idUser;
+      if (isDaemon == true)this.estaCarregando= false;
+      else this.estaCarregando = true;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`).then((response)=>{
-        this.questoes = response.data;
+        this.questoes = response.data.map((questao) => {
+          return { ...questao, isRemoving: false };
+        });
+        this.estaCarregando=false;
       }).catch((erro)=>{
         this.showDismissibleAlert=true;
         this.erroResponse = Object.assign({},erro);
+        this.estaCarregando=false;
       })
     },
 
@@ -412,12 +456,15 @@ export default {
 
     async getCategorias(){
       this.showDismissibleAlert=false;
+      this.estaCarregando=true;
       const usuario = this.$store.state.usuario;
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
         this.categorias = response.data
+        this.estaCarregando=false;
       }).catch((error) => {
         this.showDismissibleAlert=true;
         this.erroResponse = Object.assign({},error);
+        this.estaCarregando=false;
       });
 
     },
@@ -435,6 +482,20 @@ export default {
 
 </script>
 <style scoped>
+
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  //background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+}
 
 .centralizado {
   text-align: center;
