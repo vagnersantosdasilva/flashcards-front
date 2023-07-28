@@ -1,215 +1,222 @@
 <template>
   <div class="container">
 
-    <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
-      <alert-custom
-          :show="showDismissibleAlert"
-          :alert="erroResponse"
+    <div v-if="estaCarregando" >
+      <b-row class="d-flex justify-content-center mt-4" >
+        <div class="loader-container md-6 text-center mt-4" >
+          <i class="fas fa-spinner fa-pulse fa-3x"></i>
+        </div>
+
+      </b-row>
+    </div>
+    <div v-else>
+      <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+        <alert-custom
+            :show="showDismissibleAlert"
+            :alert="erroResponse"
+        />
+      </b-row>
+      <!-- Listagem de Cateogorias -->
+      <b-row
+          class="d-flex justify-content-lg-center col-12 "
+          style="margin-left: 1px; margin-top: 40px;"
+          v-if="!categoriaSelecionada"
+      >
+        <b-row class="d-flex justify-content-center  ">
+          <h4 class="text-center">Escolha a matéria de estudos</h4>
+        </b-row>
+        <b-row
+            class="d-flex justify-content-center ms-0"
+        >
+          <div
+              class="col-especial mt-0 linha ms-1 "
+              @click="selectTopico(categoria.id)"
+              v-for="categoria in categorias"
+              :key="categoria.id"
+              style="height: 80px;"
+          >
+            <div style="margin: 25px" class="text-center">
+              <b><em>{{ categoria.nome }}</em></b>
+            </div>
+
+          </div>
+        </b-row>
+      </b-row>
+
+      <!-- Listagem de erros e acertos-->
+      <b-row v-else-if="questionarioConcluido" style="margin-top: 150px;">
+        <b-row class="col-md-12" style="margin-left: 0">
+          <h5 class="text-center">{{ mensagemFinalizacao }} {{ nomeUsuario }}</h5>
+        </b-row>
+        <b-row class="col-md-12 " style="margin-left: 0">
+          <b-row class="d-flex justify-content-center " style="margin: 0">
+            <p class="text-center">Repostas corretas:</p>
+            <p class="text-center" style="font-size: 24px; margin: 0;"> {{ acertos }} </p>
+          </b-row>
+        </b-row>
+
+        <b-row clas="col-12 d-flex justify-content-center mt-4" style="margin:0">
+          <b-col v-show="listErro.length>0">
+            <b-row
+                class="d-flex justify-content-end"
+                style="margin: 5px;"
+            >
+              <b-button
+                  variant="secondary"
+                  style="width: 150px; margin:10px"
+                  @click="corrigirErros"
+              >
+                Corrigir erros!
+              </b-button>
+            </b-row>
+          </b-col>
+          <b-col>
+            <b-row class="d-flex justify-content-start"
+                   style="margin: 5px;"
+                   v-if="listErro.length>0"
+            >
+              <b-button
+                  variant="primary"
+                  style="width: 150px; margin:10px"
+                  @click="voltarParaCategorias"
+              >
+                Continuar
+              </b-button>
+            </b-row>
+
+            <b-row class="d-flex justify-content-center"
+                   style="margin: 5px;"
+                   v-else
+            >
+              <b-button
+                  variant="primary"
+                  style="width: 150px; margin:10px"
+                  @click="voltarParaCategorias"
+              >
+                Continuar
+              </b-button>
+            </b-row>
+
+          </b-col>
+        </b-row>
+
+      </b-row>
+
+      <!-- Controle de perguntas e respostas -->
+      <b-row
+          class="d-flex justify-content-lg-center"
+          v-else
+          style="margin-top: 150px"
       >
 
-      </alert-custom>
-    </b-row>
-    <!-- Listagem de Cateogorias -->
-    <b-row
-        class="d-flex justify-content-lg-center col-12 "
-        style="margin-left: 1px; margin-top: 40px;"
-        v-if="!categoriaSelecionada"
-    >
-      <b-row class="d-flex justify-content-center  ">
-        <h4 class="text-center">Escolha a matéria de estudos</h4>
-      </b-row>
-      <b-row
-          class="d-flex justify-content-center ms-0"
-      >
-        <div
-            class="col-especial mt-0 linha ms-1 "
-            @click = "selectTopico(categoria.id)"
-            v-for="categoria in categorias"
-            :key="categoria.id"
-            style="height: 80px;"
-        >
-          <div style="margin: 25px" class="text-center">
-            <b><em>{{categoria.nome}}</em></b>
-          </div>
+        <div v-if="qtdPerguntas==0">
+          <b-row class="col-md-12 mt-4">
+            <h5 class="text-center">Nenhuma pergunta cadastrada!</h5>
+          </b-row>
 
         </div>
-      </b-row>
-    </b-row>
 
-    <!-- Listagem de erros e acertos-->
-    <b-row v-else-if="questionarioConcluido" style="margin-top: 150px;" >
-      <b-row class="col-md-12" style="margin-left: 0">
-        <h5 class="text-center">{{mensagemFinalizacao}} {{nomeUsuario}}</h5>
-      </b-row>
-      <b-row class="col-md-12 " style="margin-left: 0">
-          <b-row class="d-flex justify-content-center " style="margin: 0">
-            <p class="text-center" >Repostas corretas:</p>
-            <p class="text-center" style="font-size: 24px; margin: 0;"> {{acertos}} </p>
+        <div v-else>
+          <b-row class="col-md-12 mt-4">
+            <!--
+            <h5 class="text-center">{{ questao.pergunta }}</h5>
+            -->
           </b-row>
-      </b-row>
-
-      <b-row clas="col-12 d-flex justify-content-center mt-4" style="margin:0" >
-        <b-col v-show="listErro.length>0">
-          <b-row
-              class="d-flex justify-content-end"
-              style="margin: 5px;"
-          >
-            <b-button
-                variant = "secondary"
-                style="width: 150px; margin:10px"
-                @click  = "corrigirErros"
-            >
-              Corrigir erros!
-            </b-button>
-          </b-row>
-        </b-col>
-        <b-col>
-          <b-row class="d-flex justify-content-start"
-                 style="margin: 5px;"
-                 v-if="listErro.length>0"
-          >
-            <b-button
-                variant="primary"
-                style="width: 150px; margin:10px"
-                @click="voltarParaCategorias"
-            >
-              Continuar
-            </b-button>
-          </b-row>
-
-          <b-row class="d-flex justify-content-center"
-                 style="margin: 5px;"
-                 v-else
-          >
-            <b-button
-                variant="primary"
-                style="width: 150px; margin:10px"
-                @click="voltarParaCategorias"
-            >
-              Continuar
-            </b-button>
-          </b-row>
-
-        </b-col>
-      </b-row>
-
-    </b-row>
-
-    <!-- Controle de perguntas e respostas -->
-    <b-row
-        class="d-flex justify-content-lg-center"
-        v-else
-        style="margin-top: 150px"
-    >
-
-      <div v-if="qtdPerguntas==0">
-        <b-row class="col-md-12 mt-4">
-          <h5 class="text-center">Nenhuma pergunta cadastrada!</h5>
-        </b-row>
-
-      </div>
-
-      <div v-else>
-        <b-row class="col-md-12 mt-4">
-          <!--
-          <h5 class="text-center">{{ questao.pergunta }}</h5>
-          -->
-        </b-row>
-        <b-row class="col-md-12 " >
-          <div v-if="!respondeu">
-            <b-row class="d-flex justify-content-center ">
-              <b-card class="col-12 col-md-6 flashcard"
-                      style="cursor: pointer; height: 300px;background-color: #fff"
-                      @click="respondeu=true"
-              >
-                <b-card-title style="font-size: 16px;" class="mb-4">
-                  {{ questao.pergunta }}
-                </b-card-title>
-                <b-card-body>
+          <b-row class="col-md-12 ">
+            <div v-if="!respondeu">
+              <b-row class="d-flex justify-content-center ">
+                <b-card class="col-12 col-md-6 flashcard"
+                        style="cursor: pointer; height: 300px;background-color: #fff"
+                        @click="respondeu=true"
+                >
+                  <b-card-title style="font-size: 16px;" class="mb-4">
+                    {{ questao.pergunta }}
+                  </b-card-title>
+                  <b-card-body>
                     <b-col class="d-flex justify-content-center align-items-center mt-4">
                       <p class="my-4" style="font-size: 18px; font-weight: bold">?</p>
                     </b-col>
-                </b-card-body>
-              </b-card>
-            </b-row>
-            <!--
-                        <b-row class="d-flex justify-content-center">
-                          <div class="flashcard"  @click="respondeu=true">
-                            <b-row class="d-flex text-center" style="margin-top: 80px" >
-                              <strong>?</strong>
-                            </b-row>
-                          </div>
-                        </b-row>
-                       -->
-          </div>
-
-          <div v-else>
-            <b-row class="d-flex justify-content-center">
-<!--              <div class="flashcard"
-                     :class="{
-                      'flashcard-acertou': acertou,
-                      'erro': errou}"
-                >
-                  <b-row class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
-                    <strong>{{questao.resposta}}</strong>
-                  </b-row>
-
-                  <div class="resposta" v-else>
-                      <strong>{{questao.resposta}}</strong>
-                  </div>
-                </div>-->
-              <b-row class=" d-flex justify-content-center">
-                <b-card class="col-12 col-md-6 flashcard"
-                        style="height: 300px;background-color: #fff"
-                        :class="{
-                      'flashcard-acertou': acertou,
-                      'erro': errou}"
-                >
-                  <b-card-title style="font-size: 16px;color:grey"> {{questao.pergunta}}</b-card-title>
-                  <div class="ms-0">
-                    <div class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
-                      <strong>{{questao.resposta}}</strong>
-                    </div>
-
-                    <div class="d-flex justify-content-start resposta" v-else>
-                      <strong>{{questao.resposta}}</strong>
-                    </div>
-                  </div>
-
+                  </b-card-body>
                 </b-card>
               </b-row>
+              <!--
+                          <b-row class="d-flex justify-content-center">
+                            <div class="flashcard"  @click="respondeu=true">
+                              <b-row class="d-flex text-center" style="margin-top: 80px" >
+                                <strong>?</strong>
+                              </b-row>
+                            </div>
+                          </b-row>
+                         -->
+            </div>
 
-              <b-row clas="col-12 d-flex justify-content-center mt-4" >
-                <b-col>
-                  <b-row class="d-flex justify-content-end">
-                    <b-button
-                        variant="success"
-                        @click="proximaPergunta(questao,true)"
-                        class="acertou-button"
-                    >
-                      Acertou!
-                    </b-button>
-                  </b-row>
-                </b-col>
-                <b-col>
-                  <b-row class="d-flex justify-content-start">
-                    <b-button
-                        variant = "danger"
-                        @click="proximaPergunta(questao,false)"
-                        class="errou-button"
-                    >
-                      Errou!
-                    </b-button>
-                  </b-row>
-                </b-col>
+            <div v-else>
+              <b-row class="d-flex justify-content-center">
+                <!--              <div class="flashcard"
+                                     :class="{
+                                      'flashcard-acertou': acertou,
+                                      'erro': errou}"
+                                >
+                                  <b-row class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
+                                    <strong>{{questao.resposta}}</strong>
+                                  </b-row>
+
+                                  <div class="resposta" v-else>
+                                      <strong>{{questao.resposta}}</strong>
+                                  </div>
+                                </div>-->
+                <b-row class=" d-flex justify-content-center">
+                  <b-card class="col-12 col-md-6 flashcard"
+                          style="height: 300px;background-color: #fff"
+                          :class="{
+                      'flashcard-acertou': acertou,
+                      'erro': errou}"
+                  >
+                    <b-card-title style="font-size: 16px;color:grey"> {{ questao.pergunta }}</b-card-title>
+                    <div class="ms-0">
+                      <div class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
+                        <strong>{{ questao.resposta }}</strong>
+                      </div>
+
+                      <div class="d-flex justify-content-start resposta" v-else>
+                        <strong>{{ questao.resposta }}</strong>
+                      </div>
+                    </div>
+
+                  </b-card>
+                </b-row>
+
+                <b-row clas="col-12 d-flex justify-content-center mt-4">
+                  <b-col>
+                    <b-row class="d-flex justify-content-end">
+                      <b-button
+                          variant="success"
+                          @click="proximaPergunta(questao,true)"
+                          class="acertou-button"
+                      >
+                        Acertou!
+                      </b-button>
+                    </b-row>
+                  </b-col>
+                  <b-col>
+                    <b-row class="d-flex justify-content-start">
+                      <b-button
+                          variant="danger"
+                          @click="proximaPergunta(questao,false)"
+                          class="errou-button"
+                      >
+                        Errou!
+                      </b-button>
+                    </b-row>
+                  </b-col>
+                </b-row>
               </b-row>
-            </b-row >
-          </div>
+            </div>
 
+          </b-row>
+        </div>
       </b-row>
-      </div>
-    </b-row>
-
+    </div>
 
 
   </div>
@@ -249,6 +256,7 @@ export default {
       correcao:false,
       showDismissibleAlert:false,
       erroResponse:{},
+      estaCarregando:false,
     }
   },
 
@@ -276,6 +284,7 @@ export default {
     async getCategorias(){
       const usuario = this.$store.state.usuario
       this.showDismissibleAlert=false;
+      this.estaCarregando=true
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
         this.categorias = response.data
       }).catch((error) => {
@@ -283,7 +292,7 @@ export default {
         this.showDismissibleAlert=true;
         this.erroResponse = Object.assign({},error);
       });
-
+      this.estaCarregando=false;
     },
 
     selectTopico(idCategoria){
@@ -293,6 +302,7 @@ export default {
     },
 
     async getPergunta(idCategoria){
+      this.estaCarregando=true;
       const idUsuario  = this.$store.state.usuario.idUser
       this.questao.usuarioId = idUsuario;
       this.showDismissibleAlert=false;
@@ -306,6 +316,7 @@ export default {
             this.erroResponse = Object.assign({},error);
             this.showDismissibleAlert=true;
           });
+      this.estaCarregando=false;
     },
 
     async proximaPergunta(questao, acerto){
@@ -484,19 +495,6 @@ body{
   box-shadow: 0px 0px 3px 3px #a7a9af;
 }
 
-
-.centralizado {
-  margin-top: 150px;
-
-  text-align: center;
-}
-.col {
-  border:0px dashed red;
-}
-.row {
-  border:0px dashed blue;
-}
-
 .flashcard-acertou {
   border: 2px solid #32cd32; /* Cor verde para as bordas */
   transition: border-color 0.3s ease; /* Transição suave das bordas */
@@ -504,6 +502,20 @@ body{
 .erro {
   border: 2px solid #ff0000; /* Cor vermelha para as bordas */
   transition: border-color 0.3s ease; /* Transição suave das bordas */
+}
+
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /*background-color: rgba(255, 255, 255, 0.8);*/
+  z-index: 9999;
 }
 @media screen and (max-width: 960px) {
   .linha {
