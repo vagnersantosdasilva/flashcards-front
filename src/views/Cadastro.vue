@@ -3,7 +3,7 @@
 
     <div class="loader-container md-6 text-center mt-4"  v-if="estaCarregando" >
       <b-row class="mt-4">
-        <i class="fas fa-hourglass fa-spin fa-3x"></i>
+        <i class="fas fa-spinner fa-pulse fa-3x"></i>
       </b-row>
     </div>
 
@@ -30,8 +30,12 @@
             >
             </b-form-input>
           </div>
+
           <div>
-            <b-button variant="link" >
+            <b-button variant="link" v-show="categoria.isLoading" disabled>
+              <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
+            </b-button>
+            <b-button variant="link"  :disabled = "categoria.isLoading">
               <b-icon
                   icon="trash"
                   @click="showMsgBoxTwo(
@@ -42,7 +46,7 @@
                     )">
               </b-icon>
             </b-button>
-            <b-button variant="link">
+            <b-button variant="link" :disabled = "categoria.isLoading">
               <b-icon icon="save" @click="salvarCategoria()"></b-icon>
             </b-button>
           </div>
@@ -52,12 +56,15 @@
         <b-card class="mt-1">
 
           <b-card-title class="d-flex justify-content-between">
-            <div style="font-size: 16px; margin-left: 11px; color:dodgerblue">Novo flashcard :</div>
+            <div style="font-size: 16px; margin-left: 11px; color:dodgerblue">
+              Novo flashcard :
+            </div>
+
             <div>
-              <b-button variant="link" >
-                <b-icon icon="trash"></b-icon>
+              <b-button variant="link" disabled v-show="questao.isLoading">
+                <i class="fas fa-spinner fa-pulse fa-2x ms-4" style="font-size: 14px;" />
               </b-button>
-              <b-button variant="link" >
+              <b-button variant="link" :disabled="questao.isLoading">
                 <b-icon icon="save" @click="salvarQuestao()"></b-icon>
               </b-button>
             </div>
@@ -97,12 +104,15 @@
 
         <b-card class="mt-1" v-for="(q,index) in questoes" :key="index">
           <b-card-title class="d-flex justify-content-between">
-            <div style="font-size: 16px; margin-left: 11px;color:dodgerblue">Flashcard {{ index + 1 }}:<i class="fas fa-hourglass fa-spin fa-2x ms-4" style="font-size: 14px;" v-show="q.isRemoving"></i></div>
+            <div style="font-size: 16px; margin-left: 11px;color:dodgerblue">Flashcard {{ index + 1 }}:</div>
             <div>
-              <b-button variant="link">
-                <b-icon icon="trash" @click="deleteQuestao(q)"></b-icon>
+              <b-button variant="link" disabled v-show="q.isLoading">
+                <i class="fas fa-spinner fa-pulse fa-2x ms-4" style="font-size: 14px;" ></i>
               </b-button>
-              <b-button variant="link" @click="salvarQuestao(q)">
+              <b-button variant="link" :disabled="q.isLoading" @click="deleteQuestao(q)">
+                <b-icon icon="trash" ></b-icon>
+              </b-button>
+              <b-button variant="link" @click="salvarQuestao(q)" :disabled="q.isLoading">
                 <b-icon icon="save"></b-icon>
               </b-button>
             </div>
@@ -150,7 +160,7 @@
   <div v-else class="container">
     <div class="loader-container md-6 text-center mt-4"  v-if="estaCarregando" >
       <b-row class="mt-4">
-        <i class="fas fa-hourglass fa-spin fa-3x"></i>
+        <i class="fas fa-spinner fa-pulse fa-3x"></i>
       </b-row>
     </div>
     <div v-else>
@@ -197,7 +207,19 @@
                   </b-form-group>
                 </b-col>
                 <b-col class="col-1">
-                  <b-button variant="link" class="primary" @click="salvarCategoria">
+                  <b-button
+                      variant="link"
+                      v-if="categoria.isLoading"
+                      disabled
+                  >
+                    <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
+                  </b-button>
+                  <b-button
+                      variant="link"
+                      class="primary"
+                      @click="salvarCategoria"
+                      v-else
+                  >
                     <b-icon icon="save"></b-icon>
                   </b-button>
                 </b-col>
@@ -215,8 +237,14 @@
                 class="col-especial-cadastro text-center mt-2"
                 @click="editarCategoria(cat)"
             >
-              <b-card-text> {{ cat.nome }}</b-card-text>
+              <b-card-text>
+                {{ cat.nome }}
+                <i class="fas fa-spinner fa-pulse fa-2x ms-4"
+                   style="font-size: 14px;" v-show="cat.isLoading"/>
+              </b-card-text>
+
             </b-card>
+
           </b-row>
 
         </div>
@@ -250,7 +278,9 @@ export default {
     return {
       categorias :[],
       questoes:[],
-      categoria :{},
+      categoria :{
+        isLoading:false,
+      },
       edicao:false,
       idCard : 0,
       novoAssunto:false,
@@ -258,7 +288,8 @@ export default {
         id:null,
         pergunta:null,
         resposta:null,
-        categoriaId:null
+        categoriaId:null,
+        isLoading:false
       },
       showDismissibleAlert:false,
       erroResponse:{},
@@ -313,11 +344,11 @@ export default {
       this.showDismissibleAlert=false;
       if (questao.id){
         const idUser = this.$store.state.usuario.idUser;
-        questao.isRemoving = true;
+        questao.isLoading = true;
         await this.$http.delete(`api/usuario/${idUser}/categoria/${questao.categoriaId}/questao/${questao.id}`)
             .then(()=>{
               //this.getQuestoes(questao.categoriaId,true)
-              questao.isRemoving = false;
+              questao.isLoading = false;
               const index = this.questoes.findIndex((i) => i.id === questao.id);
                 if (index !== -1) {
                   this.questoes.splice(index, 1);
@@ -325,7 +356,7 @@ export default {
             }).catch((erro)=>{
               this.showDismissibleAlert=true;
               this.erroResponse = Object.assign({},erro);
-              questao.isRemoving = false;
+              questao.isLoading = false;
             })
       }
     },
@@ -334,17 +365,19 @@ export default {
       this.showDismissibleAlert=false;
       if (questao){
         console.log(questao)
+        questao.isLoading = true
         if (questao.pergunta && questao.resposta && questao.id){
           questao.categoriaId = this.categoria.id
           questao.usuarioId = this.$store.state.usuario.idUser;
 
           await this.$http.put(`api/usuario/${questao.usuarioId}/questao`,questao)
               .then(()=>{
-
+                questao.isLoading=false;
               })
               .catch((erro)=>{
                 this.showDismissibleAlert=true;
                 this.erroResponse = Object.assign({},erro);
+                questao.isLoading=false;
               })
         }
       }
@@ -352,23 +385,27 @@ export default {
         this.questao.categoria = this.categoria
         this.questao.categoriaId = this.categoria.id
         this.questao.usuarioId = this.$store.state.usuario.idUser;
+        this.questao.isLoading = true;
         await this.$http.post(`api/usuario/${this.questao.usuarioId}/questao`,this.questao)
             .then((response)=>{
-              const questao = {
-                isRemoving:false,
-                ...response.data
-              }
-              this.questoes.push(questao)
+              this.questoes.push(
+                  {
+                    ...response.data,
+                    isLoading:false
+                  }
+              );
               this.questao = {
                 id:null,
                 pergunta:null,
                 resposta:null,
-                categoriaId:null
+                categoriaId:null,
+                isLoading:false
               }
             })
             .catch((erro)=>{
               this.showDismissibleAlert=true;
               this.erroResponse = Object.assign({},erro);
+              this.questao.isLoading=false;
             })
       }
     },
@@ -383,7 +420,7 @@ export default {
 
         await this.$http.delete(`api/usuario/${this.categoria.usuarioId}/categoria/${this.categoria.id}`)
             .then(()=>{
-              this.categoria = {}
+              this.categoria = {isLoading: false};
               this.edicao =false;
               this.getCategorias();
             })
@@ -397,46 +434,52 @@ export default {
     async salvarCategoria() {
       this.showDismissibleAlert=false;
       this.idCard = null;
-      this.novoAssunto = !this.novoAssunto;
       this.categoria.usuarioId = this.$store.state.usuario.idUser;
-      this.estaCarregando=true;
+      this.categoria.isLoading = true;
       if (this.categoria.nome && this.categoria.id ==null) {
         await this.$http.post("api/categoria", this.categoria)
             .then((response) => {
-              const categoriaNova = response.data
+              const categoriaNova = {
+                isLoading: false,
+                ...response.data
+              };
               this.categorias.push(categoriaNova)
-              this.categoria = {};
-              this.estaCarregando=false;
+              this.categoria = {isLoading: false};
+
+              this.categoria.isLoading = false;
+              this.novoAssunto = false;
             })
             .catch((erro) => {
               this.showDismissibleAlert=true;
               this.erroResponse = Object.assign({},erro);
-              this.estaCarregando=false;
+              this.categoria.isLoading = false;
+              this.novoAssunto = false;
+
             });
       }
       else{
         if (this.categoria.nome){
-          this.estaCarregando=true;
+
           await this.$http.put("api/categoria",this.categoria)
               .then(()=>{
-                this.estaCarregando=false;
+                this.categoria.isLoading = false;
+                this.novoAssunto = false;
               }).catch((erro)=>{
                 this.showDismissibleAlert=true;
                 this.erroResponse = Object.assign({},erro);
-                this.estaCarregando=false;
+                this.categoria.isLoading = false;
+                this.novoAssunto =false;
               })
         }
       }
     },
 
-    async getQuestoes(idCategoria , isDaemon){
+    async getQuestoes(idCategoria ){
       this.showDismissibleAlert=false;
       const idUsuario = this.$store.state.usuario.idUser;
-      if (isDaemon == true)this.estaCarregando= false;
-      else this.estaCarregando = true;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`).then((response)=>{
         this.questoes = response.data.map((questao) => {
-          return { ...questao, isRemoving: false };
+          return { ...questao, isLoading: false };
         });
         this.estaCarregando=false;
       }).catch((erro)=>{
@@ -447,10 +490,12 @@ export default {
     },
 
     async editarCategoria(assunto){
+      assunto.isLoading =true;
       this.categoria = assunto
-      this.edicao = true;
       this.questao.categoriaId = this.categoria.id;
       await this.getQuestoes(assunto.id)
+      assunto.isLoading =false;
+      this.edicao = true;
 
     },
 
@@ -459,16 +504,17 @@ export default {
       this.estaCarregando=true;
       const usuario = this.$store.state.usuario;
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
-        this.categorias = response.data
+        this.categorias = response.data.map((categoria)=>{
+          return {...categoria,isLoading:false};
+        });
         this.estaCarregando=false;
+        this.novoAssunto=false;
       }).catch((error) => {
         this.showDismissibleAlert=true;
         this.erroResponse = Object.assign({},error);
         this.estaCarregando=false;
       });
-
     },
-
   },
   mounted() {
     this.getCategorias();
@@ -497,14 +543,6 @@ export default {
   z-index: 9999;
 }
 
-.centralizado {
-  text-align: center;
-}
-.controle {
-  font-size: 1.2em;
-  margin-bottom: 20px;
-
-}
 .controle label {
   display: block;
   font-weight: bold;
@@ -516,13 +554,6 @@ export default {
   border-radius: 5px
 }
 
-.centralizado {
-  text-align: center;
-}
-
-.assunto{
-  width: 300px;
-}
 
 .col-especial-cadastro {
   display: block;
@@ -533,16 +564,10 @@ export default {
   min-width: 200px;
 
 }
-
 .col-especial-cadastro:hover{
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
   box-shadow: 0px 0px 3px 3px #a7a9af;
 }
-.row {
-  border: 0px dashed;
-}
-
 
 </style>
->
