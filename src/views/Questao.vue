@@ -28,18 +28,35 @@
         <b-row
             class="d-flex justify-content-center ms-0"
         >
-          <div
-              class="col-especial mt-0 linha ms-1 "
-              @click="selectTopico(categoria.id)"
+          <b-card
               v-for="categoria in categorias"
               :key="categoria.id"
-              style="height: 80px;"
+              @click="selectTopico(categoria.id)"
+              style="height: 200px;"
+              class="col-xxl-3 col-xl-3 col-lg-3 col-md-5 col-sm-12 m-1"
           >
-            <div style="margin: 25px" class="text-center">
-              <b><em>{{ categoria.nome }}</em></b>
-            </div>
+            <b-card-title style="font-size: 17px;">{{ categoria.nome }}</b-card-title>
 
-          </div>
+            <b-card-body class="w-100">
+                <b-button
+                    variant="link"
+                    style="border-radius: 0;"
+                    class=" d-flex justify-content-start w-100"
+
+                >Revisão espaçada</b-button>
+
+                <b-button
+                    variant="link"
+                    style="border-radius: 0;"
+                    class="d-flex justify-content-start w-100 "
+                >Revisar tudo
+                </b-button>
+
+              </b-card-body>
+
+          </b-card>
+
+
         </b-row>
       </b-row>
 
@@ -106,7 +123,7 @@
       <b-row
           class="d-flex justify-content-lg-center"
           v-else
-          style="margin-top: 150px"
+          style="margin-top: 50px"
       >
 
         <div v-if="qtdPerguntas==0">
