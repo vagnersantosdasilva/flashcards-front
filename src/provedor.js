@@ -59,6 +59,7 @@ const actions = {
                             idUser:jwt_decoded.idUser
                         }
                     })
+                    localStorage.setItem('token',response.data.token);
                     resolve(response.data)
                 })
                 .catch(err => {

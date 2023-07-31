@@ -86,7 +86,7 @@ const router = new VueRouter({
 
 
 router.beforeEach((routeTo, routeFrom, next) => {
-  if (!routeTo.meta.publica && !provedor.state.token) {
+  if (!routeTo.meta.publica && !provedor.state.token && localStorage.getItem('token')==null) {
     return next({
       path:'/login'
     });
