@@ -28,10 +28,10 @@
         <b-row
             class="d-flex justify-content-center ms-0"
         >
+          <!--@click="selectTopico(categoria.id)"-->
           <b-card
               v-for="categoria in categorias"
               :key="categoria.id"
-              @click="selectTopico(categoria.id)"
               style="height: 200px;"
               class="col-xxl-3 col-xl-3 col-lg-3 col-md-5 col-sm-12 m-1"
           >
@@ -42,6 +42,7 @@
                     variant="link"
                     style="border-radius: 0;"
                     class=" d-flex justify-content-start w-100"
+                    @click="getPerguntaRevisao(categoria.id)"
 
                 >Revisão espaçada</b-button>
 
@@ -49,6 +50,7 @@
                     variant="link"
                     style="border-radius: 0;"
                     class="d-flex justify-content-start w-100 "
+                    @click="getPergunta(categoria.id)"
                 >Revisar tudo
                 </b-button>
 
@@ -128,7 +130,9 @@
 
         <div v-if="qtdPerguntas==0">
           <b-row class="col-md-12 mt-4">
-            <h5 class="text-center">Nenhuma pergunta cadastrada!</h5>
+            <h5 class="text-center" v-if="isRevisao">Nenhum item para revisar hoje!</h5>
+            <h5 class="text-center" v-else="">Nenhuma pergunta cadastrada!</h5>
+
           </b-row>
 
         </div>
@@ -252,6 +256,7 @@ export default {
   data() {
 
     return {
+      isRevisao:false,
       categorias:[],
       categoriaSelecionada:false,
       listPergunta : [],
@@ -318,7 +323,29 @@ export default {
       this.getPergunta(idCategoria);
     },
 
+    async getPerguntaRevisao(idCategoria){
+      this.categoriaSelecionada = true;
+      this.isRevisao = true;
+      this.estaCarregando=true;
+      const idUsuario  = this.$store.state.usuario.idUser
+      this.questao.usuarioId = idUsuario;
+      this.showDismissibleAlert=false;
+      await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao/revisao`)
+          .then((response)=>{
+            console.log(response);
+            this.listPergunta = response.data;
+            this.qtdPerguntas = this.listPergunta.length
+            this.questao = this.listPergunta.pop();
+          }).catch((error)=>{
+            this.erroResponse = Object.assign({},error);
+            this.showDismissibleAlert=true;
+          });
+      this.estaCarregando=false;
+    },
+
     async getPergunta(idCategoria){
+      this.categoriaSelecionada = true;
+      this.isRevisao = false;
       this.estaCarregando=true;
       const idUsuario  = this.$store.state.usuario.idUser
       this.questao.usuarioId = idUsuario;
@@ -348,7 +375,7 @@ export default {
         this.errou = true
       }
 
-      if (this.correcao==false) {
+      if (this.correcao==false && this.isRevisao) {
         this.showDismissibleAlert=false;
         await this.$http.put(`api/usuario/${idUsuario}/questao/responder`, questao)
             .then(() => {
