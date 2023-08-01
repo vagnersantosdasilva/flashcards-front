@@ -26,7 +26,7 @@ Vue.prototype.$http = http
 new Vue({
 
   created() {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('token').replace('Bearer ','');
     if (storedToken) {
       const jwt_decoded = decode(storedToken);
       this.$store.commit('DEFINIR_USUARIO_LOGADO', {

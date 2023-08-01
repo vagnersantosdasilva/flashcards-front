@@ -9,8 +9,13 @@ const http = axios.create({
 
 http.interceptors.request.use(function (config) {
     const token = provedor.state.token
+    let tokenLocal = localStorage.getItem('token')
+    if (tokenLocal) tokenLocal = tokenLocal.replace('Bearer ','')
     if (token) {
         config.headers.Authorization = token
+    }
+    else{
+        if (tokenLocal) config.headers.Authorization = token
     }
     return config
 }, function (erro) {
