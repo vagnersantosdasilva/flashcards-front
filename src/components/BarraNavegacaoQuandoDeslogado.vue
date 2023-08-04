@@ -3,13 +3,13 @@
 
     <li class="nav-item">
       <router-link to="/cadastro_usuario" class="nav-link">
-        Registre-se
+        Inscrever-se
       </router-link>
     </li>
 
     <li class="nav-item">
       <router-link to="/login" class="nav-link">
-        Login
+        Entrar
       </router-link>
     </li>
   </ul>
