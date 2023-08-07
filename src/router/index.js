@@ -10,6 +10,7 @@ import CadastroUsuario from "../views/CadastroUsuario.vue";
 import ResetPublico from "../views/ResetPublico.vue";
 import Perfil from "../views/Perfil.vue";
 import ResetPrivado from "../views/ResetPrivado.vue";
+import Editor from "../views/Editor.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -73,6 +74,16 @@ const routes = [
     path:'/perfil' ,
     name:'perfil',
     component: Perfil,
+
+  },
+
+  {
+    path:'/editor' ,
+    name:'editor',
+    meta:{
+      publica: true
+    },
+    component: Editor,
 
   },
 ]

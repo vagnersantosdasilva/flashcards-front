@@ -1,9 +1,9 @@
 <template>
   <div class="container">
 
-    <div v-if="estaCarregando" >
-      <b-row class="d-flex justify-content-center mt-4" >
-        <div class="loader-container md-6 text-center mt-4" >
+    <div v-if="estaCarregando">
+      <b-row class="d-flex justify-content-center mt-4">
+        <div class="loader-container md-6 text-center mt-4">
           <i class="fas fa-spinner fa-pulse fa-3x"></i>
         </div>
 
@@ -38,23 +38,24 @@
             <b-card-title style="font-size: 17px;">{{ categoria.nome }}</b-card-title>
 
             <b-card-body class="w-100">
-                <b-button
-                    variant="link"
-                    style="border-radius: 0;"
-                    class=" d-flex justify-content-start w-100"
-                    @click="getPerguntaRevisao(categoria.id)"
+              <b-button
+                  variant="link"
+                  style="border-radius: 0;"
+                  class=" d-flex justify-content-start w-100"
+                  @click="getPerguntaRevisao(categoria.id)"
 
-                >Revisão espaçada</b-button>
+              >Revisão espaçada
+              </b-button>
 
-                <b-button
-                    variant="link"
-                    style="border-radius: 0;"
-                    class="d-flex justify-content-start w-100 "
-                    @click="getPergunta(categoria.id)"
-                >Revisar tudo
-                </b-button>
+              <b-button
+                  variant="link"
+                  style="border-radius: 0;"
+                  class="d-flex justify-content-start w-100 "
+                  @click="getPergunta(categoria.id)"
+              >Revisar tudo
+              </b-button>
 
-              </b-card-body>
+            </b-card-body>
 
           </b-card>
 
@@ -147,7 +148,7 @@
             <div v-if="!respondeu">
               <b-row class="d-flex justify-content-center ">
                 <b-card class="col-12 col-md-6 flashcard"
-                        style="cursor: pointer; height: 300px;background-color: #fff"
+                        style="cursor: pointer;"
                         @click="respondeu=true"
                 >
                   <b-card-title style="font-size: 16px;" class="mb-4">
@@ -187,16 +188,16 @@
                                   </div>
                                 </div>-->
                 <b-row class=" d-flex justify-content-center">
-                  <b-card class="col-12 col-md-6 flashcard"
-                          style="height: 300px;background-color: #fff"
+                  <b-card class="col-12 col-md-7 flashcard"
+
                           :class="{
                       'flashcard-acertou': acertou,
                       'erro': errou}"
                   >
                     <b-card-title style="font-size: 16px;color:grey"> {{ questao.pergunta }}</b-card-title>
                     <div class="ms-0">
-                      <div class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
-                        <strong>{{ questao.resposta }}</strong>
+                      <div class="d-flex justify-content-center resposta" v-if="questao.resposta.length<170">
+                        <strong style="margin-top: 50px">{{ questao.resposta }}</strong>
                       </div>
 
                       <div class="d-flex justify-content-start resposta" v-else>
@@ -256,144 +257,144 @@ export default {
   data() {
 
     return {
-      isRevisao:false,
-      categorias:[],
-      categoriaSelecionada:false,
-      listPergunta : [],
-      listAcerto :[],
-      listErro:[],
-      respondeu:false,
-      questao:{
-        id:null,
-        pergunta:null,
-        resposta:null,
-        acerto:null,
-        categoriaId:null,
-        usuarioId:null,
+      isRevisao: false,
+      categorias: [],
+      categoriaSelecionada: false,
+      listPergunta: [],
+      listAcerto: [],
+      listErro: [],
+      respondeu: false,
+      questao: {
+        id: null,
+        pergunta: null,
+        resposta: null,
+        acerto: null,
+        categoriaId: null,
+        usuarioId: null,
       },
-      questionarioConcluido:false,
-      qtdPerguntas:null,
-      acertou:null,
-      errou:null,
-      correcao:false,
-      showDismissibleAlert:false,
-      erroResponse:{},
-      estaCarregando:false,
+      questionarioConcluido: false,
+      qtdPerguntas: null,
+      acertou: null,
+      errou: null,
+      correcao: false,
+      showDismissibleAlert: false,
+      erroResponse: {},
+      estaCarregando: false,
     }
   },
 
   computed: {
 
-    acertos(){
-      return this.listAcerto.length+"/"+this.qtdPerguntas;
+    acertos() {
+      return this.listAcerto.length + "/" + this.qtdPerguntas;
     },
 
-    mensagemFinalizacao(){
-      if (this.listAcerto.length && this.qtdPerguntas){
-        if ((this.listAcerto.length / this.qtdPerguntas) > 0.8 )return 'Fantástico,'
-        if ((this.listAcerto.length / this.qtdPerguntas) > 0.6 )return 'Muito bem,'
-        if ((this.listAcerto.length / this.qtdPerguntas) <=  0.6 )return 'Continue praticando,'
+    mensagemFinalizacao() {
+      if (this.listAcerto.length && this.qtdPerguntas) {
+        if ((this.listAcerto.length / this.qtdPerguntas) > 0.8) return 'Fantástico,'
+        if ((this.listAcerto.length / this.qtdPerguntas) > 0.6) return 'Muito bem,'
+        if ((this.listAcerto.length / this.qtdPerguntas) <= 0.6) return 'Continue praticando,'
       }
       return 'OK,'
     },
 
-    nomeUsuario(){
+    nomeUsuario() {
       return `${this.$store.state.usuario.username}!`.split("@")[0];
     }
   },
 
   methods: {
-    async getCategorias(){
+    async getCategorias() {
       const usuario = this.$store.state.usuario
-      this.showDismissibleAlert=false;
-      this.estaCarregando=true
-      await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response)=>{
+      this.showDismissibleAlert = false;
+      this.estaCarregando = true
+      await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response) => {
         this.categorias = response.data
       }).catch((error) => {
         console.log(error);
-        this.showDismissibleAlert=true;
-        this.erroResponse = Object.assign({},error);
+        this.showDismissibleAlert = true;
+        this.erroResponse = Object.assign({}, error);
       });
-      this.estaCarregando=false;
+      this.estaCarregando = false;
     },
 
-    selectTopico(idCategoria){
+    selectTopico(idCategoria) {
       console.log(idCategoria)
       this.categoriaSelecionada = true;
       this.getPergunta(idCategoria);
     },
 
-    async getPerguntaRevisao(idCategoria){
+    async getPerguntaRevisao(idCategoria) {
       this.categoriaSelecionada = true;
       this.isRevisao = true;
-      this.estaCarregando=true;
-      const idUsuario  = this.$store.state.usuario.idUser
+      this.estaCarregando = true;
+      const idUsuario = this.$store.state.usuario.idUser
       this.questao.usuarioId = idUsuario;
-      this.showDismissibleAlert=false;
+      this.showDismissibleAlert = false;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao/revisao`)
-          .then((response)=>{
+          .then((response) => {
             console.log(response);
             this.listPergunta = response.data;
             this.qtdPerguntas = this.listPergunta.length
             this.questao = this.listPergunta.pop();
-          }).catch((error)=>{
-            this.erroResponse = Object.assign({},error);
-            this.showDismissibleAlert=true;
+          }).catch((error) => {
+            this.erroResponse = Object.assign({}, error);
+            this.showDismissibleAlert = true;
           });
-      this.estaCarregando=false;
+      this.estaCarregando = false;
     },
 
-    async getPergunta(idCategoria){
+    async getPergunta(idCategoria) {
       this.categoriaSelecionada = true;
       this.isRevisao = false;
-      this.estaCarregando=true;
-      const idUsuario  = this.$store.state.usuario.idUser
+      this.estaCarregando = true;
+      const idUsuario = this.$store.state.usuario.idUser
       this.questao.usuarioId = idUsuario;
-      this.showDismissibleAlert=false;
+      this.showDismissibleAlert = false;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`)
-          .then((response)=>{
+          .then((response) => {
             console.log(response);
             this.listPergunta = response.data;
             this.qtdPerguntas = this.listPergunta.length
             this.questao = this.listPergunta.pop();
-          }).catch((error)=>{
-            this.erroResponse = Object.assign({},error);
-            this.showDismissibleAlert=true;
+          }).catch((error) => {
+            this.erroResponse = Object.assign({}, error);
+            this.showDismissibleAlert = true;
           });
-      this.estaCarregando=false;
+      this.estaCarregando = false;
     },
 
-    async proximaPergunta(questao, acerto){
-      const idUsuario  = this.$store.state.usuario.idUser
+    async proximaPergunta(questao, acerto) {
+      const idUsuario = this.$store.state.usuario.idUser
       questao.acerto = acerto;
       questao.usuarioId = idUsuario;
       if (acerto) {
         this.acertou = true
         this.errou = false
-      }else{
+      } else {
         this.acertou = false
         this.errou = true
       }
 
-      if (this.correcao==false && this.isRevisao) {
-        this.showDismissibleAlert=false;
+      if (this.correcao == false && this.isRevisao) {
+        this.showDismissibleAlert = false;
         await this.$http.put(`api/usuario/${idUsuario}/questao/responder`, questao)
             .then(() => {
               setTimeout(() => {
-               this.atualiza(questao);
+                this.atualiza(questao);
               }, 300)
             }).catch((erro) => {
-              this.showDismissibleAlert=true;
+              this.showDismissibleAlert = true;
               this.erroResponse = Object.assign(erro);
             })
-      }else {
+      } else {
         setTimeout(() => {
           this.atualiza(questao);
         }, 300)
       }
     },
 
-    atualiza(questao){
+    atualiza(questao) {
       if (this.questao.acerto) this.listAcerto.push(questao)
       else this.listErro.push(questao);
 
@@ -407,30 +408,30 @@ export default {
       this.errou = null
     },
 
-    corrigirErros(){
+    corrigirErros() {
       this.correcao = true;
-      this.listPergunta =[];
-      this.listAcerto =[];
+      this.listPergunta = [];
+      this.listAcerto = [];
       this.qtdPerguntas = this.listErro.length;
-      this.listPergunta = Object.assign([],this.listErro);
-      this.listErro=[];
+      this.listPergunta = Object.assign([], this.listErro);
+      this.listErro = [];
       this.questao = this.listPergunta.pop();
       this.questionarioConcluido = false;
     },
 
-    voltarParaCategorias(){
-      this.correcao =false;
-      this.listPergunta =[];
-      this.listAcerto =[];
+    voltarParaCategorias() {
+      this.correcao = false;
+      this.listPergunta = [];
+      this.listAcerto = [];
       this.qtdPerguntas = null;
       this.listPergunta = [];
-      this.listErro=[];
-      this.questao={
-            id:null,
-            pergunta:null,
-            resposta:null,
-            acerto:null,
-            categoriaId:null,
+      this.listErro = [];
+      this.questao = {
+        id: null,
+        pergunta: null,
+        resposta: null,
+        acerto: null,
+        categoriaId: null,
       }
       this.categoriaSelecionada = false;
       this.questionarioConcluido = false;
@@ -449,26 +450,27 @@ export default {
 
 <style scoped>
 
-.linha{
+.linha {
   width: 50%;
 
 }
+
 .acertou-button {
   background-color: rgba(0, 255, 0, 0.3);
   width: 100px;
   margin: 10px;
-  color:#222;
+  color: #222;
 }
 
 .errou-button {
   background-color: rgba(255, 0, 0, 0.3);
-  color:#222;
+  color: #222;
   width: 100px;
   margin: 10px;
 }
 
 .pergunta {
-  text-align:center;
+  text-align: center;
   word-wrap: break-word;
 }
 
@@ -479,27 +481,25 @@ export default {
   word-wrap: break-word;
   font-size: 14px;
 }
-.card-resposta{
+
+.card-resposta {
   display: block;
   border: 1px solid #cfdccf;
   align-items: center;
   background-color: #ffffff;
-  cursor:pointer;
+  cursor: pointer;
   height: 200px;
   max-width: 300px;
   min-width: 300px;
 
 }
 
-.card-resposta :hover{
+.card-resposta :hover {
   box-shadow: 0px 0px 3px 3px #a7a9af;
 }
 
-body{
-  background-color: #e2e8e2;
-}
 .layout {
-  margin:40px
+  margin: 40px
 }
 
 .col-especial {
@@ -507,14 +507,14 @@ body{
   border: 1px solid #cfdccf;
   align-content: center;
   background-color: #ffffff;
-  cursor:pointer;
+  cursor: pointer;
   margin: 30px;
   max-width: 350px;
   min-width: 350px;
 
 }
 
-.col-especial:hover{
+.col-especial:hover {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
   box-shadow: 0px 0px 3px 3px #a7a9af;
@@ -524,16 +524,17 @@ body{
   display: block;
   border: 1px solid #cfdccf;
   align-content: center;
-  background-color: #ffffff;
-  cursor:pointer;
+  background-color: white;
+  cursor: pointer;
   margin: 30px;
-  max-width: 400px;
+  max-width: 450px;
   min-width: 300px;
-  height: 200px;
-
+  height: 300px;
+  border-radius: 0;
+  font-family: 'Open Sans', sans-serif;
 }
 
-.flashcard:hover{
+.flashcard:hover {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
   box-shadow: 0px 0px 3px 3px #a7a9af;
@@ -543,6 +544,7 @@ body{
   border: 2px solid #32cd32; /* Cor verde para as bordas */
   transition: border-color 0.3s ease; /* Transição suave das bordas */
 }
+
 .erro {
   border: 2px solid #ff0000; /* Cor vermelha para as bordas */
   transition: border-color 0.3s ease; /* Transição suave das bordas */
@@ -561,6 +563,7 @@ body{
   /*background-color: rgba(255, 255, 255, 0.8);*/
   z-index: 9999;
 }
+
 @media screen and (max-width: 960px) {
   .linha {
     width: 100%;
@@ -572,16 +575,16 @@ body{
     border: 1px solid #cfdccf;
     text-align: center;
     background-color: #ffffff;
-    cursor:pointer;
+    cursor: pointer;
     max-width: 87%;
     min-width: 85%;
   }
 
-  .row{
+  .row {
     border: 0px dashed gray;
   }
 
-  .col{
+  .col {
     border: 0px dashed red;
   }
 

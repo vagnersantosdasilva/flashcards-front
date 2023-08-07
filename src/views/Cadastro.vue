@@ -109,6 +109,9 @@
               <b-button variant="link" disabled v-show="q.isLoading">
                 <i class="fas fa-spinner fa-pulse fa-2x ms-4" style="font-size: 14px;" ></i>
               </b-button>
+              <b-button variant="link" :disabled="q.isLoading" >
+                <b-icon icon="pencil" ></b-icon>
+              </b-button>
               <b-button variant="link" :disabled="q.isLoading" @click="deleteQuestao(q)">
                 <b-icon icon="trash" ></b-icon>
               </b-button>
