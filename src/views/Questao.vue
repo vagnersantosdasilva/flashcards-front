@@ -147,54 +147,48 @@
           <b-row class="col-md-12 ">
             <div v-if="!respondeu">
               <b-row class="d-flex justify-content-center ">
-                <b-card class="col-12 col-md-6 flashcard"
+                <div class="flashcard"
                         style="cursor: pointer;"
                         @click="respondeu=true"
                 >
-                  <b-card-title style="font-size: 16px;" class="mb-4">
+                  <ckeditor
+                      :editor="editor"
+                      v-model="questao.pergunta"
+                      @ready="onReadyNoToolbar"
+                  >
+                  </ckeditor>
+<!--                  <b-card-title style="font-size: 16px;" class="mb-4">
                     {{ questao.pergunta }}
                   </b-card-title>
                   <b-card-body>
                     <b-col class="d-flex justify-content-center align-items-center mt-4">
                       <p class="my-4" style="font-size: 18px; font-weight: bold">?</p>
                     </b-col>
-                  </b-card-body>
-                </b-card>
+                  </b-card-body>-->
+                </div>
               </b-row>
-              <!--
-                          <b-row class="d-flex justify-content-center">
-                            <div class="flashcard"  @click="respondeu=true">
-                              <b-row class="d-flex text-center" style="margin-top: 80px" >
-                                <strong>?</strong>
-                              </b-row>
-                            </div>
-                          </b-row>
-                         -->
             </div>
 
             <div v-else>
+
               <b-row class="d-flex justify-content-center">
-                <!--              <div class="flashcard"
-                                     :class="{
-                                      'flashcard-acertou': acertou,
-                                      'erro': errou}"
-                                >
-                                  <b-row class="d-flex justify-content-start resposta" v-if="questao.resposta.length<170">
-                                    <strong>{{questao.resposta}}</strong>
-                                  </b-row>
 
-                                  <div class="resposta" v-else>
-                                      <strong>{{questao.resposta}}</strong>
-                                  </div>
-                                </div>-->
                 <b-row class=" d-flex justify-content-center">
-                  <b-card class="col-12 col-md-7 flashcard"
+                  <div class="flashcard"
 
-                          :class="{
-                      'flashcard-acertou': acertou,
-                      'erro': errou}"
+
                   >
-                    <b-card-title style="font-size: 16px;color:grey"> {{ questao.pergunta }}</b-card-title>
+                    <ckeditor
+                        :editor="editor"
+                        v-model="questao.resposta"
+                        @ready="onReadyNoToolbar"
+                        :class="{
+                      'ck-content flashcard-acertou': acertou,
+                      'ck-content erro': errou}"
+                    >
+                    </ckeditor>
+
+<!--                    <b-card-title style="font-size: 16px;color:grey"> {{ questao.pergunta }}</b-card-title>
                     <div class="ms-0">
                       <div class="d-flex justify-content-center resposta" v-if="questao.resposta.length<170">
                         <strong style="margin-top: 50px">{{ questao.resposta }}</strong>
@@ -203,9 +197,9 @@
                       <div class="d-flex justify-content-start resposta" v-else>
                         <strong>{{ questao.resposta }}</strong>
                       </div>
-                    </div>
+                    </div>-->
 
-                  </b-card>
+                  </div>
                 </b-row>
 
                 <b-row clas="col-12 d-flex justify-content-center mt-4">
@@ -246,17 +240,20 @@
 
 <script>
 import AlertCustom from "../components/AlertCustom.vue";
+import DecoupledDocumentEditor from "ckeditor5-build-decoupled-document-base64-imageresize";
+import CKEditor from "@ckeditor/ckeditor5-vue2";
 
 export default {
 
   components: {
-    AlertCustom
-
+    AlertCustom,
+    ckeditor: CKEditor.component,
   },
 
   data() {
 
     return {
+      editor: DecoupledDocumentEditor,
       isRevisao: false,
       categorias: [],
       categoriaSelecionada: false,
@@ -285,6 +282,8 @@ export default {
 
   computed: {
 
+
+
     acertos() {
       return this.listAcerto.length + "/" + this.qtdPerguntas;
     },
@@ -304,6 +303,16 @@ export default {
   },
 
   methods: {
+
+    async onReadyNoToolbar(editor) {
+      editor.isReadOnly = true;
+      editor.ui.getEditableElement().parentElement.insertBefore(
+          editor.ui.view.toolbar.element,
+          editor.ui.getEditableElement()
+      );
+      editor.ui.view.toolbar.element.style.display='none';
+    },
+
     async getCategorias() {
       const usuario = this.$store.state.usuario
       this.showDismissibleAlert = false;
@@ -450,9 +459,69 @@ export default {
 
 <style scoped>
 
+/*
+.flashcard {
+  display: block;
+  border: 1px solid #cfdccf;
+  align-content: center;
+  background-color: white;
+  cursor: pointer;
+  margin: 30px;
+  max-width: 450px;
+  min-width: 300px;
+  height: 300px;
+  border-radius: 0;
+  font-family: 'Open Sans', sans-serif;
+}*/
+
+.flashcard {
+  padding: 30px;
+  display: block;
+  /*border: 1px solid #cfdccf;*/
+  align-content: center;
+  background-color: white;
+  cursor: pointer;
+  margin: 1px;
+  max-width: 414px;
+  min-width: 414px;
+
+  height: 400px;
+  border-radius: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.ck-content {
+  display: block;
+  align-content: center;
+  background-color: white;
+  border: 1px solid #cfdccf;
+  height: 100%;
+  border-radius: 0;
+  margin-right: 0;
+}
+
+.ck-content:hover {
+  /*background-color: #f4f5f6;
+  box-shadow: inset 0 0 1px 1px #b2caee;*/
+  box-shadow: 0px 0px 3px 3px #a7a9af;
+}
+
+.flashcard-acertou {
+  margin: 2px;
+  padding: 9px ;
+  border: 2px solid #a0e7a0; /* Cor verde para as bordas */
+  transition: border-color 0.3s ease; /* Transição suave das bordas */
+}
+
+.erro {
+  margin: 2px;
+  padding:9px;
+  border: 2px solid rgba(187, 143, 143, 0.96); /* Cor vermelha para as bordas */
+  transition: border-color 0.3s ease; /* Transição suave das bordas */
+}
+
 .linha {
   width: 50%;
-
 }
 
 .acertou-button {
@@ -518,36 +587,6 @@ export default {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
   box-shadow: 0px 0px 3px 3px #a7a9af;
-}
-
-.flashcard {
-  display: block;
-  border: 1px solid #cfdccf;
-  align-content: center;
-  background-color: white;
-  cursor: pointer;
-  margin: 30px;
-  max-width: 450px;
-  min-width: 300px;
-  height: 300px;
-  border-radius: 0;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.flashcard:hover {
-  /*background-color: #f4f5f6;
-  box-shadow: inset 0 0 1px 1px #b2caee;*/
-  box-shadow: 0px 0px 3px 3px #a7a9af;
-}
-
-.flashcard-acertou {
-  border: 2px solid #32cd32; /* Cor verde para as bordas */
-  transition: border-color 0.3s ease; /* Transição suave das bordas */
-}
-
-.erro {
-  border: 2px solid #ff0000; /* Cor vermelha para as bordas */
-  transition: border-color 0.3s ease; /* Transição suave das bordas */
 }
 
 
