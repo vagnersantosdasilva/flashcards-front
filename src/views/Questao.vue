@@ -495,7 +495,8 @@ export default {
   align-content: center;
   background-color: white;
   border: 1px solid #cfdccf;
-  height: 100%;
+ 
+  height: 90%;
   border-radius: 0;
   margin-right: 0;
 }
