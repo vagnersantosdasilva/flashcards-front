@@ -320,15 +320,15 @@ import DecoupledDocumentEditor from "ckeditor5-build-decoupled-document-base64-i
 export default {
   computed: {
     btnSalvarEstado() {
-      if (this.resposta && this.resposta.length > 0 &&
-          this.pergunta && this.pergunta.length > 0
+      if (this.resposta && this.resposta.length > 0 && this.resposta.length<=255 &&
+          this.pergunta && this.pergunta.length > 0 && this.pergunta.length<=255
       ) return false;
       return true;
     },
 
     btnSalvarVariant() {
-      if (this.resposta && this.resposta.length > 0 &&
-          this.pergunta && this.pergunta.length > 0
+      if (this.resposta && this.resposta.length > 0 && this.resposta.length<=255 &&
+          this.pergunta && this.pergunta.length > 0 && this.pergunta.length<=255
       ) return "primary";
       return "secondary";
     },
