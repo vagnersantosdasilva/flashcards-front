@@ -40,6 +40,9 @@ export default {
     },
 
     message(){
+      if (this.messageAlert ==null && this.alert.response && this.alert.response.data && this.alert.response.data.length>0  ){
+        return "Erro no campo "+this.alert.response.data[0].field+" - "+this.alert.response.data[0].message;
+      }
       if (this.messageAlert ==null && this.alert.response && this.alert.response.data && this.alert.response.data.message !=null) return this.alert.response.data.message ;
       if (this.messageAlert ==null && this.alert.response ==null && this.alert.code =='ERR_NETWORK') return "Erro de conexão. Se o problema persistir entre em contato com o administrador."
       if (this.messageAlert ==null &&  this.alert.response.status && this.alert.response.status==403 && this.alert.code =='ERR_BAD_REQUEST')

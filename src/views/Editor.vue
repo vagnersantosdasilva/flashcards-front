@@ -25,8 +25,6 @@
           </b-button>
         </div>
       </div>
-
-
     </b-sidebar>
   </div>
 </template>
