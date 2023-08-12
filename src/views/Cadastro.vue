@@ -9,7 +9,12 @@
           backdrop
           @hidden="transparencia=false"
       >
-
+        <b-row class="justify-content-center">
+          <alert-custom
+              :show="showDismissibleAlert"
+              :alert="erroResponseSalvar"
+          />
+        </b-row>
         <div v-if="mostrarSucesso" class="sidebar-overlay d-block justify-content-center">
           <div style="margin-top: 65%; margin-left: 45%;">
             <i class="fas fa-check-circle fa-4x text-success animated bounceIn"></i>
@@ -39,7 +44,7 @@
               Limite de caracteres alcançado!
             </div>
             <div v-else class="char-count">
-              Tamanho: {{ charCount }} / {{characterLimit}}
+              Tamanho: {{ charCount }} / {{ characterLimit }}
             </div>
           </div>
           <div class="row mt-4">
@@ -58,12 +63,12 @@
               Limite de caracteres alcançado!
             </div>
             <div v-else class="char-count">
-              Tamanho : {{ charCount2 }} / {{characterLimit}}
+              Tamanho : {{ charCount2 }} / {{ characterLimit }}
             </div>
           </div>
 
           <div>
-            <hr/>
+            <hr style="margin: 10px"/>
             <b-button
                 :variant="btnSalvarVariant"
                 :disabled="btnSalvarEstado"
@@ -101,47 +106,58 @@
           </b-button>
         </b-row>
         <b-card>
-          <b-card-title class="d-flex justify-content-between">
-            <div>
-              <b-form-input
-                  placeholder="Qual é a matéria de estudo?"
-                  v-model="categoria.nome"
-                  style="border: 0; min-width:300px; "
-              >
-              </b-form-input>
-            </div>
-
-            <div>
-              <b-button variant="link" v-show="categoria.isLoading" disabled>
-                <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
-              </b-button>
-              <b-button variant="link" :disabled="categoria.isLoading">
-                <b-icon
-                    icon="trash"
-                    @click="showMsgBoxTwo(
+          <b-card-title >
+            <b-row class="col-12">
+              <div class="col-12 col-md-6">
+                <b-form-input
+                    placeholder="Qual é a matéria de estudo?"
+                    v-model="categoria.nome"
+                    style="border: 0; min-width:300px; "
+                >
+                </b-form-input>
+              </div>
+              <div class="col-12 col-md-6 d-flex justify-content-md-end justify-content-sm-start" >
+                  <b-button variant="link" disabled class="btn-categoria">
+                    <b-icon icon="share"></b-icon>
+                  </b-button>
+                  <b-button variant="link" disabled class="btn-categoria">
+                    <b-icon icon="download"></b-icon>
+                  </b-button>
+                  <b-button variant="link" v-show="categoria.isLoading" disabled class="btn-categoria">
+                    <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
+                  </b-button>
+                  <b-button variant="link" :disabled="categoria.isLoading"  class="btn-categoria">
+                    <b-icon
+                        icon="trash"
+                        @click="showMsgBoxTwo(
                     'Atenção!',
                     'A matéria e todos as questões serão apagadas. Você tem certeza ?',
                     'categoria',
                     null
                     )">
-                </b-icon>
-              </b-button>
-              <b-button variant="link" :disabled="categoria.isLoading">
-                <b-icon icon="save" @click="salvarCategoria()"></b-icon>
-              </b-button>
-            </div>
+                    </b-icon>
+                  </b-button>
+                  <b-button variant="link" :disabled="categoria.isLoading" class="btn-categoria">
+                    <b-icon icon="save" @click="salvarCategoria()"></b-icon>
+                  </b-button>
+
+              </div>
+            </b-row>
           </b-card-title>
-          <hr/>
-          <b-row class=" d-flex justify-content-center w-100  mt-4 ">
+          <hr style="margin: 10px"/>
+          <b-row class="d-flex justify-content-start" style="margin-left: -5px;margin-right: 10px;">
             <b-button
                 variant="primary"
                 v-b-toggle.sidebar-1
                 @click="verConteudo"
-                class="btn-novo-flashcard col-12 col-md-3"
-            >Novo Flashcard
+                class="btn-novo-flashcard  d-flex align-items-center justify-content-center"
+
+            >
+              <b-icon icon="plus-circle" class="me-1"></b-icon>
+              Novo Flashcard
             </b-button>
           </b-row>
-          <b-card class="mt-1" v-for="(q,index) in questoes" :key="index">
+          <b-card style="margin-left: 8px;margin-right: 8px;" class="mt-3" v-for="(q,index) in questoes" :key="index">
             <b-card-title class="d-flex justify-content-between">
               <div style="font-size: 16px; margin-left: 11px;color:dodgerblue">Flashcard {{ index + 1 }}:</div>
               <div>
@@ -159,9 +175,9 @@
                 <b-button variant="link" :disabled="q.isLoading" @click="deleteQuestao(q)">
                   <b-icon icon="trash"></b-icon>
                 </b-button>
-                <b-button variant="link" @click="salvarQuestao(q)" :disabled="q.isLoading">
-                  <b-icon icon="save"></b-icon>
-                </b-button>
+                <!--                <b-button variant="link" @click="salvarQuestao(q)" :disabled="q.isLoading">
+                                  <b-icon icon="save"></b-icon>
+                                </b-button>-->
               </div>
             </b-card-title>
 
@@ -234,18 +250,32 @@
           <b-card-title class="d-flex justify-content-between">
             <div style="font-size: 16px; margin-left: 11px;margin-top: 7px">Assuntos de estudo:</div>
             <div>
-              <b-button variant="link" @click="novoAssuntoMethod">
+<!--              <b-button variant="link" @click="novoAssuntoMethod">
                 <b-icon icon="plus-circle"></b-icon>
+              </b-button>-->
+              <b-button disabled variant="link" @click="novoAssuntoMethod">
+                <b-icon icon="upload"></b-icon>
               </b-button>
-
             </div>
           </b-card-title>
-          <hr/>
+          <hr style="margin: 10px;"/>
 
-          <div>
+          <b-row class="d-flex justify-content-lg-start" style="margin-left: 10px;margin-right: 10px;">
+            <b-button
+                class="btn-novo-flashcard  d-flex align-items-center justify-content-center g-0 m-0"
+                variant="primary"
+                @click="novoAssuntoMethod"
+            >
+              <b-icon
+                  icon = "plus-circle"
+                  class="me-1"
+              /> Novo Assunto
+            </b-button>
+          </b-row>
+          <div >
             <b-row
                 class="d-flex justify-content-lg-center "
-                style="margin: 10px;"
+                style="margin-left: 10px;margin-right: 10px"
                 v-if="novoAssunto"
             >
               <b-card
@@ -320,15 +350,15 @@ import DecoupledDocumentEditor from "ckeditor5-build-decoupled-document-base64-i
 export default {
   computed: {
     btnSalvarEstado() {
-      if (this.resposta && this.resposta.length > 0 && this.resposta.length<=255 &&
-          this.pergunta && this.pergunta.length > 0 && this.pergunta.length<=255
+      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= 255 &&
+          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= 255
       ) return false;
       return true;
     },
 
     btnSalvarVariant() {
-      if (this.resposta && this.resposta.length > 0 && this.resposta.length<=255 &&
-          this.pergunta && this.pergunta.length > 0 && this.pergunta.length<=255
+      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= 255 &&
+          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= 255
       ) return "primary";
       return "secondary";
     },
@@ -349,11 +379,11 @@ export default {
       return this.charCount2 >= this.characterLimit;
     },
 
-    porcentagemLimitePergunta(){
+    porcentagemLimitePergunta() {
       return (this.charCount / this.characterLimit) * 100
     },
 
-    porcentagemLimiteResposta(){
+    porcentagemLimiteResposta() {
       return (this.charCount2 / this.characterLimit) * 100
     }
 
@@ -377,13 +407,13 @@ export default {
   data() {
 
     return {
-      pergunta:'',
-      resposta:'',
-      charCount:0,
-      charCount2:0,
+      pergunta: '',
+      resposta: '',
+      charCount: 0,
+      charCount2: 0,
       characterLimit: 255, // Limite de caracteres desejado
-      mostrarSucesso:false,
-      carregando:false,
+      mostrarSucesso: false,
+      carregando: false,
       transparencia: false,
       tituloFlashcard: null,
       htmlCard: '',
@@ -404,6 +434,7 @@ export default {
       },
       showDismissibleAlert: false,
       erroResponse: {},
+      erroResponseSalvar: {},
       estaCarregando: false,
       editorConfig: {
 
@@ -500,28 +531,28 @@ export default {
   methods: {
     calculateCharCount(text) {
       // Remove as tags HTML para contar apenas o texto
-     /* const textWithoutTags = text.replace(/<\/?[^>]+(>|$)/g, '');
-      const base64ImageMatches = text.match(/data:image\/[^;]+;base64[^"]+/g) || [];
+      /* const textWithoutTags = text.replace(/<\/?[^>]+(>|$)/g, '');
+       const base64ImageMatches = text.match(/data:image\/[^;]+;base64[^"]+/g) || [];
 
-      console.log(base64ImageMatches)
+       console.log(base64ImageMatches)
 
-      const totalImageCharacters = base64ImageMatches.reduce((total, image) => {
-        const imageData = image.split(',')[1]; // Obtém a parte da base64 após a vírgula
-        return total + imageData.length;
-      }, 0);
-      //textWithoutTags.length +totalImageCharacters;*/
+       const totalImageCharacters = base64ImageMatches.reduce((total, image) => {
+         const imageData = image.split(',')[1]; // Obtém a parte da base64 após a vírgula
+         return total + imageData.length;
+       }, 0);
+       //textWithoutTags.length +totalImageCharacters;*/
       return text.length;
 
 
     },
 
-    resetFormulario(){
+    resetFormulario() {
       this.transparencia = false;
       this.questao = {
-        id:null,
+        id: null,
         categoriaId: null,
-        pertunta:'',
-        resposta:'',
+        pertunta: '',
+        resposta: '',
         isLoading: false,
       }
     },
@@ -611,7 +642,7 @@ export default {
 
     async salvarQuestao(questao) {
       this.showDismissibleAlert = false;
-      this.carregando=true;
+      this.carregando = true;
       this.questao.categoriaId = this.categoria.id;
       this.questao.categoria = this.categoria;
       this.questao.usuarioId = this.$store.state.usuario.idUser;
@@ -644,8 +675,9 @@ export default {
               })
               .catch((erro) => {
                 this.showDismissibleAlert = true;
-                this.erroResponse = Object.assign({}, erro);
+                this.erroResponseSalvar = Object.assign({}, erro);
                 this.questao.isLoading = false;
+                this.carregando = false;
               })
         }
       } else {
@@ -676,17 +708,16 @@ export default {
                   categoriaId: null,
                   isLoading: false
                 }
-                this.resposta= '';
+                this.resposta = '';
                 this.pergunta = '';
-
 
 
               })
               .catch((erro) => {
                 this.showDismissibleAlert = true;
-                this.erroResponse = Object.assign({}, erro);
+                this.erroResponseSalvar = Object.assign({}, erro);
                 this.questao.isLoading = false;
-                this.carregando=false;
+                this.carregando = false;
                 console.log(erro)
               })
         }
@@ -831,14 +862,28 @@ export default {
 
 </script>
 <style scoped>
-.char-count{
-  color:blue;
+.col {
+  border: 0px dashed deeppink;
+}
+.row{
+  border:0px dashed orange;
+}
+.btn-categoria{
+  width: 5%;
+  margin-left: 10px;
+
+}
+
+.char-count {
+  color: blue;
   font-size: 10px;
 }
-.limit-message{
-  color:red;
+
+.limit-message {
+  color: red;
   font-size: 10px;
 }
+
 .sidebar-overlay {
   position: fixed;
   top: 0;
@@ -850,7 +895,9 @@ export default {
 }
 
 .btn-novo-flashcard {
-  min-width: 100px;
+  width: 200px;
+  max-width: 100%;
+  margin-left:14px;
 }
 
 .sidebar-open {

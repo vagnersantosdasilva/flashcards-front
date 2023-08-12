@@ -14,7 +14,7 @@
             </b-col>
 
             <b-col class="col-12 col-md-9 ml-3" align-self="center">
-              <em>Cartões de Memória</em>
+              <em>Estudar Agora</em>
             </b-col>
           </b-row>
         </router-link>
