@@ -148,36 +148,28 @@
             <div v-if="!respondeu">
               <b-row class="d-flex justify-content-center ">
                 <div class="flashcard"
-                        style="cursor: pointer;"
-                        @click="respondeu=true"
+                     style="cursor: pointer;"
+                     @click="respondeu=true"
                 >
+
                   <ckeditor
                       :editor="editor"
                       v-model="questao.pergunta"
                       @ready="onReadyNoToolbar"
                   >
                   </ckeditor>
-<!--                  <b-card-title style="font-size: 16px;" class="mb-4">
-                    {{ questao.pergunta }}
-                  </b-card-title>
-                  <b-card-body>
-                    <b-col class="d-flex justify-content-center align-items-center mt-4">
-                      <p class="my-4" style="font-size: 18px; font-weight: bold">?</p>
-                    </b-col>
-                  </b-card-body>-->
+
                 </div>
               </b-row>
+
             </div>
 
             <div v-else>
-
               <b-row class="d-flex justify-content-center">
+                <b-row class=" d-flex justify-content-center cards">
 
-                <b-row class=" d-flex justify-content-center">
-                  <div class="flashcard"
+                  <div class="flashcard" :class="{active:respondeu}">
 
-
-                  >
                     <ckeditor
                         :editor="editor"
                         v-model="questao.resposta"
@@ -187,19 +179,8 @@
                       'ck-content erro': errou}"
                     >
                     </ckeditor>
-
-<!--                    <b-card-title style="font-size: 16px;color:grey"> {{ questao.pergunta }}</b-card-title>
-                    <div class="ms-0">
-                      <div class="d-flex justify-content-center resposta" v-if="questao.resposta.length<170">
-                        <strong style="margin-top: 50px">{{ questao.resposta }}</strong>
-                      </div>
-
-                      <div class="d-flex justify-content-start resposta" v-else>
-                        <strong>{{ questao.resposta }}</strong>
-                      </div>
-                    </div>-->
-
                   </div>
+
                 </b-row>
 
                 <b-row clas="col-12 d-flex justify-content-center mt-4">
@@ -283,7 +264,6 @@ export default {
   computed: {
 
 
-
     acertos() {
       return this.listAcerto.length + "/" + this.qtdPerguntas;
     },
@@ -310,7 +290,7 @@ export default {
           editor.ui.view.toolbar.element,
           editor.ui.getEditableElement()
       );
-      editor.ui.view.toolbar.element.style.display='none';
+      editor.ui.view.toolbar.element.style.display = 'none';
     },
 
     async getCategorias() {
@@ -458,22 +438,6 @@ export default {
 
 
 <style scoped>
-
-/*
-.flashcard {
-  display: block;
-  border: 1px solid #cfdccf;
-  align-content: center;
-  background-color: white;
-  cursor: pointer;
-  margin: 30px;
-  max-width: 450px;
-  min-width: 300px;
-  height: 300px;
-  border-radius: 0;
-  font-family: 'Open Sans', sans-serif;
-}*/
-
 .flashcard {
   padding: 30px;
   display: block;
@@ -495,34 +459,32 @@ export default {
   align-content: center;
   background-color: white;
   border: 1px solid #cfdccf;
- 
+
   height: 90%;
   border-radius: 0;
   margin-right: 0;
+
 }
 
 .ck-content:hover {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
   box-shadow: 0px 0px 3px 3px #a7a9af;
+
 }
 
 .flashcard-acertou {
   margin: 2px;
-  padding: 9px ;
+  padding: 9px;
   border: 2px solid #a0e7a0; /* Cor verde para as bordas */
   transition: border-color 0.3s ease; /* Transição suave das bordas */
 }
 
 .erro {
   margin: 2px;
-  padding:9px;
+  padding: 9px;
   border: 2px solid rgba(187, 143, 143, 0.96); /* Cor vermelha para as bordas */
   transition: border-color 0.3s ease; /* Transição suave das bordas */
-}
-
-.linha {
-  width: 50%;
 }
 
 .acertou-button {
@@ -539,57 +501,9 @@ export default {
   margin: 10px;
 }
 
-.pergunta {
-  text-align: center;
-  word-wrap: break-word;
-}
-
-.resposta {
-  height: 50px;
-  margin-top: 30px;
-  text-align: justify;
-  word-wrap: break-word;
-  font-size: 14px;
-}
-
-.card-resposta {
-  display: block;
-  border: 1px solid #cfdccf;
-  align-items: center;
-  background-color: #ffffff;
-  cursor: pointer;
-  height: 200px;
-  max-width: 300px;
-  min-width: 300px;
-
-}
-
 .card-resposta :hover {
   box-shadow: 0px 0px 3px 3px #a7a9af;
 }
-
-.layout {
-  margin: 40px
-}
-
-.col-especial {
-  display: block;
-  border: 1px solid #cfdccf;
-  align-content: center;
-  background-color: #ffffff;
-  cursor: pointer;
-  margin: 30px;
-  max-width: 350px;
-  min-width: 350px;
-
-}
-
-.col-especial:hover {
-  /*background-color: #f4f5f6;
-  box-shadow: inset 0 0 1px 1px #b2caee;*/
-  box-shadow: 0px 0px 3px 3px #a7a9af;
-}
-
 
 .loader-container {
   display: flex;
@@ -605,28 +519,6 @@ export default {
 }
 
 @media screen and (max-width: 960px) {
-  .linha {
-    width: 100%;
-
-  }
-
-  .col-especial {
-    display: block;
-    border: 1px solid #cfdccf;
-    text-align: center;
-    background-color: #ffffff;
-    cursor: pointer;
-    max-width: 87%;
-    min-width: 85%;
-  }
-
-  .row {
-    border: 0px dashed gray;
-  }
-
-  .col {
-    border: 0px dashed red;
-  }
 
 }
 </style>

@@ -350,15 +350,15 @@ import DecoupledDocumentEditor from "ckeditor5-build-decoupled-document-base64-i
 export default {
   computed: {
     btnSalvarEstado() {
-      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= 255 &&
-          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= 255
+      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= this.characterLimit &&
+          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= this.characterLimit
       ) return false;
       return true;
     },
 
     btnSalvarVariant() {
-      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= 255 &&
-          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= 255
+      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= this.characterLimit &&
+          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= this.characterLimit
       ) return "primary";
       return "secondary";
     },
@@ -411,7 +411,7 @@ export default {
       resposta: '',
       charCount: 0,
       charCount2: 0,
-      characterLimit: 255, // Limite de caracteres desejado
+      characterLimit: 500, // Limite de caracteres desejado
       mostrarSucesso: false,
       carregando: false,
       transparencia: false,
@@ -662,8 +662,8 @@ export default {
                   // Após alguns segundos, redefina para exibir o formulário novamente
                   setTimeout(() => {
                     this.mostrarSucesso = false;
-                  }, 3000); // Tempo em milissegundos (3 segundos)
-                }, 2000); // Tempo em milissegundos (2 segundos)
+                  }, 1000); // Tempo em milissegundos (3 segundos)
+                }, 20); // Tempo em milissegundos (2 segundos)
                 this.questao.isLoading = false;
                 const index = this.questoes.findIndex(item => item.id === this.questao.id);
                 if (index !== -1) {
@@ -693,8 +693,8 @@ export default {
                   // Após alguns segundos, redefina para exibir o formulário novamente
                   setTimeout(() => {
                     this.mostrarSucesso = false;
-                  }, 3000); // Tempo em milissegundos (3 segundos)
-                }, 2000); // Tempo em milissegundos (2 segundos)
+                  }, 1000); // Tempo em milissegundos (3 segundos)
+                }, 200); // Tempo em milissegundos (2 segundos)
                 this.questoes.push(
                     {
                       ...response.data,
