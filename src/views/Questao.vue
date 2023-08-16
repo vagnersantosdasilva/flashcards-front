@@ -6,7 +6,6 @@
         <div class="loader-container md-6 text-center mt-4">
           <i class="fas fa-spinner fa-pulse fa-3x"></i>
         </div>
-
       </b-row>
     </div>
     <div v-else>
@@ -75,7 +74,7 @@
           </b-row>
         </b-row>
 
-        <b-row clas="col-12 d-flex justify-content-center mt-4" style="margin:0">
+        <b-row clas="col-12 d-flex justify-content-center mt-4" style="margin:0; margin-bottom: 30px; " >
           <b-col v-show="listErro.length>0">
             <b-row
                 class="d-flex justify-content-end"
@@ -119,6 +118,7 @@
 
           </b-col>
         </b-row>
+
 
       </b-row>
 
@@ -213,6 +213,8 @@
           </b-row>
         </div>
       </b-row>
+
+
     </div>
 
 
@@ -235,6 +237,7 @@ export default {
 
     return {
       editor: DecoupledDocumentEditor,
+      idCategoria : null,
       isRevisao: false,
       categorias: [],
       categoriaSelecionada: false,
@@ -284,6 +287,7 @@ export default {
 
   methods: {
 
+
     async onReadyNoToolbar(editor) {
       editor.isReadOnly = true;
       editor.ui.getEditableElement().parentElement.insertBefore(
@@ -314,6 +318,7 @@ export default {
     },
 
     async getPerguntaRevisao(idCategoria) {
+      this.idCategoria = idCategoria;
       this.categoriaSelecionada = true;
       this.isRevisao = true;
       this.estaCarregando = true;
@@ -334,6 +339,7 @@ export default {
     },
 
     async getPergunta(idCategoria) {
+      this.idCategoria = idCategoria;
       this.categoriaSelecionada = true;
       this.isRevisao = false;
       this.estaCarregando = true;
@@ -389,8 +395,10 @@ export default {
 
       if (this.listPergunta.length > 0) {
         this.questao = this.listPergunta.pop();
-      } else this.questionarioConcluido = true
-      console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+      } else {
+        this.questionarioConcluido = true
+        console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+      }
 
       this.respondeu = false;
       this.acertou = null
@@ -469,7 +477,8 @@ export default {
 .ck-content:hover {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
-  box-shadow: 0px 0px 3px 3px #a7a9af;
+  /*box-shadow: 0px 0px 3px 3px #a7a9af;*/
+  box-shadow: 0px 0px 3px 3px #AAE3F9;
 
 }
 

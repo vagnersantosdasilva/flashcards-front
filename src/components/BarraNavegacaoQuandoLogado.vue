@@ -2,9 +2,14 @@
 
   <ul class="navbar-nav mr-auto" style="margin-right: 10px">
     <div>
-      <b-dropdown right variant="black" toggle-class="header-item">
+      <b-dropdown
+          right
+          variant="secondary-out-system"
+          toggle-class="header-item"
+
+      >
         <template v-slot:button-content>
-          <box-icon name="user"/>
+          <i class="icon-user fas fa-user" ></i>
         </template>
         <!-- item-->
         <b-dropdown-item class="dropdown-item">
@@ -12,12 +17,6 @@
             <box-icon name="id-card" /> Perfil
           </router-link>
         </b-dropdown-item>
-
-<!--        <b-dropdown-item class="dropdown-item">
-          <router-link class="nav-link" to="/">
-            <box-icon name="bell"/>Notificações
-          </router-link>
-        </b-dropdown-item>-->
 
         <b-dropdown-item class="dropdown-item">
           <router-link class="nav-link" to="/cadastro">
@@ -74,8 +73,6 @@
 <script>
 export default {
 
-
-
   methods: {
     efetuarLogout() {
       this.$emit('logout'); // Emitindo o evento de logout para o componente pai
@@ -89,6 +86,9 @@ export default {
 .dropdown-item {
   line-height: 1.8; /* Você pode ajustar o valor conforme necessário */
   margin-bottom: 0;
+}
+.dropdown-item {
+  color: white; /* Define a cor do texto */
 }
 
 /* Alinhando o ícone com o texto */

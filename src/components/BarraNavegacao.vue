@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-info">
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
     <a class="navbar-brand ml-2"
        style="margin: 10px; font-family: 'Pacifico'; color:#222;"
     >

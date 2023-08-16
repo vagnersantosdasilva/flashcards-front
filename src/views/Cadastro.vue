@@ -4,11 +4,16 @@
       <div class="sidebar-overlay" v-if="transparencia"></div>
 
       <b-sidebar
-          id="sidebar-1" shadow :title="tituloFlashcard"
+          id="sidebar-1" shadow
           backdrop-variant="secondary"
           backdrop
           @hidden="transparencia=false"
       >
+        <div class="mt-0 titulo-sidebar ">
+          <h4 style="color:#476493" >
+            <strong>{{tituloFlashcard}}</strong>
+          </h4>
+        </div>
         <b-row class="justify-content-center">
           <alert-custom
               :show="showDismissibleAlert"
@@ -29,7 +34,7 @@
 
         <div v-if="!carregando && !mostrarSucesso" class="px-4 py-2">
           <div class="row mt-4 ">
-            <h5>Elabore a pergunta</h5>
+            <h5 style="color:#476493">Elabore a pergunta (Frente)</h5>
           </div>
           <div class="flashcard-editor row">
             <ckeditor
@@ -48,7 +53,7 @@
             </div>
           </div>
           <div class="row mt-4">
-            <h5>Elabore a resposta</h5>
+            <h5 style="color:#476493">Elabore a resposta (Verso)</h5>
           </div>
           <div class="flashcard-editor row">
             <ckeditor
@@ -117,6 +122,9 @@
                 </b-form-input>
               </div>
               <div class="col-12 col-md-6 d-flex justify-content-md-end justify-content-sm-start" >
+                  <b-button variant="link"  class="btn-categoria" v-b-modal.dataRevisao >
+                    <b-icon icon="calendar"></b-icon>
+                  </b-button>
                   <b-button variant="link" disabled class="btn-categoria">
                     <b-icon icon="share"></b-icon>
                   </b-button>
@@ -157,9 +165,11 @@
               Novo Flashcard
             </b-button>
           </b-row>
-          <b-card style="margin-left: 8px;margin-right: 8px;" class="mt-3" v-for="(q,index) in questoes" :key="index">
+          <b-card
+              style="margin-left: 8px;margin-right: 8px;background: #FDFDFE;"
+              class="mt-3" v-for="(q,index) in questoes" :key="index">
             <b-card-title class="d-flex justify-content-between">
-              <div style="font-size: 16px; margin-left: 11px;color:dodgerblue">Flashcard {{ index + 1 }}:</div>
+              <div style="font-size: 16px; margin-left: 11px;color:#476493">Flashcard {{ index + 1 }}:</div>
               <div>
                 <b-button variant="link" disabled v-show="q.isLoading">
                   <i class="fas fa-spinner fa-pulse fa-2x ms-4" style="font-size: 14px;"></i>
@@ -175,45 +185,27 @@
                 <b-button variant="link" :disabled="q.isLoading" @click="deleteQuestao(q)">
                   <b-icon icon="trash"></b-icon>
                 </b-button>
-                <!--                <b-button variant="link" @click="salvarQuestao(q)" :disabled="q.isLoading">
-                                  <b-icon icon="save"></b-icon>
-                                </b-button>-->
+
               </div>
             </b-card-title>
 
-            <b-row class="mt-2">
-              <b-col class="col-3" align-self="center">
-                P.
+            <b-row class="mt-2 ms-1">
+              <b-col class="col-sm-1 col-3  ms-1" align-self="center">
+                Frente
               </b-col>
               <b-col align-self="center">
-                <!--              <b-form-input
-                                  style="border: 0"
-                                  placeholder="Adicione uma pergunta"
-                                  class="col-especial-cadastro col-8 mt-2"
-                                  v-model="q.pergunta"
-                                  disabled
-                              >
-                              </b-form-input>-->
+
                 <div class="resumo">
                   {{ q.pergunta | sanitizeContent(true) }}
                 </div>
               </b-col>
               <b-col class="col-1"></b-col>
             </b-row>
-            <b-row class="mt-2">
-              <b-col class="col-3" align-self="center">
-                R.
+            <b-row class="mt-2 ms-1">
+              <b-col class="col-sm-1 col-3  ms-1" align-self="center">
+                Verso
               </b-col>
               <b-col class="col" align-self="center">
-                <!--              <b-form-input
-                                  placeholder="Adicione a resposta para a pergunta"
-                                  class="col-especial-cadastro col-8"
-                                  v-model="q.resposta"
-                                  style="border: 0"
-                                  disabled
-                              >
-
-                              </b-form-input>-->
                 <div class="resumo">{{ q.resposta | sanitizeContent(true) }}</div>
               </b-col>
               <b-col class="col-1"></b-col>
@@ -246,7 +238,7 @@
             </b-icon>
           </b-button>
         </b-row>
-        <b-card>
+        <b-card >
           <b-card-title class="d-flex justify-content-between">
             <div style="font-size: 16px; margin-left: 11px;margin-top: 7px">Assuntos de estudo:</div>
             <div>
@@ -321,6 +313,7 @@
               <b-card
                   class="col-especial-cadastro text-center mt-2"
                   @click="editarCategoria(cat)"
+                  style="background: #FDFDFE"
               >
                 <b-card-text>
                   {{ cat.nome }}
@@ -338,6 +331,22 @@
       </div>
     </div>
 
+    <b-modal
+        id="dataRevisao"
+        v-model="showModalRevisao"
+        title="Revisões pendentes:"
+        size="md"
+        ok-only
+    >
+      <div style="height: 350px" class="mt-4">
+        <div v-for="(d,index) in listaRevisaoCategoriaCorrente" :key="index">
+          <p class="text-center" >
+            {{d}}
+          </p>
+        </div>
+      </div>
+    </b-modal>
+
   </div>
 
 </template>
@@ -346,9 +355,13 @@
 import AlertCustom from "../components/AlertCustom.vue";
 import CKEditor from "@ckeditor/ckeditor5-vue2";
 import DecoupledDocumentEditor from "ckeditor5-build-decoupled-document-base64-imageresize"
+import {hide} from "@popperjs/core";
 
 export default {
   computed: {
+    hide() {
+      return hide
+    },
     btnSalvarEstado() {
       if (this.resposta && this.resposta.length > 0 && this.resposta.length <= this.characterLimit &&
           this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= this.characterLimit
@@ -407,6 +420,8 @@ export default {
   data() {
 
     return {
+      showModalRevisao:false,
+      listaRevisaoCategoriaCorrente:[],
       pergunta: '',
       resposta: '',
       charCount: 0,
@@ -420,6 +435,7 @@ export default {
       categorias: [],
       questoes: [],
       categoria: {
+        id:null,
         isLoading: false,
       },
       edicao: false,
@@ -529,6 +545,28 @@ export default {
   },
 
   methods: {
+    formatDate(date) {
+      if (date){
+        console.log(date);
+        console.log(date.split('-')[2]+'/'+date.split('-')[1]+'/'+date.split('-')[0]);
+        return date.split('-')[2]+'/'+date.split('-')[1]+'/'+date.split('-')[0];
+      }
+    },
+
+    async obterDatasRevisao(){
+
+      if (this.categoria.id) {
+        const usuario = this.$store.state.usuario
+        await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${this.categoria.id}/questao/datas`)
+            .then((response) => {
+              this.listaRevisaoCategoriaCorrente =response.data.map(item => this.formatDate(item));
+              console.log('lista de datas',this.listaRevisaoCategoriaCorrente)
+            })
+            .catch((response) => {
+              this.erroResponse = Object.assign({},response);
+            });
+      }
+    },
     calculateCharCount(text) {
       // Remove as tags HTML para contar apenas o texto
       /* const textWithoutTags = text.replace(/<\/?[^>]+(>|$)/g, '');
@@ -808,6 +846,7 @@ export default {
       this.categoria = assunto
       this.questao.categoriaId = this.categoria.id;
       await this.getQuestoes(assunto.id)
+      await this.obterDatasRevisao(assunto.id);
       assunto.isLoading = false;
       this.edicao = true;
 
@@ -862,16 +901,15 @@ export default {
 
 </script>
 <style scoped>
-.col {
-  border: 0px dashed deeppink;
-}
-.row{
-  border:0px dashed orange;
+.titulo-sidebar{
+  position: fixed;
+  top:10px;
+  left: 5px;
+  color:#476493;
 }
 .btn-categoria{
   width: 5%;
   margin-left: 10px;
-
 }
 
 .char-count {
@@ -955,6 +993,7 @@ export default {
   flex-direction: row;
   flex-grow: 0;
   align-items: center;
+  color:#476493;
 }
 
 .b-sidebar:not(.b-sidebar-right) > .b-sidebar-header .close {
@@ -965,7 +1004,9 @@ export default {
   float: none;
   font-size: 1.5rem;
 }
-
+b-sidebar-header{
+  color:#476493;
+}
 button.close {
   padding: 0;
   background-color: transparent;
@@ -1070,7 +1111,8 @@ button.close {
 .col-especial-cadastro:hover {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
-  box-shadow: 0px 0px 3px 3px #a7a9af;
+  /*box-shadow: 0px 0px 3px 3px #a7a9af;*/
+  box-shadow: 0px 0px 3px 3px #AAE3F9;
 }
 
 .resumo {

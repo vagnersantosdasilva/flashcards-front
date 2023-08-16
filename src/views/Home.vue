@@ -10,7 +10,9 @@
           <b-row style="margin: 20px">
             <b-col class="col-12 col-md-3" align-self="center">
 
-              <img src="../assets/3813681.png" height="50" width="50"/>
+
+              <img src="../assets/estudante.jpg" height="50" width="50"/>
+              <!--<img src="../assets/3813681.png" height="50" width="50"/>-->
             </b-col>
 
             <b-col class="col-12 col-md-9 ml-3" align-self="center">
@@ -26,7 +28,10 @@
           <router-link to="cadastro">
             <b-row style="margin: 20px">
               <b-col class="col-12 col-md-3">
-                <img src="../assets/1792388.png" height="50" width="50"/></b-col>
+
+                <img src="../assets/configurar.jpg" height="50" width="50"/>
+                <!-- <img src="../assets/1792388.png" height="50" width="50"/>-->
+              </b-col>
               <b-col class="col-12 col-md-9 ml-3" align-self="center">
                 <em>Gerenciar Cartões...</em>
               </b-col>
@@ -79,6 +84,9 @@ export default {
 
 <style scoped>
 
+body{
+  background-color: #CCC;
+}
 .linha{
   width: 35%;
 
@@ -125,9 +133,7 @@ export default {
   box-shadow: 0px 0px 3px 3px #a7a9af;
 }
 
-body{
-  background-color: #e2e8e2;
-}
+
 .layout {
   margin:40px
 }
@@ -146,7 +152,7 @@ body{
 .col-especial:hover{
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
-  box-shadow: 0px 0px 3px 3px #a7a9af;
+  box-shadow: 0px 0px 3px 3px #AAE3F9;
 }
 
 
