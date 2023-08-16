@@ -1,9 +1,9 @@
 <template>
   <div class="main">
-    <section class="bemvindo" id="inicio">
+    <section class="bemvindo d-flex flex-column align-items-center justify-content-center" id="inicio">
       <div class="container">
-        <div class="row d-flex justify-content-center mt-2" v-if="cadastroFinalizado">
-          <div class="col-md-6" style="margin-top: 150px;">
+        <div class="row d-flex justify-content-center" v-if="cadastroFinalizado">
+          <div class="col-md-6" >
             <b-card class=" shadow-lg">
               <b-card-body>
                 <p class="d-flex justify-content-start" style="font-size: 16px; color:darkgreen;">
@@ -475,7 +475,7 @@ section h3,h4,h5 {
 .bemvindo {
   background-image: linear-gradient(to bottom, #79D4F6, #AAE3F9);
   padding-bottom: 120px;
-  padding-top: 200px;
+  padding-top: 135px;
 }
 
 .bemvindo p {

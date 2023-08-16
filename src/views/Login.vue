@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <section class="bemvindo ">
+    <section class="bemvindo d-flex flex-column align-items-center justify-content-center">
       <div class="container">
         <div class="row justify-content-center mt-4">
           <div class="col-md-6" >
@@ -146,8 +146,6 @@ export default {
 
 <style scoped>
 
-
-
 img {
 
   max-width: 100%;
@@ -172,7 +170,7 @@ input {
 
 section {
   padding: 65px;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 section p{
@@ -181,8 +179,8 @@ section p{
 
 .bemvindo {
   background-image: linear-gradient(to bottom, #79D4F6, #AAE3F9);
-  padding-bottom: 200px;
-  padding-top: 200px;
+  padding-top: 135px;
+  padding-bottom: 120px;
   height: 100vh;
 }
 
@@ -271,11 +269,24 @@ section p{
 
 @media screen and (max-width: 960px) {
   section{
-    padding: 10px;
+    padding: 1px;
   }
   section p{
     text-align: justify;
   }
+
+  section h1,h2,h3,h4,h5{
+    text-align: center;
+  }
+
+  .bemvindo {
+    background-image: linear-gradient(to bottom, #79D4F6, #AAE3F9);
+    padding-bottom: 800px;
+    padding-top: 100px;
+    min-height: 100vh;
+  }
+
+
 
 }
 
