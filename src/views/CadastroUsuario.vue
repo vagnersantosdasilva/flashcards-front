@@ -1,15 +1,6 @@
 <template>
   <div class="main">
-
-    <section class="bemvindo">
-<!--      <div class="row d-flex justify-content-center mt-5" v-show="showDismissibleAlert">
-        <alert-custom
-            :show="showDismissibleAlert"
-            :alert="erroResponse"
-        >
-
-        </alert-custom>
-      </div>-->
+    <section class="bemvindo" id="inicio">
       <div class="container">
         <div class="row d-flex justify-content-center mt-2" v-if="cadastroFinalizado">
           <div class="col-md-6" style="margin-top: 150px;">
@@ -25,9 +16,9 @@
           </div>
         </div>
         <div class="row d-flex justify-content-center mt-4" v-else>
-          <div class="col-md-6" >
+          <div class="col-md-6">
             <div class="login-content">
-              <h3>Bem-vindo ao Simples Flashcards!</h3>
+              <h3 class="text-sm-center text-md-start">Bem-vindo ao Simples Flashcards!</h3>
               <p>
                 Você está prestes a entrar em um mundo de possibilidades educacionais.
                 Não perca a oportunidade de fazer parte desta jornada de aprendizado única.
@@ -48,8 +39,8 @@
             </div>
           </div>
 
-          <div class="col-md-6" >
-            <p class="text-danger"  v-if="erroCadastro"><strong>{{ erro }}</strong></p>
+          <div class="col-md-6">
+            <p class="text-danger" v-if="erroCadastro"><strong>{{ erro }}</strong></p>
             <b-card class=" shadow-lg">
               <b-card-title>Inscrição</b-card-title>
               <b-card-body>
@@ -66,8 +57,8 @@
                         autocomplete="false"
                         placeholder="Email"
                         class="form-control-lg"
-
-                        type="e-mail"
+                        required
+                        type="email"
                     ></b-form-input>
                   </b-form-group>
 
@@ -86,7 +77,7 @@
                           class="form-control-lg"
 
                       ></b-form-input>
-                      <b-input-group-append >
+                      <b-input-group-append>
                         <b-input-group-text
                             @mousedown="changeInputType('text')"
                             @mouseup="changeInputType('password')"
@@ -151,168 +142,20 @@
             </b-card>
           </div>
         </div>
-
       </div>
     </section>
-
-
-    <!--    <section class="bemvindo">
-        <div class="container">
-            <div class="row d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
-            <alert-custom
-                :show="showDismissibleAlert"
-                :alert="erroResponse"
-            >
-
-            </alert-custom>
-          </div>
-            <div class="row d-flex justify-content-center mt-2" v-if="cadastroFinalizado">
-
-              <div class = "col-md-6" style="margin-top: 150px;">
-                <b-card class=" shadow-lg">
-                  <b-card-body>
-                    <p class="d-flex justify-content-start" style="font-size: 16px; color:darkgreen;">
-                      Agradecemos por se cadastrar em nosso sistema! Enviamos um link de ativação para o e-mail fornecido.
-                      Para concluir o processo, por favor, verifique sua caixa de entrada e clique no link de ativação.
-                      Assim, seu cadastro será efetivado com sucesso.
-                    </p>
-                  </b-card-body>
-                </b-card>
-              </div>
-            </div>
-            <div class="d-flex justify-content-center mt-4" v-else>
-              <div class="col-md-6"  style="margin-top: 150px; ">
-                <div class="login-content">
-                  <h3>Bem-vindo ao Simples Flashcards!</h3>
-                  <p>
-                    Estamos muito felizes em disponibilizar a primeira versão
-                    dessa ferramenta que acredimos que será muito útil no
-                    dia a dia de qualquer estudante.
-                  </p>
-                  <p>
-                    Aqui você terá a opção de estudar de forma eficaz e aprimorar sua retenção de
-                    conhecimento com a testada e aprovada técnica de repetição espaçada.
-                  </p>
-                  <p>
-                    Crie seus próprios flashcards com perguntas e respostas
-                    personalizadas e melhore sua aprendizagem.
-                  </p>
-                  <p>
-                    Cadastre-se agora e comece a criar seus flashcards!
-                  </p>
-                </div>
-              </div>
-              <div class ="col-md-6" style="margin: 100px;">
-              <b-card class=" shadow-lg">
-                <b-card-title>Inscrição</b-card-title>
-                <b-card-body>
-                  <form>
-                    <b-form-group
-                        class="form-group mt-2"
-                        label="Email:"
-                        :invalid-feedback="errors.username"
-                    >
-                      <b-form-input
-                          v-model="usuario.username"
-                          autocomplete="false"
-                          placeholder="Email"
-                          class="form-control-lg"
-
-                          type="email"
-                      ></b-form-input>
-                    </b-form-group>
-
-                    <b-form-group class="form-group mt-2" label="Escolha uma senha:"
-                                  :invalid-feedback="errors.confirmPassword">
-                      <b-input-group>
-                        <b-form-input
-                            v-model="usuario.password"
-                            autocomplete="false"
-                            :type="passwordInputType"
-                            placeholder="Senha"
-                            class="form-control-lg"
-
-                        ></b-form-input>
-                        <b-input-group-append>
-                          <b-input-group-text
-                              @mousedown="changeInputType('text')"
-                              @mouseup="changeInputType('password')"
-                              style="height: 50px;">
-                            <i
-                                :class="
-                                    passwordInputType === 'password'
-                                      ? 'far fa-eye'
-                                      : 'far fa-eye-slash'
-                                  "
-                            ></i>
-                          </b-input-group-text>
-                        </b-input-group-append>
-                      </b-input-group>
-                    </b-form-group>
-
-                    <b-form-group
-                        class="form-group mt-2"
-                        label="Confirmar senha:"
-
-                        :invalid-feedback="errors.confirmPassword"
-                        :state="errors.state.confirmPassword"
-                    >
-                      <b-input-group>
-                        <b-form-input
-                            v-model="usuario.confirmPassword"
-                            autocomplete="false"
-                            :type="passwordInputType"
-                            placeholder="Confirme a senha"
-                            class="form-control-lg"
-
-                            :state="errors.state.confirmPassword"
-                            trim
-                        ></b-form-input>
-                        <b-input-group-append>
-                          <b-input-group-text
-                              @mousedown="changeInputType('text')"
-                              @mouseup="changeInputType('password')"
-                              style="height: 50px;">
-                            <i
-                                :class="
-                                    passwordInputType === 'password'
-                                      ? 'far fa-eye'
-                                      : 'far fa-eye-slash'
-                                  "
-                            ></i>
-                          </b-input-group-text>
-                        </b-input-group-append>
-                      </b-input-group>
-                    </b-form-group>
-
-                    <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
-                      <b-button variant="primary" @click="cadastrar" :disabled="estaCarregando">
-                        Cadastrar
-                          <i class="fas fa-hourglass fa-spin fa-3x"
-                             v-show="estaCarregando"
-                             style="font-size: 12px"
-                          />
-                      </b-button>
-                    </b-row>
-                  </form>
-                </b-card-body>
-              </b-card>
-            </div>
-             </div>
-        </div>
-      </section>-->
 
     <section class="d-flex flex-column justify-content-center align-items-center has-cards" style="background: white">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6" align-self="center" >
+          <div class="col-md-6" align-self="center">
             <img src="../assets/annie-spratt-4-4WPFLVhAY-unsplash.jpg" height="427" width="640"
                  style="margin-top: 30px"
                  class="shadow-lg"
             />
           </div>
-          <div class="col-md-6" style="margin-top: 20px" >
-            <h3 class="mt-4">Por que usar a técnica de repetição espaçada?</h3>
+          <div class="col-md-6" style="margin-top: 20px">
+            <h3 class="text-sm-center text-md-start mt-4">Por que usar a técnica de repetição espaçada?</h3>
             <p>
               Estudos científicos comprovam que a repetição espaçada é uma das estratégias mais eficientes para
               melhorar a retenção de conhecimento a longo prazo. Essa técnica se baseia em revisar o conteúdo em
@@ -329,12 +172,13 @@
       </div>
     </section>
 
-    <section class="d-flex flex-column justify-content-center align-items-center has-cards-inverse" style="background-color: whitesmoke" >
+    <section class="d-flex flex-column justify-content-center align-items-center has-cards-inverse"
+             style="background-color: whitesmoke">
       <div class="container">
-        <div  class="row justify-content-center">
+        <div class="row justify-content-center">
 
-          <div class="col-md-6" >
-            <h3 class="mt-4">Como funciona o método de repetição espaçada?</h3>
+          <div class="col-md-6">
+            <h3 class="text-sm-center text-md-start mt-4">Como funciona o método de repetição espaçada?</h3>
             <p>
               O algoritmo de repetição espaçada baseia-se em seis etapas de conhecimento, onde cada questão
               presente na revisão é associada a uma dessas etapas.
@@ -347,7 +191,7 @@
               Por outro lado, se você errar, a questão voltará algumas etapas e será apresentada novamente no dia
               seguinte.
             </p>
-            <p >
+            <p>
               Esse método garante que as perguntas mais fáceis para você sejam movidas para uma etapa mais avançada e,
               consequentemente, sejam revisadas com menos frequência.
               Enquanto isso, as perguntas que você tem mais dificuldade serão revisadas com maior regularidade até que
@@ -362,8 +206,8 @@
     <section class="d-flex flex-column justify-content-center align-items-center " style="background-color: white ;">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6" >
-            <h3>Crie seus próprios flashcards personalizados</h3>
+          <div class="col-md-6">
+            <h3 class="text-sm-center text-md-start">Crie seus próprios flashcards personalizados</h3>
             <p>
               Com o Simples Flashcards, você tem total liberdade para criar seus próprios flashcards personalizados,
               focando nos tópicos relevantes e desafiando sua memória de forma específica, potencializando sua
@@ -380,17 +224,17 @@
             <div class="row justify-content-center mt-4">
               <div class="col-12">
                 <div class="row d-flex justify-content-center">
-                  <div id="carousel-1" class="carousel slide" data-bs-ride="carousel" >
+                  <div id="carousel-1" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-<!--                      <div class="carousel-item active">
-                        <img src="../assets/s-1-1.png" class="d-block w-100 tilted-slide" alt="Slide 1">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="../assets/s-2-1.png" class="d-block w-100 tilted-slide" alt="Slide 2">
-                      </div>
-                      <div class="carousel-item">
-                        <img src="../assets/s-1.png" class="d-block w-100 tilted-slide" alt="Slide 3">
-                      </div>-->
+                      <!--                      <div class="carousel-item active">
+                                              <img src="../assets/s-1-1.png" class="d-block w-100 tilted-slide" alt="Slide 1">
+                                            </div>
+                                            <div class="carousel-item">
+                                              <img src="../assets/s-2-1.png" class="d-block w-100 tilted-slide" alt="Slide 2">
+                                            </div>
+                                            <div class="carousel-item">
+                                              <img src="../assets/s-1.png" class="d-block w-100 tilted-slide" alt="Slide 3">
+                                            </div>-->
                       <div class="carousel-item active">
                         <img src="../assets/s-4-1.png" class="d-block w-100 tilted-slide" alt="Slide 1">
                       </div>
@@ -419,8 +263,8 @@
         style="background: whitesmoke;">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6" >
-            <h3>Comece a criar seus flashcards!</h3>
+          <div class="col-md-6">
+            <h3 class="text-md-start text-sm-center ">Comece a criar seus flashcards!</h3>
             <p style="font-family:Open Sans">
               Não perca tempo! Cadastre-se gratuitamente e desbloqueie todo o potencial da técnica de repetição
               espaçada. Aumente sua retenção de conhecimento e alcance melhores resultados nos seus estudos,
@@ -432,6 +276,7 @@
               class="col d-flex flex-column justify-content-center align-items-center"
           >
             <b-button
+                @click="scrollToSection('inicio')"
                 variant="primary"
                 style="height: 80px; width:350px ;border-radius: 0 "> Inscreva-se Gratuitamente!
             </b-button>
@@ -444,24 +289,11 @@
 </template>
 
 <script>
-//import AlertCustom from "../components/AlertCustom.vue";
-
 export default {
-  //components: {AlertCustom},
   computed: {
-    steteConfirm() {
-      if (this.confirmPassword) return this.confirmPassword.length >= 4
-      if (this.confirmPassword == null) return null
-      return null
-    },
-    confirmPasswordErro() {
-      if (this.confirmPassword && this.confirmPassword.length > 0) {
-        return 'Enter at least 4 characters.'
-      }
-      return 'Please enter something.'
-    },
+
     erro() {
-      if (this.erroResponse.response && this.erroResponse.response.data && this.erroResponse.response.data.message){
+      if (this.erroResponse.response && this.erroResponse.response.data && this.erroResponse.response.data.message) {
         return this.erroResponse.response.data.message
       }
       if (this.erroResponse.response && this.erroResponse.response.message)
@@ -473,7 +305,7 @@ export default {
 
   data() {
     return {
-      erroCadastro:false,
+      erroCadastro: false,
       showDismissibleAlert: false,
       messageError: false,
       usuario: {
@@ -499,7 +331,18 @@ export default {
       estaCarregando: false,
     };
   },
+
   methods: {
+    scrollToSection(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        // Usando um efeito de rolagem suave
+        window.scrollTo({
+          behavior: 'smooth',
+          top: element.offsetTop,
+        });
+      }
+    },
 
     changeInputType(type) {
       this.passwordInputType = type;
@@ -508,7 +351,7 @@ export default {
     validar() {
       let isValid = true;
 
-      if (this.usuario.password !== this.usuario.confirmPassword ) {
+      if (this.usuario.password !== this.usuario.confirmPassword) {
         this.errors.confirmPassword = 'Campo senha e confirmação de senha devem ser iguais!';
         this.errors.state.confirmPassword = false;
         isValid = false;
@@ -526,12 +369,39 @@ export default {
         isValid = false;
       }
 
-      if( this.usuario.username == null || (this.usuario.username && this.usuario.username.length ==0) ) {
+      if (this.usuario.username == null || (this.usuario.username && this.usuario.username.length == 0)) {
         this.errors.username = 'Email é obrigatório';
         this.errors.state.username = false;
         isValid = false;
       }
+
+      if (!this.isValidEmail(this.usuario.username)) isValid = false;
       return isValid;
+
+    },
+
+    isValidEmail(email) {
+      this.errors.state.username = null
+      let result = null
+      if (!email) {
+        this.errors.state.username = false
+        this.errors.username = 'Email é obrigatório';
+      }
+      if (email && email.length > 0) {
+        const expressao = /^[a-z0-9._]+@[a-z0-9]+(\.[a-z]+){1,2}$/;
+        let regex = new RegExp(expressao);
+        this.errors.state.username = false;
+        result = false
+        if (email.match(regex)) {
+          this.errors.state.username = null
+          result = true
+        } else {
+          this.errors.state.username = false
+          this.errors.username = 'Formato de e-mail é inválido!'
+          result = false
+        }
+      }
+      return result
     },
 
     resetErros() {
@@ -553,15 +423,15 @@ export default {
     async cadastrar() {
       //this.errors = {}; // Limpar os erros anteriores
       this.estaCarregando = true;
-      this.erroCadastro=false;
+      this.erroCadastro = false;
       if (this.validar()) {
         this.showDismissibleAlert = false;
         this.$http.post(`api/public/usuario`, this.usuario).then(() => {
           this.cadastroFinalizado = true;
           this.estaCarregando = false;
         }).catch((error) => {
-          this.erroResponse=Object.assign({},error);
-          this.erroCadastro=true;
+          this.erroResponse = Object.assign({}, error);
+          this.erroCadastro = true;
           this.estaCarregando = false;
         })
 
@@ -589,14 +459,19 @@ export default {
     transform: perspective(700px) rotateY(-20deg);
   }
 }
+
 section {
   padding: 65px;
-  height: 100vh;
+  min-height: 100vh;
 }
-section p{
+
+section p {
   text-align: justify;
 }
 
+section h3,h4,h5 {
+  text-align: left;
+}
 .bemvindo {
   background-image: linear-gradient(to bottom, #79D4F6, #AAE3F9);
   padding-bottom: 120px;
@@ -606,6 +481,7 @@ section p{
 .bemvindo p {
   margin-right: 5px;
 }
+
 .btn {
   width: 100%;
   height: 50px;
@@ -620,6 +496,7 @@ input {
   padding: 18px;
   font-size: 16px;
 }
+
 .input-group-append {
   border: 0;
 }
@@ -662,9 +539,6 @@ input {
 }
 
 
-
-
-
 .text-primary {
   color: #4267B2;
 }
@@ -677,6 +551,9 @@ input {
 .b-card-body {
   padding: 2rem;
   color: #343a40; /* Texto preto ou cinza escuro */
+}
+.card-body h4 {
+  text-align: left;
 }
 
 .bg-info {
@@ -700,7 +577,7 @@ input {
     top: 400px;
     height: 500px;
     background: #f0f0f5;
-    transform: skew(0,8deg);
+    transform: skew(0, 8deg);
   }
 
   .container {
@@ -708,10 +585,11 @@ input {
     position: relative;
   }
 }
+
 .has-cards {
   overflow: hidden;
   padding-top: 100px;
-  padding-bottom: 100px ;
+  padding-bottom: 100px;
   position: relative;
   background: transparent;
   pointer-events: none;
@@ -723,8 +601,8 @@ input {
     right: 0;
     top: 600px;
     height: 1000px;
-    background:whitesmoke;
-    transform: skew(0,-8deg);
+    background: whitesmoke;
+    transform: skew(0, -8deg);
   }
 
   .container {
@@ -732,18 +610,21 @@ input {
     position: relative;
   }
 }
-.carousel{
-  max-width:55%;
+
+.carousel {
+  max-width: 55%;
   display: block;
   justify-content: center;
   align-content: center;
 }
+
 @media screen and (max-width: 960px) {
   .btn {
     width: 100%;
   }
 }
-.card{
+
+.card {
   width: 100%;
 }
 
@@ -752,10 +633,14 @@ section {
 }
 
 .invalid-feedback {
-  color: red;
+  color: #cc6262;
 }
-section p{
+
+section p {
   text-align: justify;
+}
+section h3,h4,h5 {
+  text-align: center;
 }
 
 

@@ -1,30 +1,31 @@
 <template>
-  <div class="container">
-    <b-row class="d-flex justify-content-lg-center col-12 mt-0">
-      <h3 class="centralizado"> </h3>
+  <section >
+    <div class="container">
+      <b-row class="d-flex justify-content-lg-center col-12 ">
+        <h3 class="centralizado"></h3>
 
-    </b-row>
-    <b-row class="d-flex justify-content-lg-center col-12  mt-4">
-      <div class="col-especial text-center linha" >
-        <router-link to="questao">
-          <b-row style="margin: 20px">
-            <b-col class="col-12 col-md-3" align-self="center">
+      </b-row>
+      <b-row class="d-flex justify-content-lg-center col-12">
+        <div class="col-especial text-center linha">
+          <router-link to="questao">
+            <b-row style="margin: 20px">
+              <b-col class="col-12 col-md-3" align-self="center">
 
 
-              <img src="../assets/estudante.jpg" height="50" width="50"/>
-              <!--<img src="../assets/3813681.png" height="50" width="50"/>-->
-            </b-col>
+                <img src="../assets/estudante.jpg" height="50" width="50"/>
+                <!--<img src="../assets/3813681.png" height="50" width="50"/>-->
+              </b-col>
 
-            <b-col class="col-12 col-md-9 ml-3" align-self="center">
-              <em>Estudar Agora</em>
-            </b-col>
-          </b-row>
-        </router-link>
-      </div>
-    </b-row>
-    <b-row class="d-flex justify-content-lg-center col-12 mt-1">
+              <b-col class="col-12 col-md-9 ml-3" align-self="center">
+                <em>Estudar Agora</em>
+              </b-col>
+            </b-row>
+          </router-link>
+        </div>
+      </b-row>
+      <b-row class="d-flex justify-content-lg-center col-12 mt-1">
 
-        <div class="col-especial text-center linha" >
+        <div class="col-especial text-center linha">
           <router-link to="cadastro">
             <b-row style="margin: 20px">
               <b-col class="col-12 col-md-3">
@@ -36,36 +37,29 @@
                 <em>Gerenciar Cartões...</em>
               </b-col>
             </b-row>
-        </router-link>
+          </router-link>
         </div>
 
-    </b-row>
+      </b-row>
 
-  </div>
+    </div>
+  </section>
 </template>
 <script>
 
 
-
-
 export default {
-  computed: {
+  computed: {},
 
-  },
-
-  components: {
-
-  },
+  components: {},
 
   data() {
 
-    return {
-
-    }
+    return {}
   },
 
   methods: {
-    cadastrarCategorias(){
+    cadastrarCategorias() {
       console.log('Cadastrar categorias!!!')
     }
   },
@@ -84,29 +78,37 @@ export default {
 
 <style scoped>
 
-body{
+section {
+  padding-bottom: 100px;
+  padding-top: 100px;
+  height: 100vh;
+}
+
+body {
   background-color: #CCC;
 }
-.linha{
+
+.linha {
   width: 35%;
 
 }
+
 .acertou-button {
   background-color: rgba(0, 255, 0, 0.3);
   width: 100px;
   margin: 10px;
-  color:#222;
+  color: #222;
 }
 
 .errou-button {
   background-color: rgba(255, 0, 0, 0.3);
-  color:#222;
+  color: #222;
   width: 100px;
   margin: 10px;
 }
 
 .pergunta {
-  text-align:center;
+  text-align: center;
   word-wrap: break-word;
 }
 
@@ -117,25 +119,26 @@ body{
   word-wrap: break-word;
   font-size: 16px;
 }
-.card-resposta{
+
+.card-resposta {
   display: block;
   border: 1px solid #cfdccf;
   align-items: center;
   background-color: #ffffff;
-  cursor:pointer;
+  cursor: pointer;
   height: 200px;
   max-width: 300px;
   min-width: 300px;
 
 }
 
-.card-resposta :hover{
+.card-resposta :hover {
   box-shadow: 0px 0px 3px 3px #a7a9af;
 }
 
 
 .layout {
-  margin:40px
+  margin: 40px
 }
 
 .col-especial {
@@ -143,13 +146,13 @@ body{
   border: 1px solid #cfdccf;
   align-content: center;
   background-color: #ffffff;
-  cursor:pointer;
+  cursor: pointer;
   min-width: 230px;
   margin-left: 10px;
 
 }
 
-.col-especial:hover{
+.col-especial:hover {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/
   box-shadow: 0px 0px 3px 3px #AAE3F9;
@@ -173,15 +176,15 @@ body{
     border: 1px solid #cfdccf;
     align-content: center;
     background-color: #ffffff;
-    cursor:pointer;
+    cursor: pointer;
     min-width: 300px;
   }
 
-  .row{
+  .row {
     border: 0px dashed gray;
   }
 
-  .col{
+  .col {
     border: 0px dashed red;
   }
 

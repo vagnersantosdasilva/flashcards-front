@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section style="border: 1px orange dashed;padding-top: 100px">
     <div>
       <div class="sidebar-overlay" v-if="transparencia"></div>
 
@@ -10,8 +10,8 @@
           @hidden="transparencia=false"
       >
         <div class="mt-0 titulo-sidebar ">
-          <h4 style="color:#476493" >
-            <strong>{{tituloFlashcard}}</strong>
+          <h4 style="color:#476493">
+            <strong>{{ tituloFlashcard }}</strong>
           </h4>
         </div>
         <b-row class="justify-content-center">
@@ -96,7 +96,7 @@
         </b-row>
       </div>
 
-      <div v-else>
+      <div v-else class="d-block flex-column align-content-center justify-content-center">
 
         <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
           <alert-custom
@@ -111,7 +111,7 @@
           </b-button>
         </b-row>
         <b-card>
-          <b-card-title >
+          <b-card-title>
             <b-row class="col-12">
               <div class="col-12 col-md-6">
                 <b-form-input
@@ -121,33 +121,33 @@
                 >
                 </b-form-input>
               </div>
-              <div class="col-12 col-md-6 d-flex justify-content-md-end justify-content-sm-start" >
-                  <b-button variant="link"  class="btn-categoria" v-b-modal.dataRevisao >
-                    <b-icon icon="calendar"></b-icon>
-                  </b-button>
-                  <b-button variant="link" disabled class="btn-categoria">
-                    <b-icon icon="share"></b-icon>
-                  </b-button>
-                  <b-button variant="link" disabled class="btn-categoria">
-                    <b-icon icon="download"></b-icon>
-                  </b-button>
-                  <b-button variant="link" v-show="categoria.isLoading" disabled class="btn-categoria">
-                    <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
-                  </b-button>
-                  <b-button variant="link" :disabled="categoria.isLoading"  class="btn-categoria">
-                    <b-icon
-                        icon="trash"
-                        @click="showMsgBoxTwo(
+              <div class="col-12 col-md-6 d-flex justify-content-md-end justify-content-sm-start">
+                <b-button variant="link" class="btn-categoria" v-b-modal.dataRevisao>
+                  <b-icon icon="calendar"></b-icon>
+                </b-button>
+                <b-button variant="link" disabled class="btn-categoria">
+                  <b-icon icon="share"></b-icon>
+                </b-button>
+                <b-button variant="link" disabled class="btn-categoria">
+                  <b-icon icon="download"></b-icon>
+                </b-button>
+                <b-button variant="link" v-show="categoria.isLoading" disabled class="btn-categoria">
+                  <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
+                </b-button>
+                <b-button variant="link" :disabled="categoria.isLoading" class="btn-categoria">
+                  <b-icon
+                      icon="trash"
+                      @click="showMsgBoxTwo(
                     'Atenção!',
                     'A matéria e todos as questões serão apagadas. Você tem certeza ?',
                     'categoria',
                     null
                     )">
-                    </b-icon>
-                  </b-button>
-                  <b-button variant="link" :disabled="categoria.isLoading" class="btn-categoria">
-                    <b-icon icon="save" @click="salvarCategoria()"></b-icon>
-                  </b-button>
+                  </b-icon>
+                </b-button>
+                <b-button variant="link" :disabled="categoria.isLoading" class="btn-categoria">
+                  <b-icon icon="save" @click="salvarCategoria()"></b-icon>
+                </b-button>
 
               </div>
             </b-row>
@@ -238,13 +238,13 @@
             </b-icon>
           </b-button>
         </b-row>
-        <b-card >
+        <b-card>
           <b-card-title class="d-flex justify-content-between">
             <div style="font-size: 16px; margin-left: 11px;margin-top: 7px">Assuntos de estudo:</div>
             <div>
-<!--              <b-button variant="link" @click="novoAssuntoMethod">
-                <b-icon icon="plus-circle"></b-icon>
-              </b-button>-->
+              <!--              <b-button variant="link" @click="novoAssuntoMethod">
+                              <b-icon icon="plus-circle"></b-icon>
+                            </b-button>-->
               <b-button disabled variant="link" @click="novoAssuntoMethod">
                 <b-icon icon="upload"></b-icon>
               </b-button>
@@ -259,12 +259,13 @@
                 @click="novoAssuntoMethod"
             >
               <b-icon
-                  icon = "plus-circle"
+                  icon="plus-circle"
                   class="me-1"
-              /> Novo Assunto
+              />
+              Novo Assunto
             </b-button>
           </b-row>
-          <div >
+          <div>
             <b-row
                 class="d-flex justify-content-lg-center "
                 style="margin-left: 10px;margin-right: 10px"
@@ -340,14 +341,14 @@
     >
       <div style="height: 350px" class="mt-4">
         <div v-for="(d,index) in listaRevisaoCategoriaCorrente" :key="index">
-          <p class="text-center" >
-            {{d}}
+          <p class="text-center">
+            {{ d }}
           </p>
         </div>
       </div>
     </b-modal>
 
-  </div>
+  </section>
 
 </template>
 
@@ -420,8 +421,8 @@ export default {
   data() {
 
     return {
-      showModalRevisao:false,
-      listaRevisaoCategoriaCorrente:[],
+      showModalRevisao: false,
+      listaRevisaoCategoriaCorrente: [],
       pergunta: '',
       resposta: '',
       charCount: 0,
@@ -435,7 +436,7 @@ export default {
       categorias: [],
       questoes: [],
       categoria: {
-        id:null,
+        id: null,
         isLoading: false,
       },
       edicao: false,
@@ -546,24 +547,24 @@ export default {
 
   methods: {
     formatDate(date) {
-      if (date){
+      if (date) {
         console.log(date);
-        console.log(date.split('-')[2]+'/'+date.split('-')[1]+'/'+date.split('-')[0]);
-        return date.split('-')[2]+'/'+date.split('-')[1]+'/'+date.split('-')[0];
+        console.log(date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0]);
+        return date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0];
       }
     },
 
-    async obterDatasRevisao(){
+    async obterDatasRevisao() {
 
       if (this.categoria.id) {
         const usuario = this.$store.state.usuario
         await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${this.categoria.id}/questao/datas`)
             .then((response) => {
-              this.listaRevisaoCategoriaCorrente =response.data.map(item => this.formatDate(item));
-              console.log('lista de datas',this.listaRevisaoCategoriaCorrente)
+              this.listaRevisaoCategoriaCorrente = response.data.map(item => this.formatDate(item));
+              console.log('lista de datas', this.listaRevisaoCategoriaCorrente)
             })
             .catch((response) => {
-              this.erroResponse = Object.assign({},response);
+              this.erroResponse = Object.assign({}, response);
             });
       }
     },
@@ -901,13 +902,18 @@ export default {
 
 </script>
 <style scoped>
-.titulo-sidebar{
+
+section{
+   height: 100vh;
+ }
+.titulo-sidebar {
   position: fixed;
-  top:10px;
+  top: 10px;
   left: 5px;
-  color:#476493;
+  color: #476493;
 }
-.btn-categoria{
+
+.btn-categoria {
   width: 5%;
   margin-left: 10px;
 }
@@ -935,7 +941,7 @@ export default {
 .btn-novo-flashcard {
   width: 200px;
   max-width: 100%;
-  margin-left:14px;
+  margin-left: 14px;
 }
 
 .sidebar-open {
@@ -993,7 +999,7 @@ export default {
   flex-direction: row;
   flex-grow: 0;
   align-items: center;
-  color:#476493;
+  color: #476493;
 }
 
 .b-sidebar:not(.b-sidebar-right) > .b-sidebar-header .close {
@@ -1004,9 +1010,11 @@ export default {
   float: none;
   font-size: 1.5rem;
 }
-b-sidebar-header{
-  color:#476493;
+
+b-sidebar-header {
+  color: #476493;
 }
+
 button.close {
   padding: 0;
   background-color: transparent;

@@ -1,224 +1,223 @@
 <template>
-  <div class="container">
-
-    <div v-if="estaCarregando">
-      <b-row class="d-flex justify-content-center mt-4">
-        <div class="loader-container md-6 text-center mt-4">
-          <i class="fas fa-spinner fa-pulse fa-3x"></i>
-        </div>
-      </b-row>
-    </div>
-    <div v-else>
-      <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
-        <alert-custom
-            :show="showDismissibleAlert"
-            :alert="erroResponse"
-        />
-      </b-row>
-      <!-- Listagem de Cateogorias -->
-      <b-row
-          class="d-flex justify-content-lg-center col-12 "
-          style="margin-left: 1px; margin-top: 40px;"
-          v-if="!categoriaSelecionada"
-      >
-        <b-row class="d-flex justify-content-center  ">
-          <h4 class="text-center">Escolha a matéria de estudos</h4>
+  <section>
+    <div class="container">
+      <div v-if="estaCarregando">
+        <b-row class="d-flex justify-content-center mt-4">
+          <div class="loader-container md-6 text-center mt-4">
+            <i class="fas fa-spinner fa-pulse fa-3x"></i>
+          </div>
         </b-row>
+      </div>
+      <div v-else>
+        <b-row class="d-flex justify-content-center mt-4" v-show="showDismissibleAlert">
+          <alert-custom
+              :show="showDismissibleAlert"
+              :alert="erroResponse"
+          />
+        </b-row>
+        <!-- Listagem de Cateogorias -->
         <b-row
-            class="d-flex justify-content-center ms-0"
+            class="d-flex justify-content-lg-center col-12 "
+            style="margin-left: 1px; margin-top: 40px;"
+            v-if="!categoriaSelecionada"
         >
-          <!--@click="selectTopico(categoria.id)"-->
-          <b-card
-              v-for="categoria in categorias"
-              :key="categoria.id"
-              style="height: 200px;"
-              class="col-xxl-3 col-xl-3 col-lg-3 col-md-5 col-sm-12 m-1"
+          <b-row class="d-flex justify-content-center  ">
+            <h4 class="text-center">Escolha a matéria de estudos</h4>
+          </b-row>
+          <b-row
+              class="d-flex justify-content-center ms-0"
           >
-            <b-card-title style="font-size: 17px;">{{ categoria.nome }}</b-card-title>
+            <!--@click="selectTopico(categoria.id)"-->
+            <b-card
+                v-for="categoria in categorias"
+                :key="categoria.id"
+                style="height: 200px;"
+                class="col-xxl-3 col-xl-3 col-lg-3 col-md-5 col-sm-12 m-1"
+            >
+              <b-card-title style="font-size: 17px;">{{ categoria.nome }}</b-card-title>
 
-            <b-card-body class="w-100">
-              <b-button
-                  variant="link"
-                  style="border-radius: 0;"
-                  class=" d-flex justify-content-start w-100"
-                  @click="getPerguntaRevisao(categoria.id)"
+              <b-card-body class="w-100">
+                <b-button
+                    variant="link"
+                    style="border-radius: 0;"
+                    class=" d-flex justify-content-start w-100"
+                    @click="getPerguntaRevisao(categoria.id)"
 
-              >Revisão espaçada
-              </b-button>
+                >Revisão espaçada
+                </b-button>
 
-              <b-button
-                  variant="link"
-                  style="border-radius: 0;"
-                  class="d-flex justify-content-start w-100 "
-                  @click="getPergunta(categoria.id)"
-              >Revisar tudo
-              </b-button>
+                <b-button
+                    variant="link"
+                    style="border-radius: 0;"
+                    class="d-flex justify-content-start w-100 "
+                    @click="getPergunta(categoria.id)"
+                >Revisar tudo
+                </b-button>
 
-            </b-card-body>
+              </b-card-body>
 
-          </b-card>
+            </b-card>
 
 
-        </b-row>
-      </b-row>
-
-      <!-- Listagem de erros e acertos-->
-      <b-row v-else-if="questionarioConcluido" style="margin-top: 150px;">
-        <b-row class="col-md-12" style="margin-left: 0">
-          <h5 class="text-center">{{ mensagemFinalizacao }} {{ nomeUsuario }}</h5>
-        </b-row>
-        <b-row class="col-md-12 " style="margin-left: 0">
-          <b-row class="d-flex justify-content-center " style="margin: 0">
-            <p class="text-center">Repostas corretas:</p>
-            <p class="text-center" style="font-size: 24px; margin: 0;"> {{ acertos }} </p>
           </b-row>
         </b-row>
 
-        <b-row clas="col-12 d-flex justify-content-center mt-4" style="margin:0; margin-bottom: 30px; " >
-          <b-col v-show="listErro.length>0">
-            <b-row
-                class="d-flex justify-content-end"
-                style="margin: 5px;"
-            >
-              <b-button
-                  variant="secondary"
-                  style="width: 150px; margin:10px"
-                  @click="corrigirErros"
-              >
-                Corrigir erros!
-              </b-button>
+        <!-- Listagem de erros e acertos-->
+        <b-row v-else-if="questionarioConcluido" style="margin-top: 150px;">
+          <b-row class="col-md-12" style="margin-left: 0">
+            <h5 class="text-center">{{ mensagemFinalizacao }} {{ nomeUsuario }}</h5>
+          </b-row>
+          <b-row class="col-md-12 " style="margin-left: 0">
+            <b-row class="d-flex justify-content-center " style="margin: 0">
+              <p class="text-center">Repostas corretas:</p>
+              <p class="text-center" style="font-size: 24px; margin: 0;"> {{ acertos }} </p>
             </b-row>
-          </b-col>
-          <b-col>
-            <b-row class="d-flex justify-content-start"
-                   style="margin: 5px;"
-                   v-if="listErro.length>0"
-            >
-              <b-button
-                  variant="primary"
-                  style="width: 150px; margin:10px"
-                  @click="voltarParaCategorias"
-              >
-                Continuar
-              </b-button>
-            </b-row>
-
-            <b-row class="d-flex justify-content-center"
-                   style="margin: 5px;"
-                   v-else
-            >
-              <b-button
-                  variant="primary"
-                  style="width: 150px; margin:10px"
-                  @click="voltarParaCategorias"
-              >
-                Continuar
-              </b-button>
-            </b-row>
-
-          </b-col>
-        </b-row>
-
-
-      </b-row>
-
-      <!-- Controle de perguntas e respostas -->
-      <b-row
-          class="d-flex justify-content-lg-center"
-          v-else
-          style="margin-top: 50px"
-      >
-
-        <div v-if="qtdPerguntas==0">
-          <b-row class="col-md-12 mt-4">
-            <h5 class="text-center" v-if="isRevisao">Nenhum item para revisar hoje!</h5>
-            <h5 class="text-center" v-else="">Nenhuma pergunta cadastrada!</h5>
-
           </b-row>
 
-        </div>
-
-        <div v-else>
-          <b-row class="col-md-12 mt-4">
-            <!--
-            <h5 class="text-center">{{ questao.pergunta }}</h5>
-            -->
-          </b-row>
-          <b-row class="col-md-12 ">
-            <div v-if="!respondeu">
-              <b-row class="d-flex justify-content-center ">
-                <div class="flashcard"
-                     style="cursor: pointer;"
-                     @click="respondeu=true"
+          <b-row clas="col-12 d-flex justify-content-center mt-4" style="margin:0; margin-bottom: 30px; ">
+            <b-col v-show="listErro.length>0">
+              <b-row
+                  class="d-flex justify-content-end"
+                  style="margin: 5px;"
+              >
+                <b-button
+                    variant="secondary"
+                    style="width: 150px; margin:10px"
+                    @click="corrigirErros"
                 >
-
-                  <ckeditor
-                      :editor="editor"
-                      v-model="questao.pergunta"
-                      @ready="onReadyNoToolbar"
-                  >
-                  </ckeditor>
-
-                </div>
+                  Corrigir erros!
+                </b-button>
+              </b-row>
+            </b-col>
+            <b-col>
+              <b-row class="d-flex justify-content-start"
+                     style="margin: 5px;"
+                     v-if="listErro.length>0"
+              >
+                <b-button
+                    variant="primary"
+                    style="width: 150px; margin:10px"
+                    @click="voltarParaCategorias"
+                >
+                  Continuar
+                </b-button>
               </b-row>
 
-            </div>
+              <b-row class="d-flex justify-content-center"
+                     style="margin: 5px;"
+                     v-else
+              >
+                <b-button
+                    variant="primary"
+                    style="width: 150px; margin:10px"
+                    @click="voltarParaCategorias"
+                >
+                  Continuar
+                </b-button>
+              </b-row>
 
-            <div v-else>
-              <b-row class="d-flex justify-content-center">
-                <b-row class=" d-flex justify-content-center cards">
+            </b-col>
+          </b-row>
 
-                  <div class="flashcard" :class="{active:respondeu}">
+
+        </b-row>
+
+        <!-- Controle de perguntas e respostas -->
+        <b-row
+            class="d-flex justify-content-lg-center"
+            v-else
+            style="margin-top: 50px"
+        >
+
+          <div v-if="qtdPerguntas==0">
+            <b-row class="col-md-12 mt-4">
+              <h5 class="text-center" v-if="isRevisao">Nenhum item para revisar hoje!</h5>
+              <h5 class="text-center" v-else="">Nenhuma pergunta cadastrada!</h5>
+
+            </b-row>
+
+          </div>
+
+          <div v-else>
+            <b-row class="col-md-12 mt-4">
+              <!--
+              <h5 class="text-center">{{ questao.pergunta }}</h5>
+              -->
+            </b-row>
+            <b-row class="col-md-12 ">
+              <div v-if="!respondeu">
+                <b-row class="d-flex justify-content-center ">
+                  <div class="flashcard"
+                       style="cursor: pointer;"
+                       @click="respondeu=true"
+                  >
 
                     <ckeditor
                         :editor="editor"
-                        v-model="questao.resposta"
+                        v-model="questao.pergunta"
                         @ready="onReadyNoToolbar"
-                        :class="{
-                      'ck-content flashcard-acertou': acertou,
-                      'ck-content erro': errou}"
                     >
                     </ckeditor>
+
                   </div>
-
                 </b-row>
 
-                <b-row clas="col-12 d-flex justify-content-center mt-4">
-                  <b-col>
-                    <b-row class="d-flex justify-content-end">
-                      <b-button
-                          variant="success"
-                          @click="proximaPergunta(questao,true)"
-                          class="acertou-button"
+              </div>
+
+              <div v-else>
+                <b-row class="d-flex justify-content-center">
+                  <b-row class=" d-flex justify-content-center cards">
+
+                    <div class="flashcard" :class="{active:respondeu}">
+
+                      <ckeditor
+                          :editor="editor"
+                          v-model="questao.resposta"
+                          @ready="onReadyNoToolbar"
+                          :class="{
+                      'ck-content flashcard-acertou': acertou,
+                      'ck-content erro': errou}"
                       >
-                        Acertou!
-                      </b-button>
-                    </b-row>
-                  </b-col>
-                  <b-col>
-                    <b-row class="d-flex justify-content-start">
-                      <b-button
-                          variant="danger"
-                          @click="proximaPergunta(questao,false)"
-                          class="errou-button"
-                      >
-                        Errou!
-                      </b-button>
-                    </b-row>
-                  </b-col>
+                      </ckeditor>
+                    </div>
+
+                  </b-row>
+
+                  <b-row clas="col-12 d-flex justify-content-center mt-4">
+                    <b-col>
+                      <b-row class="d-flex justify-content-end">
+                        <b-button
+                            variant="success"
+                            @click="proximaPergunta(questao,true)"
+                            class="acertou-button"
+                        >
+                          Acertou!
+                        </b-button>
+                      </b-row>
+                    </b-col>
+                    <b-col>
+                      <b-row class="d-flex justify-content-start">
+                        <b-button
+                            variant="danger"
+                            @click="proximaPergunta(questao,false)"
+                            class="errou-button"
+                        >
+                          Errou!
+                        </b-button>
+                      </b-row>
+                    </b-col>
+                  </b-row>
                 </b-row>
-              </b-row>
-            </div>
+              </div>
 
-          </b-row>
-        </div>
-      </b-row>
+            </b-row>
+          </div>
+        </b-row>
 
 
+      </div>
     </div>
-
-
-  </div>
+  </section>
 </template>
 
 <script>
@@ -237,7 +236,7 @@ export default {
 
     return {
       editor: DecoupledDocumentEditor,
-      idCategoria : null,
+      idCategoria: null,
       isRevisao: false,
       categorias: [],
       categoriaSelecionada: false,
@@ -266,7 +265,6 @@ export default {
 
   computed: {
 
-
     acertos() {
       return this.listAcerto.length + "/" + this.qtdPerguntas;
     },
@@ -286,7 +284,6 @@ export default {
   },
 
   methods: {
-
 
     async onReadyNoToolbar(editor) {
       editor.isReadOnly = true;
@@ -446,6 +443,10 @@ export default {
 
 
 <style scoped>
+section {
+  padding-top: 100px;
+}
+
 .flashcard {
   padding: 30px;
   display: block;
