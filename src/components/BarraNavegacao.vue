@@ -13,7 +13,7 @@
     </button>
     <div class="collapse navbar-collapse justify-content-end" :class="{ 'show': isMenuOpen }">
       <div v-if="usuarioestaLogado">
-        <BarraNavegacaoQuandoLogado @logout="efetuarLogout" />
+        <BarraNavegacaoQuandoLogado @logout="efetuarLogout" @close-menu="closeMenu"/>
 
       </div>
       <BarraNavegacaoQuandoDeslogado v-else @login="efetuarLogin" />
@@ -43,6 +43,11 @@ export default {
     }
   },
   methods: {
+
+    closeMenu() {
+      this.isMenuOpen = false;
+    },
+
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
     },

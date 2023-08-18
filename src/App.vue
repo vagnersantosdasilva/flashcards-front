@@ -9,14 +9,14 @@
 
 .navbar {
   background: #7FD6F6;
-  color:white;
+
 }
-.navbar-bytebank a {
+/*.navbar-bytebank a {
   color: #fff;
 }
 .navbar-bytebank a:hover {
   color: #000;
-}
+}*/
 
 </style>
 <script>
