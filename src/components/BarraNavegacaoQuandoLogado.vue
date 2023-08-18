@@ -158,9 +158,9 @@ export default {
 
 .avatar-button {
   margin-right: 10px;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 30px;
+  height: 30px;
+  line-height: 33px;
   text-align: center;
   border-radius: 50%;
   color: #f8f9fe;
