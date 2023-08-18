@@ -181,7 +181,7 @@ section p{
   background-image: linear-gradient(to bottom, #79D4F6, #AAE3F9);
   padding-top: 135px;
   padding-bottom: 120px;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .bemvindo p {

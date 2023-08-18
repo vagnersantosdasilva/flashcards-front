@@ -86,6 +86,15 @@ const routes = [
     component: Editor,
 
   },
+  {
+    path:'/' ,
+    name:'cadastroUsuario',
+    meta:{
+      publica: true
+    },
+    component: Editor,
+
+  },
 ]
 
 
@@ -99,7 +108,7 @@ const router = new VueRouter({
 router.beforeEach((routeTo, routeFrom, next) => {
   if (!routeTo.meta.publica && !provedor.state.token && localStorage.getItem('token')==null) {
     return next({
-      path:'/login'
+      path:'/cadastro_usuario'
     });
   }
   next();
