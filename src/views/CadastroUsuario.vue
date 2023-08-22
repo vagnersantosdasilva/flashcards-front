@@ -3,17 +3,130 @@
     <section class="bemvindo d-flex flex-column align-items-center justify-content-center" id="inicio">
       <div class="container">
         <div class="row d-flex justify-content-center" v-if="cadastroFinalizado">
-          <div class="col-md-6" >
-            <b-card class=" shadow-lg">
+          <div class="col-md-6">
+            <div class="login-content">
+              <h3 class="text-sm-center text-md-start">Obrigado por se cadastrar!</h3>
+              <p class="d-flex justify-content-start" >
+                Enviamos um link de ativação para o seu e-mail.
+                Para concluir o processo, por favor, verifique sua caixa de entrada e clique no link de ativação.
+                Assim, seu cadastro será efetivado com sucesso.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <p class="text-danger" v-if="erroCadastro"><strong>{{ erro }}</strong></p>
+            <b-card class=" shadow-lg" style="background-color: #dfe0e3">
+              <b-card-title>Inscrição</b-card-title>
               <b-card-body>
-                <p class="d-flex justify-content-start" style="font-size: 16px; color:darkgreen;">
-                  Agradecemos por se cadastrar em nosso sistema! Enviamos um link de ativação para o e-mail fornecido.
-                  Para concluir o processo, por favor, verifique sua caixa de entrada e clique no link de ativação.
-                  Assim, seu cadastro será efetivado com sucesso.
-                </p>
+                <form>
+                  <b-form-group
+                      class="form-group mt-2"
+                      label="Email:"
+                      :invalid-feedback="errors.username"
+                      :state="errors.state.username"
+                      disabled
+
+                  >
+                    <b-form-input
+                        v-model="usuario.username"
+                        autocomplete="false"
+                        placeholder="Email"
+                        class="form-control-lg"
+                        required
+                        type="email"
+                        disabled
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                      class="form-group mt-2"
+                      label="Escolha uma senha:"
+                      :invalid-feedback="errors.password"
+                      :state="errors.state.password"
+                      disabled
+                  >
+                    <b-input-group>
+                      <b-form-input
+                          v-model="usuario.password"
+                          autocomplete="false"
+                          :type="passwordInputType"
+                          placeholder="Senha"
+                          class="form-control-lg"
+                          disabled
+
+                      ></b-form-input>
+                      <b-input-group-append>
+                        <b-input-group-text
+                            @mousedown="changeInputType('text')"
+                            @mouseup="changeInputType('password')"
+                            disabled
+                            style="height: 100%;border-radius: 0">
+                          <i
+                              :class="
+                                passwordInputType === 'password'
+                                  ? 'far fa-eye'
+                                  : 'far fa-eye-slash'
+                              "
+                          ></i>
+                        </b-input-group-text>
+                      </b-input-group-append>
+                    </b-input-group>
+                  </b-form-group>
+
+                  <b-form-group
+                      class="form-group mt-2"
+                      label="Confirmar senha:"
+                      :invalid-feedback="errors.confirmPassword"
+                      :state="errors.state.confirmPassword"
+                      disabled
+                  >
+                    <b-input-group>
+                      <b-form-input
+                          v-model="usuario.confirmPassword"
+                          autocomplete="false"
+                          :type="passwordInputType"
+                          placeholder="Confirme a senha"
+                          class="form-control-lg"
+                          disabled
+
+                          :state="errors.state.confirmPassword"
+                          trim
+                      ></b-form-input>
+                      <b-input-group-append>
+                        <b-input-group-text
+                            @mousedown="changeInputType('text')"
+                            @mouseup="changeInputType('password')"
+                            disabled
+                            style="height: 100%;border-radius: 0">
+                          <i
+                              :class="
+                                passwordInputType === 'password'
+                                  ? 'far fa-eye'
+                                  : 'far fa-eye-slash'
+                              "
+                          ></i>
+                        </b-input-group-text>
+                      </b-input-group-append>
+                    </b-input-group>
+                  </b-form-group>
+
+                  <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
+                    <b-button variant="primary" @click="cadastrar" disabled>
+                      Cadastrar
+                      <i class="fas fa-hourglass fa-spin fa-3x"
+                         v-show="estaCarregando"
+                         style="font-size: 12px"
+                      />
+                    </b-button>
+                  </b-row>
+                </form>
               </b-card-body>
             </b-card>
           </div>
+
+
+
         </div>
         <div class="row d-flex justify-content-center mt-4" v-else>
           <div class="col-md-6">

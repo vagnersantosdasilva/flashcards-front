@@ -11,6 +11,8 @@ import ResetPublico from "../views/ResetPublico.vue";
 import Perfil from "../views/Perfil.vue";
 import ResetPrivado from "../views/ResetPrivado.vue";
 import Editor from "../views/Editor.vue";
+
+import Help from "../views/Help.vue";
 Vue.use(VueRouter)
 
 const routes = [
@@ -86,6 +88,13 @@ const routes = [
     component: Editor,
 
   },
+  {
+    path:'/help' ,
+    name:'help',
+    component: Help,
+
+  },
+
   {
     path:'/' ,
     name:'cadastroUsuario',

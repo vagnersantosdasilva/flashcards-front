@@ -1,13 +1,13 @@
 <template>
   <ul class="navbar-nav d-flex align-items-center justify-content-center">
 
-    <li class="nav-item mt-2 d-none d-md-block" v-b-tooltip.hover >
+    <li class="nav-item mt-2 d-none d-lg-block" v-b-tooltip.hover >
       <router-link class="nav-link" to="help">
         <box-icon name='help-circle' title="Ajuda" class="icon"></box-icon>
       </router-link>
     </li>
 
-    <li class="nav-item mt-2 nav-link d-none d-md-block" v-b-tooltip.hover >
+    <li class="nav-item mt-2 nav-link d-none d-lg-block" v-b-tooltip.hover >
       <box-icon name='fullscreen' title="Tela cheia" class="icon"></box-icon>
     </li>
     <!--
@@ -17,7 +17,7 @@
           </router-link>
         </li>-->
 
-    <div class=" mt-1 avatar-menu nav-link d-none d-md-block" v-b-tooltip.hover>
+    <div class=" mt-1 avatar-menu nav-link d-none d-lg-block" v-b-tooltip.hover>
       <div class="avatar-button" @click="toggleSubMenu" title="Usuário">
         {{ initials }}
       </div>
@@ -49,7 +49,7 @@
     </div>
 
     <!-- Subitens para dispositivos móveis -->
-    <li class="nav-item mt-2 d-sm-none">
+    <li class="nav-item mt-2 d-lg-none">
       <div class="mobile-submenu">
         <div class="mobile-submenu-item" @click="selectSubitem('ajuda')">
           <box-icon name='help-circle' class="me-1" title="Ajuda" ></box-icon>
