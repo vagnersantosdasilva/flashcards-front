@@ -1,5 +1,5 @@
 <template>
-  <section style="border: 1px orange dashed;padding-top: 100px">
+  <section style="padding-top: 100px">
     <div>
       <div class="sidebar-overlay" v-if="transparencia"></div>
 

@@ -6,8 +6,9 @@
           <div class="col-md-6">
             <div class="login-content">
               <h3 class="text-sm-center text-md-start">Obrigado por se cadastrar!</h3>
-              <p class="d-flex justify-content-start" >
-                Enviamos um link de ativação para o seu e-mail.
+              <p class="d-flex justify-content-start" style="color: green">
+                <strong>Enviamos um link de ativação para o seu e-mail.</strong></p>
+              <p class="d-flex justify-content-start">
                 Para concluir o processo, por favor, verifique sua caixa de entrada e clique no link de ativação.
                 Assim, seu cadastro será efetivado com sucesso.
               </p>
@@ -442,6 +443,7 @@ export default {
       erroResponse: {},
       cadastroFinalizado: false,
       estaCarregando: false,
+
     };
   },
 
@@ -539,7 +541,7 @@ export default {
       this.erroCadastro = false;
       if (this.validar()) {
         this.showDismissibleAlert = false;
-        this.$http.post(`api/public/usuario`, this.usuario).then(() => {
+        await this.$http.post(`api/public/usuario`, this.usuario).then(() => {
           this.cadastroFinalizado = true;
           this.estaCarregando = false;
         }).catch((error) => {
@@ -547,10 +549,9 @@ export default {
           this.erroCadastro = true;
           this.estaCarregando = false;
         })
-
         this.resetErros();
       }
-      this.estaCarregando = false;
+
 
     },
   },
