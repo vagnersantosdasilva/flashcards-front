@@ -132,7 +132,7 @@
         <div class="row d-flex justify-content-center mt-4" v-else>
           <div class="col-md-6">
             <div class="login-content">
-              <h3 class="text-sm-center text-md-start">Bem-vindo ao Simples Flashcards!</h3>
+              <h3 class="text-sm-center text-md-start">Bem-vindo ao MemoBeam!</h3>
               <p>
                 Você está prestes a entrar em um mundo de possibilidades educacionais.
                 Não perca a oportunidade de fazer parte desta jornada de aprendizado única.
@@ -148,7 +148,7 @@
               </p>
               <p>
                 Chegou a hora de dar um passo adiante em direção ao sucesso educacional.
-                Cadastre-se agora e comece sua jornada de aprendizado com os Simples Flashcards!
+                Cadastre-se agora e comece sua jornada de aprendizado com os MemoBeam!
               </p>
             </div>
           </div>
@@ -323,7 +323,7 @@
           <div class="col-md-6">
             <h3 class="text-sm-center text-md-start">Crie seus próprios flashcards personalizados</h3>
             <p>
-              Com o Simples Flashcards, você tem total liberdade para criar seus próprios flashcards personalizados,
+              Com o MemoBeam, você tem total liberdade para criar seus próprios flashcards personalizados,
               focando nos tópicos relevantes e desafiando sua memória de forma específica, potencializando sua
               aprendizagem.
             </p>

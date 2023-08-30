@@ -4,7 +4,7 @@
        style="margin: 10px; font-family: 'Pacifico'; color:#222;"
     >
       <router-link to="/" class="nav-link" >
-        Simples Flashcards
+        MemoBeam
       </router-link>
 
     </a>
