@@ -130,7 +130,7 @@ export default {
   methods: {
 
     verConteudo(){
-      console.log(this.htmlCard);
+
     },
 
     toggleSidebar() {
@@ -141,9 +141,6 @@ export default {
           editor.ui.view.toolbar.element,
           editor.ui.getEditableElement()
       );
-      console.log(editor);
-      console.log(editor.config._config)
-
     },
   }
 };

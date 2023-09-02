@@ -60,7 +60,7 @@ export default {
 
   methods: {
     cadastrarCategorias() {
-      console.log('Cadastrar categorias!!!')
+
     }
   },
   mounted() {

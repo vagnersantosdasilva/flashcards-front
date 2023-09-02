@@ -301,17 +301,10 @@ export default {
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response) => {
         this.categorias = response.data
       }).catch((error) => {
-        console.log(error);
         this.showDismissibleAlert = true;
         this.erroResponse = Object.assign({}, error);
       });
       this.estaCarregando = false;
-    },
-
-    selectTopico(idCategoria) {
-      console.log(idCategoria)
-      this.categoriaSelecionada = true;
-      this.getPergunta(idCategoria);
     },
 
     async getPerguntaRevisao(idCategoria) {
@@ -324,7 +317,6 @@ export default {
       this.showDismissibleAlert = false;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao/revisao`)
           .then((response) => {
-            console.log(response);
             this.listPergunta = response.data;
             this.qtdPerguntas = this.listPergunta.length
             this.questao = this.listPergunta.pop();
@@ -345,7 +337,6 @@ export default {
       this.showDismissibleAlert = false;
       await this.$http.get(`api/usuario/${idUsuario}/categoria/${idCategoria}/questao`)
           .then((response) => {
-            console.log(response);
             this.listPergunta = response.data;
             this.qtdPerguntas = this.listPergunta.length
             this.questao = this.listPergunta.pop();
@@ -394,7 +385,7 @@ export default {
         this.questao = this.listPergunta.pop();
       } else {
         this.questionarioConcluido = true
-        console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
+        //console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
       }
 
       this.respondeu = false;
@@ -429,7 +420,7 @@ export default {
       }
       this.categoriaSelecionada = false;
       this.questionarioConcluido = false;
-      console.log('Tele resetada');
+      //console.log('Tele resetada');
     },
 
   },

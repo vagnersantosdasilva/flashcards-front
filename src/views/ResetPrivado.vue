@@ -46,7 +46,7 @@ export default {
 
   methods:{
     tratarErro(erro) {
-      console.log("erro tratado", erro);
+      //console.log("erro tratado", erro);
       this.showDismissibleAlert = true;
       if (erro) {
         this.erroResponse = erro;

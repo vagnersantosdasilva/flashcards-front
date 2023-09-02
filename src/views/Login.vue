@@ -92,8 +92,7 @@ export default {
             //this.getUserInfo()
             this.$router.push({name: 'home'})
           })
-          .catch((error) => {
-            console.log(error);
+          .catch(() => {
             this.erroAutenticacao = true;
           })
     },
@@ -102,45 +101,8 @@ export default {
       this.$router.push({name: 'cadastroUsuario'})
     },
 
-    async getUserInfo() {
-      try {
-        const config = {
-          params: {
-            email: this.usuario.email
-          }
-        };
-        const response = await this.$http.get('api/userinfo', config);
-        const token = this.$store.state.token
-        const refreshToken = this.$store.state.refreshToken
-        if (response.data.id) {
-          this.$store.commit('DEFINIR_USUARIO_LOGADO', {
-            token: token,
-            refreshToken: refreshToken,
-            usuario: response.data
-          })
-          this.$router.push({name: 'home'})
-        }
-      } catch (erro) {
-        console.log(erro)
-      }
-    },
-
-    async loginWithGoogle() {
-
-      this.$http.get(`/login/google`).then((response) => {
-        console.log(response);
-      })
-    }
-
   },
-  watch: {
-    /*  usernameResponse:function (novo){
-        if (novo) {
-          this.getUserInfo();
-          this.$router.push('/')
-        }
-      }*/
-  }
+
 };
 </script>
 

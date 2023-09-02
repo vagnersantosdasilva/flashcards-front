@@ -95,7 +95,7 @@ export default {
             this.emailEnviadoSucesso=true;
           }).catch((erro)=>{
             this.$store.commit('DEFINIR_ESTADO_DE_CARREGAMENTO', false);
-            console.log(erro);
+            //console.log(erro);
             this.emailEnviado = false;
             this.emailEnviadoSucesso=false;
             this.showDismissibleAlert=true;
@@ -108,7 +108,7 @@ export default {
     if(this.$route.query.token) {
       const token = this.$route.query.token;
       //const username = this.$route.query.username;
-      console.log('token recuperado', token)
+      //console.log('token recuperado', token)
       const jwt_decoded = decode(token);
       this.$store.commit('DEFINIR_USUARIO_LOGADO', {
         token: token,

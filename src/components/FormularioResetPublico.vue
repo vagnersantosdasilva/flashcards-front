@@ -156,8 +156,7 @@ export  default {
       this.usuario.username = this.$store.state.usuario.username;
       if(this.validar()) {
           this.estaCarregando=true;
-          this.$http.post(`api/reset/usuario`, this.usuario).then((response) => {
-            console.log(response);
+          this.$http.post(`api/reset/usuario`, this.usuario).then(() => {
             this.$router.push({name:'home'})
             this.success=true;
           }).catch((error) => {

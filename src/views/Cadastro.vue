@@ -548,8 +548,6 @@ export default {
   methods: {
     formatDate(date) {
       if (date) {
-        console.log(date);
-        console.log(date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0]);
         return date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0];
       }
     },
@@ -561,7 +559,6 @@ export default {
         await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${this.categoria.id}/questao/datas`)
             .then((response) => {
               this.listaRevisaoCategoriaCorrente = response.data.map(item => this.formatDate(item));
-              console.log('lista de datas', this.listaRevisaoCategoriaCorrente)
             })
             .catch((response) => {
               this.erroResponse = Object.assign({}, response);
@@ -644,7 +641,6 @@ export default {
 
           })
           .catch(err => {
-            console.log(err);
             this.showDismissibleAlert = true;
             this.erroResponse = Object.assign({}, err);
           })
@@ -679,7 +675,7 @@ export default {
       }
     },
 
-    async salvarQuestao(questao) {
+    async salvarQuestao() {
       this.showDismissibleAlert = false;
       this.carregando = true;
       this.questao.categoriaId = this.categoria.id;
@@ -688,7 +684,6 @@ export default {
       this.questao.pergunta = this.pergunta;
       this.questao.resposta = this.resposta;
       this.questao.isLoading = true;
-      console.log(questao)
 
       if (this.questao.id) {
         if (this.questao.pergunta.length && this.questao.pergunta.length > 0 && this.questao.resposta.length && this.questao.resposta.length > 0) {
@@ -721,7 +716,6 @@ export default {
         }
       } else {
         if (this.questao.pergunta.length && this.questao.pergunta.length > 0 && this.questao.resposta.length && this.questao.resposta.length > 0) {
-          console.log(this.questao)
           await this.$http.post(`api/usuario/${this.questao.usuarioId}/questao`, this.questao)
               .then((response) => {
                 this.carregando = true;
@@ -757,7 +751,6 @@ export default {
                 this.erroResponseSalvar = Object.assign({}, erro);
                 this.questao.isLoading = false;
                 this.carregando = false;
-                console.log(erro)
               })
         }
       }
