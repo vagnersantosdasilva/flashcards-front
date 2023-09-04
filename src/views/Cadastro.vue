@@ -427,7 +427,7 @@ export default {
       resposta: '',
       charCount: 0,
       charCount2: 0,
-      characterLimit: 500, // Limite de caracteres desejado
+      characterLimit: 450, // Limite de caracteres desejado
       mostrarSucesso: false,
       carregando: false,
       transparencia: false,
@@ -454,7 +454,7 @@ export default {
       erroResponseSalvar: {},
       estaCarregando: false,
       editorConfig: {
-
+        maxLines: 8,
         toolbar: [
           'fontSize',
           'fontFamily',
@@ -507,6 +507,15 @@ export default {
               color: 'blue',
               label: 'Blue',
             },
+            {
+              color: 'green',
+              label: 'Green',
+            },
+            {
+              color: 'orange',
+              label: 'Orange',
+            },
+
             // Adicione mais cores conforme necessário
           ],
         },
@@ -1055,8 +1064,6 @@ button.close {
   height: 90%;
   border-radius: 0;
   margin-right: 0;
-
-
 }
 
 .flashcard-editor {
