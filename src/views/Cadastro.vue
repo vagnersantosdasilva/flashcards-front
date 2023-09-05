@@ -45,7 +45,10 @@
                 :disabled="isEditorDisabledPergunta"
             >
             </ckeditor>
-            <div v-if="isLimitReachedPergunta" class="limit-message">
+            <div v-if="isLimitSizeImagePergunta" class="limit-message">
+              Tamanho da imagem máxima : {{sizeImageLimit}}KB
+            </div>
+            <div v-else-if="isLimitReachedPergunta" class="limit-message">
               Limite de caracteres alcançado!
             </div>
             <div v-else class="char-count">
@@ -64,7 +67,10 @@
                 :disabled="isEditorDisabledResposta"
             >
             </ckeditor>
-            <div v-if="isLimitReachedResposta" class="limit-message">
+            <div v-if="isLimitSizeImageResposta" class="limit-message">
+              Tamanho máximo de imagem:{{sizeImageLimit}}KB
+            </div>
+            <div v-else-if="isLimitReachedResposta" class="limit-message">
               Limite de caracteres alcançado!
             </div>
             <div v-else class="char-count">
@@ -364,15 +370,17 @@ export default {
       return hide
     },
     btnSalvarEstado() {
-      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= this.characterLimit &&
-          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= this.characterLimit
+      if (this.resposta && this.resposta.length > 0 && this.calculateCharCount(this.resposta) <= this.characterLimit &&
+          this.pergunta && this.pergunta.length > 0 && this.calculateCharCount(this.pergunta) <= this.characterLimit &&
+          this.calculateSizeImage(this.pergunta)<this.sizeImageLimit && this.calculateSizeImage(this.resposta)<this.sizeImageLimit
       ) return false;
       return true;
     },
 
     btnSalvarVariant() {
-      if (this.resposta && this.resposta.length > 0 && this.resposta.length <= this.characterLimit &&
-          this.pergunta && this.pergunta.length > 0 && this.pergunta.length <= this.characterLimit
+      if (this.resposta && this.resposta.length > 0 && this.calculateCharCount(this.resposta) <= this.characterLimit &&
+          this.pergunta && this.pergunta.length > 0 && this.calculateCharCount(this.pergunta) <= this.characterLimit &&
+          this.calculateSizeImage(this.pergunta)<this.sizeImageLimit && this.calculateSizeImage(this.resposta)<this.sizeImageLimit
       ) return "primary";
       return "secondary";
     },
@@ -382,7 +390,7 @@ export default {
     },
 
     isEditorDisabledResposta() {
-      return this.charCount >= this.characterLimit;
+      return this.charCount2 >= this.characterLimit;
     },
 
     isLimitReachedPergunta() {
@@ -392,6 +400,14 @@ export default {
     isLimitReachedResposta() {
       return this.charCount2 >= this.characterLimit;
     },
+
+    isLimitSizeImagePergunta(){
+      return this.sizeImagePergunta >= this.sizeImageLimit;
+    },
+    isLimitSizeImageResposta(){
+      return this.sizeImageResposta >= this.sizeImageLimit;
+    },
+
 
     porcentagemLimitePergunta() {
       return (this.charCount / this.characterLimit) * 100
@@ -411,10 +427,12 @@ export default {
   watch: {
     pergunta: function (newContent) {
       this.charCount = this.calculateCharCount(newContent);
+      this.sizeImagePergunta = this.calculateSizeImage(newContent);
     },
 
     resposta: function (newContent) {
       this.charCount2 = this.calculateCharCount(newContent);
+      this.sizeImageResposta = this.calculateSizeImage(newContent);
     },
   },
 
@@ -427,7 +445,10 @@ export default {
       resposta: '',
       charCount: 0,
       charCount2: 0,
-      characterLimit: 450, // Limite de caracteres desejado
+      sizeImagePergunta:0,
+      sizeImageResposta:0,
+      sizeImageLimit:20,
+      characterLimit: 300, // Limite de caracteres desejado
       mostrarSucesso: false,
       carregando: false,
       transparencia: false,
@@ -574,21 +595,31 @@ export default {
             });
       }
     },
+
+    calculateSizeImage(text){
+      const base64ImageMatches = text.match(/data:image\/[^;]+;base64[^"]+/g) || [];
+      let imagemsize = 0;
+      base64ImageMatches.forEach((base64Image) => {
+        const img = new Image();
+        img.onload = function () {
+        };
+
+        // Define o atributo 'src' da imagem para a representação base64
+        img.src = base64Image;
+        const base64Data = base64Image.split(',')[1];
+        const bytes = atob(base64Data);
+        const fileSizeInKB = bytes.length / 1024;
+        console.log('tamanho imagem...',fileSizeInKB);
+        imagemsize = fileSizeInKB;
+
+      });
+      return imagemsize;
+    },
+
     calculateCharCount(text) {
       // Remove as tags HTML para contar apenas o texto
-      /* const textWithoutTags = text.replace(/<\/?[^>]+(>|$)/g, '');
-       const base64ImageMatches = text.match(/data:image\/[^;]+;base64[^"]+/g) || [];
-
-       console.log(base64ImageMatches)
-
-       const totalImageCharacters = base64ImageMatches.reduce((total, image) => {
-         const imageData = image.split(',')[1]; // Obtém a parte da base64 após a vírgula
-         return total + imageData.length;
-       }, 0);
-       //textWithoutTags.length +totalImageCharacters;*/
-      return text.length;
-
-
+      const textWithoutTags = text.replace(/<\/?[^>]+(>|$)/g, '');
+      return textWithoutTags.length;
     },
 
     resetFormulario() {
