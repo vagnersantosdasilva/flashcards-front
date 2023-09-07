@@ -7,7 +7,10 @@
       </router-link>
     </li>
 
-    <li class="nav-item mt-2 nav-link d-none d-lg-block" v-b-tooltip.hover >
+    <li v-if="isFullscreen" class="nav-item mt-2 nav-link d-none d-lg-block" v-b-tooltip.hover  style="cursor: pointer;" @click="fullscreen">
+      <box-icon name='exit-fullscreen' title="Sair de tela cheia" class="icon"></box-icon>
+    </li>
+    <li v-else class="nav-item mt-2 nav-link d-none d-lg-block" v-b-tooltip.hover style="cursor: pointer;" @click="fullscreen">
       <box-icon name='fullscreen' title="Tela cheia" class="icon"></box-icon>
     </li>
     <!--
@@ -55,7 +58,11 @@
           <box-icon name='help-circle' class="me-1" title="Ajuda" ></box-icon>
           Ajuda
         </div>
-        <div class="mobile-submenu-item" @click="fullscreen">
+        <div v-if="isFullscreen" class="mobile-submenu-item" @click="fullscreen">
+          <box-icon name='exit-fullscreen' class="me-1" title="Sair de Tela cheia" ></box-icon>
+          Tela Cheia
+        </div>
+        <div v-else class="mobile-submenu-item" @click="fullscreen">
           <box-icon name='fullscreen' class="me-1" title="Tela cheia" ></box-icon>
           Tela Cheia
         </div>
@@ -88,6 +95,7 @@ export default {
       username: 'John Doe', // Replace with the actual username
       showSubMenu: false,
       activeSubitem: null,
+      isFullscreen:false,
     };
   },
   computed: {
@@ -101,7 +109,36 @@ export default {
   },
   methods: {
     fullscreen(){
-      
+      this.isFullscreen= !this.isFullscreen;
+      this.initFullScreen();
+    },
+
+    initFullScreen() {
+      document.body.classList.toggle("fullscreen-enable");
+      if (
+          !document.fullscreenElement &&
+          /* alternative standard method */ !document.mozFullScreenElement &&
+          !document.webkitFullscreenElement
+      ) {
+        // current working methods
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.mozRequestFullScreen) {
+          document.documentElement.mozRequestFullScreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen(
+              Element.ALLOW_KEYBOARD_INPUT
+          );
+        }
+      } else {
+        if (document.cancelFullScreen) {
+          document.cancelFullScreen();
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen();
+        }
+      }
     },
     toggleSubMenu() {
       this.showSubMenu = !this.showSubMenu;

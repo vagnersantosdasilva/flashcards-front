@@ -131,12 +131,12 @@
                 <b-button variant="link" class="btn-categoria" v-b-modal.dataRevisao>
                   <b-icon icon="calendar"></b-icon>
                 </b-button>
-                <b-button variant="link" disabled class="btn-categoria">
+<!--                <b-button variant="link" disabled class="btn-categoria">
                   <b-icon icon="share"></b-icon>
                 </b-button>
                 <b-button variant="link" disabled class="btn-categoria">
                   <b-icon icon="download"></b-icon>
-                </b-button>
+                </b-button>-->
                 <b-button variant="link" v-show="categoria.isLoading" disabled class="btn-categoria">
                   <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
                 </b-button>
@@ -248,11 +248,9 @@
           <b-card-title class="d-flex justify-content-between">
             <div style="font-size: 16px; margin-left: 11px;margin-top: 7px">Assuntos de estudo:</div>
             <div>
-              <!--              <b-button variant="link" @click="novoAssuntoMethod">
-                              <b-icon icon="plus-circle"></b-icon>
-                            </b-button>-->
+              
               <b-button disabled variant="link" @click="novoAssuntoMethod">
-                <b-icon icon="upload"></b-icon>
+                <!--                <b-icon icon="upload"></b-icon>-->
               </b-button>
             </div>
           </b-card-title>
@@ -588,7 +586,13 @@ export default {
         const usuario = this.$store.state.usuario
         await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${this.categoria.id}/questao/datas`)
             .then((response) => {
-              this.listaRevisaoCategoriaCorrente = response.data.map(item => this.formatDate(item));
+              this.listaRevisaoCategoriaCorrente = response.data
+                  .map(item => this.formatDate(item))
+                  .sort((a, b) => {
+                    const dateA = new Date(a);
+                    const dateB = new Date(b);
+                    return dateA - dateB;
+                  });
             })
             .catch((response) => {
               this.erroResponse = Object.assign({}, response);
