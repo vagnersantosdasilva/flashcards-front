@@ -613,7 +613,7 @@ export default {
         const base64Data = base64Image.split(',')[1];
         const bytes = atob(base64Data);
         const fileSizeInKB = bytes.length / 1024;
-        console.log('tamanho imagem...',fileSizeInKB);
+        //console.log('tamanho imagem...',fileSizeInKB);
         imagemsize = fileSizeInKB;
 
       });
