@@ -50,7 +50,7 @@ const actions = {
 
             http.post(`api/public/login`, data, {headers})
                 .then(response => {
-                    console.log("autenticacao!!!",response.data);
+                    //console.log("autenticacao!!!",response.data);
                     const jwt_decoded = decode(response.data.token.replace("Bearer ",""));
                     commit('DEFINIR_USUARIO_LOGADO', {
                         token: response.data.token,
@@ -63,7 +63,7 @@ const actions = {
                     resolve(response.data)
                 })
                 .catch(err => {
-                    console.log(err)
+                    //console.log(err)
                     reject(err)
                 })
         })
