@@ -938,7 +938,8 @@ export default {
 }
 
 </script>
-<style scoped>
+
+<style >
 
 section{
    height: 100vh;

@@ -126,7 +126,7 @@
         <b-row
             class="d-flex justify-content-lg-center"
             v-else
-            style="margin-top: 50px"
+            style="margin-top: 30px"
         >
 
           <div v-if="qtdPerguntas==0">
@@ -147,7 +147,7 @@
             <b-row class="col-md-12 ">
               <div v-if="!respondeu">
                 <b-row class="d-flex justify-content-center ">
-                  <div class="flashcard"
+                  <div class="flashcard_questao"
                        style="cursor: pointer;"
                        @click="respondeu=true"
                   >
@@ -168,7 +168,7 @@
                 <b-row class="d-flex justify-content-center">
                   <b-row class=" d-flex justify-content-center cards">
 
-                    <div class="flashcard" :class="{active:respondeu}">
+                    <div class="flashcard_questao" :class="{active:respondeu}">
 
                       <ckeditor
                           :editor="editor"
@@ -438,7 +438,7 @@ section {
   padding-top: 100px;
 }
 
-.flashcard {
+.flashcard_questao {
   padding: 30px;
   display: block;
   /*border: 1px solid #cfdccf;*/
