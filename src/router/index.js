@@ -9,14 +9,13 @@ import CadastroUsuario from "../views/CadastroUsuario.vue";
 import ResetPublico from "../views/ResetPublico.vue";
 import Perfil from "../views/Perfil.vue";
 import ResetPrivado from "../views/ResetPrivado.vue";
-import Editor from "../views/Editor.vue";
-
 import Help from "../views/Help.vue";
+
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '',
+    path: '/home',
     name: 'home',
     component: Home
   },
@@ -31,14 +30,6 @@ const routes = [
     name: 'questao',
     component: Questao
 
-  },
-  {
-    path: '/cadastro_usuario',
-    name: 'cadastroUsuario',
-    component: CadastroUsuario,
-    meta: {
-      publica: true
-    }
   },
   {
     path:'/login' ,
@@ -71,16 +62,6 @@ const routes = [
     component: Perfil,
 
   },
-
-  {
-    path:'/editor' ,
-    name:'editor',
-    meta:{
-      publica: true
-    },
-    component: Editor,
-
-  },
   {
     path:'/help' ,
     name:'help',
@@ -88,14 +69,21 @@ const routes = [
 
   },
 
-  {
-    path:'/' ,
+ {
+    path:'' ,
     name:'cadastroUsuario',
     meta:{
       publica: true
     },
-    component: Editor,
-
+    component: CadastroUsuario,
+  },
+  {
+    path: '/cadastro_usuario',
+    name: 'cadastroUsuario',
+    component: CadastroUsuario,
+    meta: {
+      publica: true
+    }
   },
 ]
 
@@ -107,13 +95,30 @@ const router = new VueRouter({
 })
 
 
+
 router.beforeEach((routeTo, routeFrom, next) => {
+
+  if (routeTo.meta.publica && (provedor.state.token || localStorage.getItem('token')!=null)){
+    return next({
+      path:'/home'
+    });
+  }
+  if (!routeTo.meta.publica) {
+    const tokenFromQuery = routeTo.query.token;
+    if (tokenFromQuery) {
+      localStorage.setItem('token', tokenFromQuery);
+      return next({
+        path:'/home'
+      });
+    }
+  }
   if (!routeTo.meta.publica && !provedor.state.token && localStorage.getItem('token')==null) {
     return next({
-      path:'/cadastro_usuario'
+      path:''
     });
   }
   next();
 })
+
 
 export default router

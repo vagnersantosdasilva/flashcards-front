@@ -465,7 +465,11 @@ section {
   margin-right: 0;
 
 }
-
+.ck.ck-editor__editable_inline {
+  overflow: auto;
+  padding: 0 var(--ck-spacing-standard);
+  border: 1px solid #cfdccf;
+}
 .ck-content:hover {
   /*background-color: #f4f5f6;
   box-shadow: inset 0 0 1px 1px #b2caee;*/

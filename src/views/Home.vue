@@ -39,14 +39,17 @@
             </b-row>
           </router-link>
         </div>
-
       </b-row>
 
     </div>
+
+
   </section>
 </template>
 <script>
 
+
+import {decode} from "jsonwebtoken";
 
 export default {
   computed: {},
@@ -55,29 +58,41 @@ export default {
 
   data() {
 
-    return {}
+    return {
+    }
   },
 
   methods: {
-    cadastrarCategorias() {
 
-    }
+
   },
   mounted() {
-
+    if(this.$route.query.token) {
+      const token = this.$route.query.token;
+      const jwt_decoded = decode(token);
+      this.$store.commit('DEFINIR_USUARIO_LOGADO', {
+        token: token,
+        usuario: {
+          username:jwt_decoded.sub ,
+          idUser:jwt_decoded.idUser
+        }
+      })
+    }
   },
-
-  created() {
-
-
-  }
 }
 
 </script>
 
 
 <style scoped>
-
+.adsensestyle{
+  background: transparent;
+  padding-top:60px;
+  text-align: center;
+  border: 1px dashed;
+  margin-top: 20px;
+  margin-left: 10px;
+}
 section {
   padding-bottom: 100px;
   padding-top: 100px;

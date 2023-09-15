@@ -1101,6 +1101,12 @@ button.close {
   margin-right: 0;
 }
 
+.ck.ck-editor__editable_inline {
+  overflow: auto;
+  padding: 0 var(--ck-spacing-standard);
+  border: 1px solid #cfdccf;
+}
+
 .flashcard-editor {
   padding: 30px;
   display: block;

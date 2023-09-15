@@ -3,7 +3,7 @@
     <a class="navbar-brand ml-2"
        style="margin: 10px; font-family: 'Pacifico'; color:#222;"
     >
-      <router-link to="/" class="nav-link" >
+      <router-link to="/home" class="nav-link" >
         MemoBeam
       </router-link>
 
