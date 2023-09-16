@@ -69,53 +69,47 @@
           </b-row>
           <b-row class="col-md-12 " style="margin-left: 0">
             <b-row class="d-flex justify-content-center " style="margin: 0">
-              <p class="text-center">Repostas corretas:</p>
+              <p class="text-center">Respostas corretas:</p>
               <p class="text-center" style="font-size: 24px; margin: 0;"> {{ acertos }} </p>
             </b-row>
           </b-row>
 
-          <b-row clas="col-12 d-flex justify-content-center mt-4" style="margin:0; margin-bottom: 30px; ">
-            <b-col v-show="listErro.length>0">
-              <b-row
-                  class="d-flex justify-content-end"
-                  style="margin: 5px;"
-              >
+          <b-row clas="col-12 d-flex justify-content-center mt-4 botoes-correcao" style="margin:0; margin-bottom: 150px; ">
+
+            <b-col class="col-12 col-md-6" v-show="listErro.length>0">
+              <b-row class="d-flex linha-btn-correcao">
                 <b-button
                     variant="secondary"
-                    style="width: 150px; margin:10px"
                     @click="corrigirErros"
+                    class="finalizar-questionario"
                 >
                   Corrigir erros!
                 </b-button>
               </b-row>
             </b-col>
-            <b-col>
-              <b-row class="d-flex justify-content-start"
-                     style="margin: 5px;"
-                     v-if="listErro.length>0"
-              >
+
+            <b-col class="col-12 col-md-6" v-if="listErro.length>0">
+              <b-row class="d-flex linha-btn-continuar" >
                 <b-button
                     variant="primary"
-                    style="width: 150px; margin:10px"
+                    class="finalizar-questionario"
                     @click="voltarParaCategorias"
                 >
                   Continuar
                 </b-button>
               </b-row>
+            </b-col>
 
-              <b-row class="d-flex justify-content-center"
-                     style="margin: 5px;"
-                     v-else
-              >
+            <b-col class="col-12" v-else>
+              <b-row class="d-flex justify-content-center" >
                 <b-button
                     variant="primary"
-                    style="width: 150px; margin:10px"
+                    class="finalizar-questionario"
                     @click="voltarParaCategorias"
                 >
                   Continuar
                 </b-button>
               </b-row>
-
             </b-col>
           </b-row>
 
@@ -124,15 +118,13 @@
 
         <!-- Controle de perguntas e respostas -->
         <b-row
-            class="d-flex justify-content-lg-center"
+            class="d-flex justify-content-lg-center linha-questao"
             v-else
-            style="margin-top: 30px"
         >
-
           <div v-if="qtdPerguntas==0">
             <b-row class="col-md-12 mt-4">
               <h5 class="text-center" v-if="isRevisao">Nenhum item para revisar hoje!</h5>
-              <h5 class="text-center" v-else="">Nenhuma pergunta cadastrada!</h5>
+              <h5 class="text-center" v-else>Nenhuma pergunta cadastrada!</h5>
 
             </b-row>
 
@@ -434,6 +426,18 @@ export default {
 
 
 <style scoped>
+.linha-btn-continuar{
+  justify-content: flex-start !important;
+}
+
+.linha-btn-correcao{
+  justify-content: flex-end !important;
+}
+
+.linha-questao{
+  margin-top: 30px;
+}
+
 section {
   padding-top: 100px;
 }
@@ -522,8 +526,33 @@ section {
   /*background-color: rgba(255, 255, 255, 0.8);*/
   z-index: 9999;
 }
+.finalizar-questionario{
+  width: 150px;
+  margin:10px
+}
 
 @media screen and (max-width: 960px) {
 
+  .linha-questao{
+    margin-top: -70px;
+  }
+  .finalizar-questionario{
+    width: 100%;
+    margin:3px
+  }
+  .linha-btn-continuar{
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+  }
+
+  .linha-btn-correcao{
+    display: flex;
+    justify-content: center !important;
+    align-items: center;
+  }
+  .btn{
+    width: 90%;
+  }
 }
 </style>

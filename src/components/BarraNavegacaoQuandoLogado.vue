@@ -54,7 +54,7 @@
     <!-- Subitens para dispositivos móveis -->
     <li class="nav-item mt-2 d-lg-none">
       <div class="mobile-submenu">
-        <div class="mobile-submenu-item" @click="selectSubitem('ajuda')">
+        <div class="mobile-submenu-item" @click="selectSubitem('help')">
           <box-icon name='help-circle' class="me-1" title="Ajuda" ></box-icon>
           Ajuda
         </div>
@@ -92,7 +92,7 @@ export default {
 
   data() {
     return {
-      username: 'John Doe', // Replace with the actual username
+      username: '', // Replace with the actual username
       showSubMenu: false,
       activeSubitem: null,
       isFullscreen:false,
@@ -148,7 +148,7 @@ export default {
       this.showSubMenu = false;
       if (subitem === 'perfil') this.$router.push({name: 'perfil'})
       if (subitem === 'cadastro') this.$router.push({name: 'cadastro'})
-      if (subitem === 'ajuda') this.$router.push({name: 'ajuda'})
+      if (subitem === 'help') this.$router.push({name: 'help'})
       this.$emit('close-menu');
     },
     efetuarLogout() {

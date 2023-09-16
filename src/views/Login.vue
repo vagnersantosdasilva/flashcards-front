@@ -5,7 +5,7 @@
         <div class="row justify-content-center mt-4">
           <div class="col-md-6" >
             <div class="login-content">
-              <h3>Bem-vindo ao Simples Flashcards!</h3>
+              <h3>Bem-vindo ao Memo Beam!</h3>
               <p>
                 Estamos muito felizes em disponibilizar a primeira versão
                 dessa ferramenta que acredimos que será muito útil no

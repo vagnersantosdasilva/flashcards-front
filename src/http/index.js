@@ -3,8 +3,8 @@ import provedor from "../provedor";
 //import router from "../router";
 
 const http = axios.create({
-    baseURL: 'https://api.memobeam.com.br'
-    //baseURL: 'http://localhost:8082'
+    //baseURL: 'https://api.memobeam.com.br'
+    baseURL: 'http://localhost:8082'
 
 })
 

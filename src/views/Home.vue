@@ -173,14 +173,21 @@ body {
   box-shadow: 0px 0px 3px 3px #AAE3F9;
 }
 
-
 .centralizado {
   margin-top: 150px;
 
   text-align: center;
 }
 
+
 @media screen and (max-width: 960px) {
+
+  .centralizado {
+    margin-top: 30px;
+
+    text-align: center;
+  }
+
   .linha {
     width: 100%;
 
@@ -193,14 +200,6 @@ body {
     background-color: #ffffff;
     cursor: pointer;
     min-width: 300px;
-  }
-
-  .row {
-    border: 0px dashed gray;
-  }
-
-  .col {
-    border: 0px dashed red;
   }
 
 }

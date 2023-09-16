@@ -78,8 +78,8 @@
             </div>
           </div>
 
-          <div>
-            <hr style="margin: 10px"/>
+          <div class="mt-4">
+
             <b-button
                 :variant="btnSalvarVariant"
                 :disabled="btnSalvarEstado"
@@ -196,25 +196,24 @@
             </b-card-title>
 
             <b-row class="mt-2 ms-1">
-              <b-col class="col-sm-1 col-3  ms-1" align-self="center">
+              <b-col class="col-md-12  col-lg-1 ms-1" align-self="center">
                 Frente
               </b-col>
-              <b-col align-self="center">
-
+              <b-col align-self="center" class="col-md-12 col-lg-10">
                 <div class="resumo">
                   {{ q.pergunta | sanitizeContent(true) }}
                 </div>
               </b-col>
-              <b-col class="col-1"></b-col>
+
             </b-row>
             <b-row class="mt-2 ms-1">
-              <b-col class="col-sm-1 col-3  ms-1" align-self="center">
+              <b-col class="col-md-12 col-lg-1 ms-1" align-self="center">
                 Verso
               </b-col>
-              <b-col class="col" align-self="center">
+              <b-col class="col-md-12 col-lg-10" align-self="center">
                 <div class="resumo">{{ q.resposta | sanitizeContent(true) }}</div>
               </b-col>
-              <b-col class="col-1"></b-col>
+
 
             </b-row>
 
@@ -941,19 +940,11 @@ export default {
 
 <style >
 
-section{
-   height: 100vh;
- }
 .titulo-sidebar {
   position: fixed;
   top: 10px;
   left: 5px;
   color: #476493;
-}
-
-.btn-categoria {
-  width: 5%;
-  margin-left: 10px;
 }
 
 .char-count {
@@ -974,12 +965,6 @@ section{
   height: 100%;
   background-color: rgb(244, 245, 246, 0.8); /* Defina a opacidade desejada aqui */
   z-index: 1030; /* Coloque o z-index menor que o z-index do sidebar */
-}
-
-.btn-novo-flashcard {
-  width: 200px;
-  max-width: 100%;
-  margin-left: 14px;
 }
 
 .sidebar-open {
@@ -1108,34 +1093,6 @@ button.close {
   border: 1px solid #cfdccf;
 }
 
-.flashcard-editor {
-  padding: 30px;
-  display: block;
-  border: 1px solid #cfdccf;
-  align-content: center;
-  background-color: white;
-  cursor: pointer;
-  margin: 1px;
-  max-width: 414px;
-  min-width: 414px;
-
-  height: 400px;
-  border-radius: 0;
-  font-family: 'Open Sans', sans-serif;
-}
-
-.loader-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  top: 0px;
-  left: 0;
-  width: 100%;
-  height: 100%;
-//background-color: rgba(255, 255, 255, 0.8); z-index: 9999;
-}
-
 .controle label {
   display: block;
   font-weight: bold;
@@ -1165,10 +1122,59 @@ button.close {
   box-shadow: 0px 0px 3px 3px #AAE3F9;
 }
 
+</style>
+<style scoped>
+
+section{
+  height: 100vh;
+}
+.col{
+  border:0px red dashed;
+}
+
+
+.btn-categoria {
+  width: 5%;
+  margin-left: 10px;
+}
+
+.btn-novo-flashcard {
+  width: 200px;
+  max-width: 100%;
+  margin-left: 14px;
+}
+
+.flashcard-editor {
+  padding: 30px;
+  display: block;
+  border: 1px solid #cfdccf;
+  align-content: center;
+  background-color: white;
+  cursor: pointer;
+  margin: 1px;
+  max-width: 414px;
+  min-width: 414px;
+
+  height: 400px;
+  border-radius: 0;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+//background-color: rgba(255, 255, 255, 0.8); z-index: 9999;
+}
 .resumo {
   display: block;
   width: 100%;
-  padding: 0.375rem 0.75rem;
+  padding: 0.700rem 0.90rem;
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
@@ -1184,9 +1190,30 @@ button.close {
   transition: border-color .15s ease-in-out, box-sahdow .15s ease-in-out;
   transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out, -webkit-shadow .15s ease-in-out;
   text-align: left;
+  white-space: nowrap; /* Impede a quebra de palavras */
+  overflow-x: auto; /* Adicione esta linha para a barra de rolagem horizontal */
 }
 
 .resumo p {
   text-align: left;
+}
+
+@media screen and (max-width: 960px) {
+
+  .flashcard-editor {
+    padding: 0px;
+    display: block;
+    border: 1px solid #cfdccf;
+    align-content: center;
+    background-color: white;
+    cursor: pointer;
+    margin: 0px;
+    max-width: 384px;
+    min-width: 370px;
+
+    height: 370px;
+    border-radius: 0;
+    font-family: 'Open Sans', sans-serif;
+  }
 }
 </style>
