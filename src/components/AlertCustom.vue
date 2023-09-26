@@ -45,7 +45,7 @@ export default {
       }
       if (this.messageAlert ==null && this.alert.response && this.alert.response.data && this.alert.response.data.message !=null) return this.alert.response.data.message ;
       if (this.messageAlert ==null && this.alert.response ==null && this.alert.code =='ERR_NETWORK') return "Erro de conexão. Se o problema persistir entre em contato com o administrador."
-      if (this.messageAlert ==null &&  this.alert.response.status && this.alert.response.status==403 && this.alert.code =='ERR_BAD_REQUEST')
+      if (this.messageAlert ==null && this.alert && this.alert.response && this.alert.response.status && this.alert.response.status==403 && this.alert.code =='ERR_BAD_REQUEST')
         return "Sua permissão de acesso expirou! Faça novamente login para continuar tendo acesso ao sistema."
       if (this.messageAlert ==null && this.alert.message!=null) return this.alert.message
       if (this.messageAlert !=null) return this.messageAlert;
