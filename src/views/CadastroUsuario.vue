@@ -112,6 +112,19 @@
                     </b-input-group>
                   </b-form-group>
 
+                  <b-form-group>
+                    <b-form-checkbox
+                        id="termos"
+                        v-model="aceitouTermos"
+                        name="aceitar-termos"
+                        required
+                        class="mt-2 m-2"
+
+                    >
+                      <div class="ms-2">Eu li e aceito os <a href="#" v-b-modal.termos>Termos de Uso</a></div>
+                    </b-form-checkbox>
+                  </b-form-group>
+
                   <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
                     <b-button variant="primary" @click="cadastrar" disabled>
                       Cadastrar
@@ -125,7 +138,6 @@
               </b-card-body>
             </b-card>
           </div>
-
 
 
         </div>
@@ -242,6 +254,21 @@
                     </b-input-group>
                   </b-form-group>
 
+                  <b-form-group
+                      :invalid-feedback="errors.termos"
+                      :state="errors.state.termos"
+                  >
+                    <b-form-checkbox
+                        id="termos"
+                        v-model="aceitouTermos"
+                        name="aceitar-termos"
+                        required
+                        class="mt-2 m-2"
+                    >
+                      <div class="ms-2">Eu li e aceito os <a href="#" v-b-modal.termos>Termos de Uso</a></div>
+                    </b-form-checkbox>
+                  </b-form-group>
+
                   <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
                     <b-button variant="primary" @click="cadastrar" :disabled="estaCarregando">
                       Cadastrar
@@ -321,17 +348,15 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <h3 class="text-sm-center text-md-start">Crie seus próprios flashcards personalizados</h3>
+            <h3 class="text-sm-center text-md-start">Crie flashcards personalizados</h3>
             <p>
-              Com o MemoBeam, você tem total liberdade para criar seus próprios flashcards personalizados,
-              focando nos tópicos relevantes e desafiando sua memória de forma específica, potencializando sua
-              aprendizagem.
+              Com o MemoBeam, você pode  personalizar flashcards com imagens, mudar fontes
+              de texto e cores, focando nos tópicos relevantes e desafiando sua memória
+              de forma específica, melhorando seu aprendizado.
             </p>
             <p>
-              Aprenda novos idiomas, estude para provas ou retenha informações importantes com eficiência, usando os
-              flashcards personalizados adaptados
-              ao seu ritmo de estudo e necessidades específicas. Simplifique sua jornada de aprendizado com nossos
-              cartões de memória simples e eficazes.</p>
+              Aprenda novos idiomas, estude para provas ou retenha informações importantes de seu trabalho com eficiência, usando os
+              flashcards personalizados. Potencialize sua jornada de aprendizado com nossos cartões de memória simples e eficazes.</p>
           </div>
 
           <div class="col-md-6" align-self="center">
@@ -340,15 +365,6 @@
                 <div class="row d-flex justify-content-center">
                   <div id="carousel-1" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                      <!--                      <div class="carousel-item active">
-                                              <img src="../assets/s-1-1.png" class="d-block w-100 tilted-slide" alt="Slide 1">
-                                            </div>
-                                            <div class="carousel-item">
-                                              <img src="../assets/s-2-1.png" class="d-block w-100 tilted-slide" alt="Slide 2">
-                                            </div>
-                                            <div class="carousel-item">
-                                              <img src="../assets/s-1.png" class="d-block w-100 tilted-slide" alt="Slide 3">
-                                            </div>-->
                       <div class="carousel-item active">
                         <img src="../assets/s-4-1.png" class="d-block w-100 tilted-slide" alt="Slide 1">
                       </div>
@@ -378,7 +394,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <h3 class="text-md-start text-sm-center ">Comece a criar seus flashcards!</h3>
+            <h3 class="text-md-start text-sm-center ">Comece agora sua jornada de aprendizado!</h3>
             <p style="font-family:Open Sans">
               Não perca tempo! Cadastre-se gratuitamente e desbloqueie todo o potencial da técnica de repetição
               espaçada. Aumente sua retenção de conhecimento e alcance melhores resultados nos seus estudos,
@@ -399,6 +415,135 @@
 
       </div>
     </section>
+    <b-button variant="link" class="btn-categoria" v-b-modal.termos>
+      <b-icon icon="calendar"></b-icon>
+    </b-button>
+
+    <b-modal
+        id="termos"
+        v-model="showModalTermos"
+        title="Termos de uso e Política de Privacidade:"
+        size="lg"
+        ok-only
+    >
+      <div>
+
+        <h1>Política de Privacidade</h1>
+        <p><strong>Última atualização:</strong> [19/09/2023]</p>
+        <p>Esta Política de Privacidade descreve como o <em>Memo Beam</em>, usa e compartilha informações pessoais quando você utiliza
+          nosso serviço. Ao utilizar o Serviço, você concorda com as práticas de privacidade descritas nesta política.
+        </p>
+
+        <h2>Coleta de Informações</h2>
+        <p><strong>Informações Pessoais:</strong></p>
+        <ul>
+          <li>No momento do registro, coletamos informações pessoais, como seu nome, endereço de e-mail e outras
+            informações de contato.
+          </li>
+        </ul>
+
+        <p><strong>Informações de Uso:</strong></p>
+        <ul>
+          <li>Coletamos informações sobre como você utiliza o Serviço, incluindo dados sobre os flashcards criados,
+            atividades e interações no aplicativo.
+          </li>
+        </ul>
+
+        <p><strong>Informações de Pagamento:</strong></p>
+        <ul>
+          <li>Quando você optar por atualizar para planos pagos, podemos coletar informações de pagamento, como
+            informações de cartão de crédito, para processar as transações.
+          </li>
+        </ul>
+
+        <h2>Uso das Informações</h2>
+        <p><strong>Fornecimento do Serviço:</strong></p>
+        <ul>
+          <li>Usamos as informações coletadas para fornecer, manter e melhorar o Serviço.</li>
+        </ul>
+
+        <p><strong>Comunicações:</strong></p>
+        <ul>
+          <li>Podemos usar seu endereço de e-mail para enviar informações importantes sobre sua conta, atualizações do
+            Serviço ou outras comunicações relacionadas ao Serviço.
+          </li>
+        </ul>
+
+        <p><strong>Análises e Personalização:</strong></p>
+        <ul>
+          <li>Utilizamos informações para analisar o uso do aplicativo e personalizar sua experiência, incluindo o
+            fornecimento de recomendações de estudo.
+          </li>
+        </ul>
+
+        <p><strong>Publicidade:</strong></p>
+        <ul>
+          <li>Podemos exibir anúncios em nosso Serviço. Não compartilhamos informações pessoais com anunciantes.</li>
+        </ul>
+
+        <h2>Compartilhamento de Informações</h2>
+        <p><strong>Com Terceiros:</strong></p>
+        <ul>
+          <li>Não compartilhamos informações pessoais com terceiros sem seu consentimento, exceto quando exigido por
+            lei.
+          </li>
+        </ul>
+
+        <h2>Sua Responsabilidade</h2>
+        <p><strong>Conteúdo dos Flashcards:</strong></p>
+        <ul>
+          <li>Você é responsável pelo conteúdo criado em seus flashcards, incluindo imagens e textos.</li>
+        </ul>
+
+        <p><strong>Compartilhamento de Flashcards:</strong></p>
+        <ul>
+          <li>Você pode compartilhar seus flashcards com terceiros, mas é responsável pela veracidade e originalidade do
+            conteúdo.
+          </li>
+        </ul>
+
+        <p><strong>Material Ofensivo:</strong></p>
+        <ul>
+          <li>Conteúdo ofensivo pode ser removido, e sua conta pode ser bloqueada, de acordo com nossas políticas.</li>
+        </ul>
+
+        <h2>Planos Pagos</h2>
+        <p><strong>Planos Futuros:</strong></p>
+        <ul>
+          <li>No futuro, podemos oferecer planos pagos com recursos adicionais. Os usuários gratuitos podem optar por
+            atualizar, se desejarem.
+          </li>
+        </ul>
+
+        <h2>Remoção de Conteúdo por Inatividade</h2>
+        <p>Em casos de inatividade do usuário, onde não houve login ou atividade na conta por um período de três meses
+          consecutivos, reservamos o direito de remover ou arquivar o conteúdo associado à conta. Essa medida é tomada
+          levando em consideração dois fatores críticos para o funcionamento do nosso serviço:</p>
+
+        <ol>
+          <li>A renda do nosso site é proveniente de anúncios exibidos no serviço. A inatividade prolongada de usuários
+            pode reduzir a qualidade da experiência do usuário e a eficácia dos anúncios exibidos, o que afeta
+            diretamente nossa capacidade de manter o serviço gratuito.
+          </li>
+          <li>O custo operacional do serviço está diretamente relacionado à quantidade de informações armazenadas.
+            Manter grandes volumes de dados de contas inativas pode aumentar significativamente nossos custos de
+            armazenamento e manutenção de servidores, impactando a viabilidade do serviço como um todo.
+          </li>
+        </ol>
+
+        <p>Portanto, a remoção ou arquivamento de conteúdo após um período de inatividade é uma medida necessária para
+          garantir a sustentabilidade do serviço e sua disponibilidade para todos os usuários ativos.</p>
+
+        <h2>Alterações na Política de Privacidade</h2>
+        <p>Reservamo-nos o direito de atualizar esta política periodicamente. Quaisquer alterações significativas serão
+          notificadas aos usuários por meio do Serviço.</p>
+
+<!--        <h2>Contato</h2>
+        <p>Se tiver alguma dúvida ou preocupação sobre esta Política de Privacidade, entre em contato conosco em
+          [Endereço de E-mail de Contato].</p>-->
+
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -419,6 +564,8 @@ export default {
 
   data() {
     return {
+      aceitouTermos:false,
+      showModalTermos:false,
       erroCadastro: false,
       showDismissibleAlert: false,
       messageError: false,
@@ -432,11 +579,13 @@ export default {
         username: null,
         password: null,
         confirmPassword: null,
+        termos:null,
 
         state: {
           username: null,
           password: null,
           confirmPassword: null,
+          termos:null,
         }
       },
       passwordInputType: 'password',
@@ -465,6 +614,7 @@ export default {
 
     validar() {
       let isValid = true;
+      this.resetErros();
 
       if (this.usuario.password !== this.usuario.confirmPassword) {
         this.errors.confirmPassword = 'Campo senha e confirmação de senha devem ser iguais!';
@@ -487,6 +637,12 @@ export default {
       if (this.usuario.username == null || (this.usuario.username && this.usuario.username.length == 0)) {
         this.errors.username = 'Email é obrigatório';
         this.errors.state.username = false;
+        isValid = false;
+      }
+
+      if (this.aceitouTermos == null || this.aceitouTermos ==false){
+        this.errors.termos = 'Você precisa ler e aceitar os Termos de Uso para continuar.'
+        this.errors.state.termos = false;
         isValid = false;
       }
 
@@ -551,6 +707,7 @@ export default {
         })
         this.resetErros();
       }
+      this.estaCarregando = false;
 
 
     },
@@ -583,9 +740,10 @@ section p {
   text-align: justify;
 }
 
-section h3,h4,h5 {
+section h3, h4, h5 {
   text-align: left;
 }
+
 .bemvindo {
   background-image: linear-gradient(to bottom, #79D4F6, #AAE3F9);
   padding-bottom: 120px;
@@ -666,6 +824,7 @@ input {
   padding: 2rem;
   color: #343a40; /* Texto preto ou cinza escuro */
 }
+
 .card-body h4 {
   text-align: left;
 }
@@ -753,7 +912,8 @@ section {
 section p {
   text-align: justify;
 }
-section h3,h4,h5 {
+
+section h3, h4, h5 {
   text-align: center;
 }
 

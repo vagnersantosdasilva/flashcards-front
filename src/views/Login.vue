@@ -35,8 +35,25 @@
                     <b-form-input v-model="usuario.email" placeholder="Email " class="form-control-lg"></b-form-input>
                   </div>
                   <div class="form-group mt-2">
-                    <b-form-input v-model="usuario.password" type="password" placeholder="Senha"
-                                  class="form-control-lg"></b-form-input>
+                    <b-input-group>
+                      <b-form-input v-model="usuario.password" :type="passwordInputType" placeholder="Senha"
+                                    class="form-control-lg"></b-form-input>
+                      <b-input-group-append>
+                        <b-input-group-text
+                            @mousedown="changeInputType('text')"
+                            @mouseup="changeInputType('password')"
+                            style="height: 100%;border-radius: 0">
+                          <i
+                              :class="
+                                passwordInputType === 'password'
+                                  ? 'far fa-eye'
+                                  : 'far fa-eye-slash'
+                              "
+                          ></i>
+                        </b-input-group-text>
+                      </b-input-group-append>
+                    </b-input-group>
+
                   </div>
                   <div class="form-group mt-2 ">
                     <b-button variant="primary" block size="lg" class="w-100 mb-2" @click="login">Entrar</b-button>
@@ -82,7 +99,8 @@ export default {
       usuario: {
         email: null,
         password: null,
-      }
+      },
+      passwordInputType: 'password',
     };
   },
   methods: {
@@ -99,6 +117,10 @@ export default {
 
     cadastrar() {
       this.$router.push({name: 'cadastroUsuario'})
+    },
+
+    changeInputType(type) {
+      this.passwordInputType = type;
     },
 
   },

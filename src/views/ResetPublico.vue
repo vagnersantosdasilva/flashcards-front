@@ -21,10 +21,9 @@
             <b-card class="shadow-lg">
               <b-card-title>Recuperação de Senha</b-card-title>
               <b-card-body v-if="emailEnviado">
-                <div class="text-start mb-4" style="font-size: 14px;color:darkolivegreen;" v-if="emailEnviadoSucesso">
+                <div class="text-start mb-4" style="font-size: 14px;color:#a2d34d;" v-if="emailEnviadoSucesso">
                   <b>
-                    E-mail enviado com sucesso! Verifique sua caixa de e-mail e clique no link de redirecionamento para
-                    completar o processo de reset de sua senha de acesso.
+                    E-mail enviado com sucesso! Verifique sua caixa de e-mail.
                   </b>
                 </div>
                 <div class="text-start mb-4" style="font-size: 14px; color:indianred" v-else>
@@ -34,9 +33,9 @@
               </b-card-body>
               <b-card-body  v-else>
                 <div class="text-start mb-4" style="font-size: 14px;">
-                  Para recuperar sua senha, insira o e-mail cadastrado abaixo e clique em enviar.
-                  Um link de ativação será enviado para o seu endereço de e-mail. Siga as instruções contidas no e-mail para
-                  prosseguir com o processo de recuperação de senha.
+                  Para recuperar seu acesso, insira o seu e-mail cadastrado no campo abaixo e clique em enviar.
+                  Uma nova senha será gerada automaticamente e enviada para seu e-mail.
+                  Após reestabelecer o acesso você poderá modificar essa senha em configuração de perfil de usuário.
                 </div>
                 <div>
                   <form>
@@ -131,7 +130,8 @@ export default {
 .login {
   margin: 100px auto;
 }
-
+input {border-radius: 0}
+.btn {border-radius: 0}
 .loader-container {
   display: flex;
   justify-content: center;
