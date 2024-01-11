@@ -291,7 +291,10 @@ export default {
       this.showDismissibleAlert = false;
       this.estaCarregando = true
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response) => {
-        this.categorias = response.data
+        let categorias = Object.assign([],response.data.map((categoria) => {
+          return {...categoria, isLoading: false};
+        }));
+        this.categorias = Object.assign({}, categorias.sort((a, b) => a.nome.localeCompare(b.nome)))
       }).catch((error) => {
         this.showDismissibleAlert = true;
         this.erroResponse = Object.assign({}, error);

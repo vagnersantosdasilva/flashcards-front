@@ -4,15 +4,31 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>flash-cards.png">
+    <link rel="icon" href="<%= BASE_URL %>flash-cards.png" alt="Ícone do MemoBeam Flashcards">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico">
-    <title>MemoBeam</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans">
+    <meta name="description" content="MemoBeam - Flashcards com repetição espaçada para otimizar o aprendizado de qualquer assunto.">
+    <meta name="keywords" content="flashcards, repetição espaçada, aprendizado, MemoBeam, Memo Beam">
+    <meta name="author" content="Vagner Santos da Silva">
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <title>Flashcards com Repetição Espaçada - MemoBeam</title>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but projeto doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId            : '6716944578403066',
+                xfbml            : true,
+                version          : 'v18.0'
+            });
+        };
+    </script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js"></script>
     <div id="app">
     </div>
     <!-- built files will be auto injected -->

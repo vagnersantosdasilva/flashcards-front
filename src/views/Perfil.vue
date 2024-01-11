@@ -37,7 +37,7 @@
           <b-card-body>
             <b-row style="color: gray">
               <b-col class="col-12 col-md-6">
-                <b-card-text>Tipo de plano: <b> Básico</b></b-card-text>
+                <b-card-text><b>Tipo de plano: </b> Básico</b-card-text>
                 <b-card-text><b>Valor Mensal :</b> R$0,00</b-card-text>
               </b-col>
               <b-col
@@ -56,7 +56,7 @@
           </b-card-body>
         </b-card>
       </b-row>
-    
+
     </div>
   </section>
 </template>
@@ -81,22 +81,22 @@ export default {
 }
 </script>
 <style scoped>
-  section{
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+
+@media screen and (max-width: 960px) {
+  section {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding: 100px 10px 50px 10px;
   }
-
-  @media screen and (max-width: 960px) {
-    section{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 100px 10px 50px 10px ;
-    }
-  }
+}
 </style>

@@ -894,9 +894,10 @@ export default {
       this.estaCarregando = true;
       const usuario = this.$store.state.usuario;
       await this.$http.get(`api/usuario/${usuario.idUser}/categoria`).then((response) => {
-        this.categorias = response.data.map((categoria) => {
+        let categorias = Object.assign([],response.data.map((categoria) => {
           return {...categoria, isLoading: false};
-        });
+        }));
+        this.categorias = Object.assign({}, categorias.sort((a, b) => a.nome.localeCompare(b.nome)))
         this.estaCarregando = false;
         this.novoAssunto = false;
       }).catch((error) => {

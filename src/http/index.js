@@ -14,9 +14,15 @@ http.interceptors.request.use(function (config) {
     if (tokenLocal) tokenLocal = tokenLocal.replace('Bearer ','')
     if (token) {
         config.headers.Authorization = token
+        config.headers["Content-Type"] = 'application/json'
+        config.headers["Access-Control-Allow-Origin"] ='*'
+
     }
     else{
         if (tokenLocal) config.headers.Authorization = token
+        config.headers["Content-Type"] = 'application/json'
+        config.headers["Access-Control-Allow-Origin"] ='*'
+
     }
     return config
 }, function (erro) {

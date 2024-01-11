@@ -1,3 +1,4 @@
+<script src="../google.js"></script>
 <template>
   <div class="main">
     <section class="bemvindo d-flex flex-column align-items-center justify-content-center" id="inicio">
@@ -18,12 +19,82 @@
           <div class="col-md-6">
             <p class="text-danger" v-if="erroCadastro"><strong>{{ erro }}</strong></p>
             <b-card class=" shadow-lg" style="background-color: #dfe0e3">
-              <b-card-title>Inscrição</b-card-title>
+              <b-card-title class="custom-title">Inscreva-se</b-card-title>
               <b-card-body>
                 <form>
+
+                  <b-row  class="d-flex justify-content-between">
+                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="cutom-button mt-1 mb-1 d-flex justify-content-center align-content-center"
+                          disabled
+                      >
+                        <b-row class="col-12 d-flex justify-content-start">
+                          <b-col class="col-lg-2 col-2">
+                            <img class="me-0 mt-1" src="../assets/google2.jpg" height="22" width="22"/>
+                          </b-col>
+                          <b-col class="col-lg-8 col-10">
+                            <p class="mt-1 d-flex justify-content-center" >
+                              <strong>Inscrever-se com o Google</strong>
+                            </p>
+                          </b-col>
+                          <b-col class="col-lg-2 col-2"></b-col>
+                        </b-row>
+                      </b-button>
+                    </b-col>
+                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="custom-button  d-flex justify-content-center align-content-center"
+                          disabled
+                      >
+                        <b-row class="d-flex col-12 justify-content-center">
+                          <b-col class="col-2 col-lg-2">
+                             <span
+                                 class="fa-brands fa-github "
+                                 style="color:black;">
+                             </span>
+                          </b-col>
+                          <b-col class="col-lg-8 col-10">
+                            <p class="mt-1 d-flex justify-content-center" >
+                              <strong>Inscrever-se com o GitHub</strong>
+                            </p>
+                          </b-col>
+                          <b-col class="col-lg-2 col-2"></b-col>
+                        </b-row>
+                      </b-button>
+
+                    </b-col>
+                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="custom-button mt-1 d-flex justify-content-center align-content-center"
+                          disabled
+                      >
+                        <b-row class="d-flex col-12 justify-content-center">
+                          <b-col class="col-2 col-lg-2">
+                             <span
+                                 class="fa-brands fa-facebook-square "
+                                 style="color:blue;">
+                             </span>
+                          </b-col>
+                          <b-col class="col-lg-8 col-10">
+                            <p class="mt-1 d-flex justify-content-center" >
+                              <strong>Inscrever-se com o Facebook</strong>
+                            </p>
+                          </b-col>
+                          <b-col class="col-lg-2 col-2"></b-col>
+                        </b-row>
+                      </b-button>
+                    </b-col>
+                  </b-row>
+
                   <b-form-group
                       class="form-group mt-2"
-                      label="Email:"
                       :invalid-feedback="errors.username"
                       :state="errors.state.username"
                       disabled
@@ -42,7 +113,6 @@
 
                   <b-form-group
                       class="form-group mt-2"
-                      label="Escolha uma senha:"
                       :invalid-feedback="errors.password"
                       :state="errors.state.password"
                       disabled
@@ -77,7 +147,6 @@
 
                   <b-form-group
                       class="form-group mt-2"
-                      label="Confirmar senha:"
                       :invalid-feedback="errors.confirmPassword"
                       :state="errors.state.confirmPassword"
                       disabled
@@ -119,6 +188,7 @@
                         name="aceitar-termos"
                         required
                         class="mt-2 m-2"
+                        disabled
 
                     >
                       <div class="ms-2">Eu li e aceito os <a href="#" v-b-modal.termos>Termos de Uso</a></div>
@@ -141,7 +211,7 @@
 
 
         </div>
-        <div class="row d-flex justify-content-center mt-4" v-else>
+        <div class="row d-flex justify-content-between mt-4" v-else>
           <div class="col-md-6">
             <div class="login-content">
               <h3 class="text-sm-center text-md-start">Bem-vindo ao MemoBeam!</h3>
@@ -165,15 +235,101 @@
             </div>
           </div>
 
-          <div class="col-md-6">
-            <p class="text-danger" v-if="erroCadastro"><strong>{{ erro }}</strong></p>
-            <b-card class=" shadow-lg">
-              <b-card-title>Inscrição</b-card-title>
+          <div class="col-md-6  flex-column  justify-content-center align-content-center"  align-self="center">
+            <p class="text-danger" v-if="erroCadastro">
+              <strong>{{ erro }}</strong></p>
+            <b-card class=" shadow-lg" style="">
+              <b-card-title class="custom-title">Inscreva-se</b-card-title>
               <b-card-body>
                 <form>
+                  <b-row  class="d-flex justify-content-between">
+                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="cutom-button mt-1 mb-1 d-flex justify-content-center align-content-center"
+                          @click="loginGoogle"
+                      >
+                        <b-row class="col-12 d-flex justify-content-start">
+                          <b-col class="col-lg-2 col-2">
+                            <img class="me-0 mt-1" src="../assets/google2.jpg" height="22" width="22"/>
+                            <!--                            <span
+                                                            class="fa-brands fa-google  "
+                                                            style="color:cornflowerblue; cursor:pointer;font-size: 21px; margin: 3px; margin-right: 3px;" >
+                                                        </span>-->
+                          </b-col>
+                          <b-col class="col-lg-8 col-10">
+                            <p class="mt-1 d-flex justify-content-center" >
+                              <strong>Inscrever-se com o Google</strong>
+                            </p>
+                          </b-col>
+                          <b-col class="col-lg-2 col-2"></b-col>
+                        </b-row>
+                      </b-button>
+                    </b-col>
+                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="custom-button  d-flex justify-content-center align-content-center"
+                          @click="loginWithGithub"
+                      >
+                        <b-row class="d-flex col-12 justify-content-center">
+                          <b-col class="col-2 col-lg-2">
+                             <span
+                                 class="fa-brands fa-github "
+                                 style="color:black;">
+                             </span>
+                          </b-col>
+                          <b-col class="col-lg-8 col-10">
+                            <p class="mt-1 d-flex justify-content-center" >
+                              <strong>Inscrever-se com o GitHub</strong>
+                            </p>
+                          </b-col>
+                          <b-col class="col-lg-2 col-2"></b-col>
+                        </b-row>
+                      </b-button>
+
+                    </b-col>
+                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="custom-button mt-1 d-flex justify-content-center align-content-center"
+                          @click="loginWithFacebook"
+                      >
+                        <b-row class="d-flex col-12 justify-content-center">
+                          <b-col class="col-2 col-lg-2">
+                             <span
+                                 class="fa-brands fa-facebook-square "
+                                 style="color:blue;">
+                             </span>
+                          </b-col>
+                          <b-col class="col-lg-8 col-10">
+                            <p class="mt-1 d-flex justify-content-center" >
+                              <strong>Inscrever-se com o Facebook</strong>
+                            </p>
+                          </b-col>
+                          <b-col class="col-lg-2 col-2"></b-col>
+                        </b-row>
+                      </b-button>
+                    </b-col>
+                  </b-row>
+
                   <b-form-group
                       class="form-group mt-2"
-                      label="Email:"
+                  >
+                    <b-row class="d-flex justify-content-center col-12 ms-0 mb-1 mt-3" >
+                      <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
+                      <b-col class=" col-1 d-flex justify-content-center">
+                        <b-row><p><strong>ou</strong></p></b-row>
+                      </b-col>
+                      <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
+
+                    </b-row>
+                  </b-form-group>
+
+                  <b-form-group
                       :invalid-feedback="errors.username"
                       :state="errors.state.username"
 
@@ -190,7 +346,6 @@
 
                   <b-form-group
                       class="form-group mt-2"
-                      label="Escolha uma senha:"
                       :invalid-feedback="errors.password"
                       :state="errors.state.password"
                   >
@@ -222,7 +377,7 @@
 
                   <b-form-group
                       class="form-group mt-2"
-                      label="Confirmar senha:"
+
                       :invalid-feedback="errors.confirmPassword"
                       :state="errors.state.confirmPassword"
                   >
@@ -271,7 +426,7 @@
 
                   <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
                     <b-button variant="primary" @click="cadastrar" :disabled="estaCarregando">
-                      Cadastrar
+                      <strong>Cadastrar</strong>
                       <i class="fas fa-hourglass fa-spin fa-3x"
                          v-show="estaCarregando"
                          style="font-size: 12px"
@@ -415,10 +570,6 @@
 
       </div>
     </section>
-    <b-button variant="link" class="btn-categoria" v-b-modal.termos>
-      <b-icon icon="calendar"></b-icon>
-    </b-button>
-
     <b-modal
         id="termos"
         v-model="showModalTermos"
@@ -538,17 +689,18 @@
         <p>Reservamo-nos o direito de atualizar esta política periodicamente. Quaisquer alterações significativas serão
           notificadas aos usuários por meio do Serviço.</p>
 
-<!--        <h2>Contato</h2>
-        <p>Se tiver alguma dúvida ou preocupação sobre esta Política de Privacidade, entre em contato conosco em
-          [Endereço de E-mail de Contato].</p>-->
-
       </div>
     </b-modal>
   </div>
 </template>
 
 <script>
+import {jwtDecode} from "jwt-decode";
+import {decode} from "jsonwebtoken";
+import router from "../router";
+
 export default {
+
   computed: {
 
     erro() {
@@ -564,6 +716,7 @@ export default {
 
   data() {
     return {
+      showBtnGoogle:false,
       aceitouTermos:false,
       showModalTermos:false,
       erroCadastro: false,
@@ -597,6 +750,45 @@ export default {
   },
 
   methods: {
+
+    loginWithFacebook() {
+      const githubAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/facebook';
+      window.location.href = githubAuthorizationUrl;
+    },
+
+    loginWithGithub(){
+      const githubAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/github';
+      window.location.href = githubAuthorizationUrl;
+    },
+
+     loginGoogle(){
+       const githubAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/google';
+       window.location.href = githubAuthorizationUrl;
+    },
+
+    handleCredentialResponse(response) {
+
+      const tokenGoogle = {
+        token:response.credential
+      }
+
+      this.$http.post(`http://localhost:8082/api/public/usuarioGoogle`,tokenGoogle).then(() => {
+        console.log('TOKEN enviado para o backend')
+      }).catch(() => {
+        console.log("Erro ao tentar enviar token para backend")
+      })
+
+    },
+
+    handlerLoginFacebook(response){
+      const token = response.authResponse.accessToken+response.authResponse.signedRequest
+      this.$http.post(`http://localhost:8082/api/public/usuarioGoogle`,token).then(() => {
+        console.log('TOKEN enviado para o backend')
+      }).catch(() => {
+        console.log("Erro ao tentar enviar token para backend")
+      })
+    },
+
     scrollToSection(sectionId) {
       const element = document.getElementById(sectionId);
       if (element) {
@@ -708,14 +900,55 @@ export default {
         this.resetErros();
       }
       this.estaCarregando = false;
-
-
     },
   },
+
+  async mounted() {
+    if(this.$route.query.token) {
+      const token = this.$route.query.token;
+      const jwt_decoded = decode(token);
+      this.$store.commit('DEFINIR_USUARIO_LOGADO', {
+        token: token,
+        usuario: {
+          username:jwt_decoded.sub ,
+          idUser:jwt_decoded.idUser
+        }
+      })
+      localStorage.setItem('token', token);
+      await  this.$router.push("/home")
+    }
+  }
 };
 </script>
 
 <style scoped>
+
+
+
+.col{
+  border: 0px dashed black;
+}
+
+.custom-title {
+  color: #1e5f9b;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+
+.custom-button {
+  border-color: #c5d4e3;
+}
+
+.custom-button span {
+  font-size: 21px;
+  margin: 3px;
+  margin-right: 3px;
+}
+
+.text-primary {
+  color: #4267B2;
+}
+
 
 .tilted-slide {
   animation: tiltAnimation 1.5s ease-in-out infinite alternate;
@@ -756,8 +989,12 @@ section h3, h4, h5 {
 
 .btn {
   width: 100%;
-  height: 50px;
+  height: 40px;
   border-radius: 0;
+  border-radius: 0;
+  font-family: Google Sans,arial,sans-serif;
+  font-size: 14px;
+  border-color:#c5d4e3;
 }
 
 input {
@@ -765,7 +1002,7 @@ input {
 }
 
 .form-control-lg {
-  padding: 18px;
+  padding: 10px;
   font-size: 16px;
 }
 
@@ -800,10 +1037,6 @@ p {
 h3 {
   font-family: 'Open Sans', sans-serif;
   color: #284f79;
-}
-
-.btn {
-  border-radius: 0;
 }
 
 input {
@@ -915,6 +1148,43 @@ section p {
 
 section h3, h4, h5 {
   text-align: center;
+}
+
+#customBtn {
+  display: inline-block;
+  background: white;
+  color: #444;
+  width: 190px;
+  border-radius: 5px;
+  border: thin solid #888;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+  width: 100%;
+}
+#customBtn:hover {
+  cursor: pointer;
+}
+span.label {
+  font-family: serif;
+  font-weight: normal;
+}
+span.icon {
+  background: url('../assets/google2.jpg') transparent 5px 50% no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  align-content: center;
+  width: 42px;
+  height: 42px;
+}
+span.buttonText {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 0px;
+  padding-right: 42px;
+  font-size: 14px;
+  font-weight: bold;
+  /* Use the Roboto font that is loaded in the <head> */
+  font-family: 'Roboto', sans-serif;
 }
 
 
