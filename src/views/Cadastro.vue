@@ -828,14 +828,9 @@ export default {
       this.categoria.isLoading = true;
       if (this.categoria.nome && this.categoria.id == null) {
         await this.$http.post("api/categoria", this.categoria)
-            .then((response) => {
-              const categoriaNova = {
-                isLoading: false,
-                ...response.data
-              };
-              this.categorias.push(categoriaNova)
+            .then(() => {
+              this.getCategorias()
               this.categoria = {isLoading: false};
-
               this.categoria.isLoading = false;
               this.novoAssunto = false;
             })
@@ -844,6 +839,7 @@ export default {
               this.erroResponse = Object.assign({}, erro);
               this.categoria.isLoading = false;
               this.novoAssunto = false;
+              console.log(erro);
 
             });
       } else {
@@ -858,6 +854,7 @@ export default {
                 this.erroResponse = Object.assign({}, erro);
                 this.categoria.isLoading = false;
                 this.novoAssunto = false;
+                console.log(erro);
               })
         }
       }
