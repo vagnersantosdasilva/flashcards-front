@@ -2,7 +2,7 @@
   <ul class="navbar-nav mr-auto align-items-center justify-content-sm-start" style="margin-right: 10px">
 
     <li class="nav-item" >
-      <router-link to="/cadastro_usuario" class="nav-link" style="color:#222">
+      <router-link to="/" class="nav-link" style="color:#222">
         Inscrever-se
       </router-link>
     </li>

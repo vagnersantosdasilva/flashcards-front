@@ -29,15 +29,22 @@
             class="submenu-item"
             @click="selectSubitem('perfil')"
         >
-          <box-icon name="id-card" class="me-1"/>
+          <box-icon type="solid" name="id-card" class="me-1"/>
           Perfil
         </div>
         <div
             class="submenu-item"
             @click="selectSubitem('cadastro')"
         >
-          <box-icon name="detail" class="me-1"/>
+          <box-icon type='solid' name="detail" class="me-1"/>
           Meus Cartões
+        </div>
+        <div
+            class="submenu-item"
+            @click="selectSubitem('dashboard')"
+        >
+          <box-icon type='solid' name='dashboard' class="me-1"></box-icon>
+          Dashboard
         </div>
         <div class="divider"></div> <!-- Divider -->
         <div
@@ -45,7 +52,7 @@
             @click.prevent="efetuarLogout"
 
         >
-          <box-icon name="log-out" class="me-1"/>
+          <box-icon type='solid' name="log-out"  class="me-1"/>
           Sair
         </div>
       </div>
@@ -55,28 +62,31 @@
     <li class="nav-item mt-2 d-lg-none">
       <div class="mobile-submenu">
         <div class="mobile-submenu-item" @click="selectSubitem('help')">
-          <box-icon name='help-circle' class="me-1" title="Ajuda" ></box-icon>
+          <box-icon name='help-circle' class="me-1" type="solid" title="Ajuda" ></box-icon>
           Ajuda
         </div>
         <div v-if="isFullscreen" class="mobile-submenu-item" @click="fullscreen">
-          <box-icon name='exit-fullscreen' class="me-1" title="Sair de Tela cheia" ></box-icon>
+          <box-icon name='exit-fullscreen' class="me-1" type="solid" title="Sair de Tela cheia" ></box-icon>
           Tela Cheia
         </div>
         <div v-else class="mobile-submenu-item" @click="fullscreen">
-          <box-icon name='fullscreen' class="me-1" title="Tela cheia" ></box-icon>
+          <box-icon name='fullscreen' class="me-1" type="solid" title="Tela cheia" ></box-icon>
           Tela Cheia
         </div>
         <div class="mobile-submenu-item" @click="selectSubitem('perfil')">
-          <box-icon name="id-card" class="me-1"/>
+          <box-icon name="id-card" type="solid" class="me-1"/>
           Perfil
         </div>
-        <div class="mobile-submenu-item" @click="selectSubitem('cadastro')">
+        <div class="mobile-submenu-item" type="solid" @click="selectSubitem('cadastro')">
           <box-icon name="detail" class="me-1"/>
           Meus Cartões
         </div>
-
+        <div class="mobile-submenu-item" @click="selectSubitem('dashboard')">
+          <box-icon name="dashboard" type="solid" class="me-1"/>
+          Dashboard
+        </div>
         <div class="mobile-submenu-item" @click.prevent="efetuarLogout">
-          <box-icon name="log-out" class="me-1"/>
+          <box-icon name="log-out" type="solid" class="me-1"/>
           Sair
         </div>
       </div>
@@ -149,6 +159,7 @@ export default {
       if (subitem === 'perfil') this.$router.push({name: 'perfil'})
       if (subitem === 'cadastro') this.$router.push({name: 'cadastro'})
       if (subitem === 'help') this.$router.push({name: 'help'})
+      if (subitem === 'dashboard') this.$router.push({name: 'dashboard'})
       this.$emit('close-menu');
     },
     efetuarLogout() {

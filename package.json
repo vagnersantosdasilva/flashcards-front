@@ -20,6 +20,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-vue": "^2.23.1",
     "boxicons": "^2.1.4",
+    "chart.js": "^2.9.4",
     "ckeditor5-build-decoupled-document-base64-imageresize": "^17.0.0",
     "core-js": "^3.4.4",
     "jquery": "^3.4.1",

@@ -10,6 +10,7 @@ import ResetPublico from "../views/ResetPublico.vue";
 import Perfil from "../views/Perfil.vue";
 import ResetPrivado from "../views/ResetPrivado.vue";
 import Help from "../views/Help.vue";
+import Dashboard from "../views/Dashboard.vue";
 
 Vue.use(VueRouter)
 
@@ -68,7 +69,6 @@ const routes = [
     component: Help,
 
   },
-
  {
     path:'' ,
     name:'cadastroUsuario',
@@ -77,6 +77,7 @@ const routes = [
     },
     component: CadastroUsuario,
   },
+  /*
   {
     path: '/cadastro_usuario',
     name: 'cadastroUsuario',
@@ -84,6 +85,16 @@ const routes = [
     meta: {
       publica: true
     }
+  },
+  */
+  {
+    path:'/dashboard' ,
+    name:'dashboard',
+    component: Dashboard,
+    meta:{
+      publica: false
+    },
+    
   },
 ]
 
