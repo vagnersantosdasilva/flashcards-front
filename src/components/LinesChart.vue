@@ -71,11 +71,15 @@ export default {
       console.log('Performance recebida',this.performance)
       this.chartData.labels =[]
       this.chartData.datasets[0].data =[]
-      this.performance.acertosPorEtapa.forEach(e => {
-        this.chartData.labels.unshift(e.etapa);
-        const taxaAcertos = e.acertos == null ? 0 : Math.ceil((e.acertos / e.tentativas) * 100);
-        this.chartData.datasets[0].data.unshift(taxaAcertos);
-      });
+      if (this.performance.acertosPorEtapa && this.performance.acertosPorEtapa!=null) {
+        //this.performance.acertosPorEtapa.sort((a, b) => (a.etapa < b.etapa) ? 1 : ((b.etapa < a.etapa) ? -1 : 0));
+        this.performance.acertosPorEtapa.forEach(e => {
+          this.chartData.labels.push(e.etapa);
+          const taxaAcertos = e.aproveitamento == null ? 0 : e.aproveitamento;
+          this.chartData.datasets[0].data.push(taxaAcertos);
+        });
+      }
+
       const ctx = this.$refs.linesChart.getContext('2d');
 
       // Destrói a instância anterior do gráfico, se existir
