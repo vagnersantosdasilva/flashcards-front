@@ -28,7 +28,7 @@ export default {
         datasets: [
           {
             data: [], // Substitua esses valores pelos seus dados
-            backgroundColor: ['#36A2EB', '#FF6384', '#a2e7c0', '#c71125', '#8e21b0','black'], // Cores para cada Etapa do anel
+            backgroundColor: ['#8e2fff','#36A2EB', '#FF6384', '#a2e7c0', '#c71125', '#8e21b0','black'], // Cores para cada Etapa do anel
             //backgroundColor: ['yellow', 'orange','red','purple', 'brown','black'], // Cores para cada Etapa do anel
           },
         ],

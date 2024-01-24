@@ -314,7 +314,8 @@ export default {
           .then((response) => {
             this.listPergunta = response.data;
             this.qtdPerguntas = this.listPergunta.length
-            this.questao = this.listPergunta.pop();
+            //this.questao = this.listPergunta.pop();
+            this.questao = this.listPergunta.shift();
           }).catch((error) => {
             this.erroResponse = Object.assign({}, error);
             this.showDismissibleAlert = true;
@@ -334,7 +335,8 @@ export default {
           .then((response) => {
             this.listPergunta = response.data;
             this.qtdPerguntas = this.listPergunta.length
-            this.questao = this.listPergunta.pop();
+            this.questao = this.listPergunta.shift();
+            //this.questao = this.listPergunta.pop();
           }).catch((error) => {
             this.erroResponse = Object.assign({}, error);
             this.showDismissibleAlert = true;
@@ -377,7 +379,8 @@ export default {
       else this.listErro.push(questao);
 
       if (this.listPergunta.length > 0) {
-        this.questao = this.listPergunta.pop();
+        //this.questao = this.listPergunta.pop();
+        this.questao = this.listPergunta.shift();
       } else {
         this.questionarioConcluido = true
         //console.log('aproveitamento :', this.listAcerto.length / this.qtdPerguntas)
@@ -395,7 +398,8 @@ export default {
       this.qtdPerguntas = this.listErro.length;
       this.listPergunta = Object.assign([], this.listErro);
       this.listErro = [];
-      this.questao = this.listPergunta.pop();
+      //this.questao = this.listPergunta.pop();
+      this.questao = this.listPergunta.shift();
       this.questionarioConcluido = false;
     },
 

@@ -16,7 +16,7 @@
               <div class="container">
                 <h4 class="ms-2 mt-4 mb-4 d-flex justify-content-start">{{item.nomeCategoria}}</h4>
                 <b-row class="col-12 d-flex justify-content-center mb-3 ">
-                  <b-col class="col-lg-3 col-12 mt-3">
+                  <b-col class="col-lg-4 col-12 mt-3">
                     <b-card
                         class="ms-2"
                         bg-variant="white"
@@ -30,7 +30,7 @@
                       </b-card-body>
                     </b-card>
                   </b-col>
-                  <b-col class="col-lg-3 col-12 mt-3">
+                  <b-col class="col-lg-4 col-12 mt-3">
                     <b-card
                         class="ms-2"
                         bg-variant="white"
@@ -43,7 +43,7 @@
                       </b-card-body>
                     </b-card>
                   </b-col>
-                  <b-col class="col-lg-3 col-12 mt-3">
+                  <b-col class="col-lg-4 col-12 mt-3">
                     <b-card
                         class="ms-2"
                         bg-variant="white"
@@ -51,17 +51,18 @@
                       <b-card-title>Aproveitamento</b-card-title>
                       <b-card-body>
                         <div class="container d-flex flex-column align-content-center justify-content-center mt-1" >
-                          <h4 class="d-flex justify-content-center">Bom </h4>
+                          <h4 class="d-flex justify-content-center">{{aproveitamento}} </h4>
                         </div>
                       </b-card-body>
                     </b-card>
                   </b-col>
+                  <!--
                   <b-col class="col-lg-3 col-12 mt-3">
                     <b-card
                         class="ms-2"
                         bg-variant="white"
                         style="width: 100%;height: 150px;border-radius: 0">
-                      <b-card-title>Ritmo de estudos</b-card-title>
+                      <b-card-title>Maior Atraso</b-card-title>
                       <b-card-body>
                         <div class="container d-flex flex-column align-content-center justify-content-center mt-1" >
                           <h4 class="d-flex justify-content-center">Moderado</h4>
@@ -69,6 +70,7 @@
                       </b-card-body>
                     </b-card>
                   </b-col>
+                -->
 
                 </b-row>
                 <b-row class="col-12 d-flex justify-content-center mb-3">
@@ -133,10 +135,12 @@ export default {
           acertosCategoria:{
             acertos:null,
             etapa:null,
-            tentativas:null
+            tentativas:null,
+            aproveitamento:null
           }
         };
     },
+
     methods:{
 
       extrairContagem(item){
@@ -144,6 +148,10 @@ export default {
         let contagem = {
           labels:[],
           data:[]
+        }
+        if(item.etapa0){
+          contagem.labels.push('Etapa 0')
+          contagem.data.push(item.etapa0)
         }
         if(item.etapa1){
           contagem.labels.push('Etapa 1')
@@ -170,6 +178,33 @@ export default {
           contagem.data.push(item.etapa6)
         }
         return contagem;
+      },
+
+      obterAproveitamento(acertoCategoria){
+        if (acertoCategoria && acertoCategoria.acertosPorEtapa){
+          let cont  = 0
+          let ap = 0
+          let media = 0 
+          acertoCategoria.acertosPorEtapa.forEach((e)=>{
+          cont++;
+            ap = ap+e.aproveitamento
+            
+          })
+          if (cont>0){
+            media = (ap / cont)
+            console.log('media:',media)
+          
+            if (media <= 6) this.aproveitamento =  'Baixo';
+            if (media >6 && media <=7) this.aproveitamento =  'Regular'
+            if (media>7 && media<=8) this.aproveitamento =  'Bom'
+            if (media>8 && media<=9) this.aproveitamento =  'Muito Bom' 
+            if (media>9 ) this.aproveitamento =  'Excelente' 
+          }
+          else this.aproveitamento=""
+          
+           
+        }
+        else this.aproveitamento =  "";
       },
 
       checkMobile() {
@@ -201,7 +236,7 @@ export default {
         }
         let copiaLista = [...this.listaCategoriaAcertos];
         this.acertosCategoria = Object.assign({},copiaLista[0]);
-        console.log('acertoCategoria:',this.acertosCategoria)
+        
       },
 
       async getAcertosPorCategoria(item){
@@ -213,6 +248,7 @@ export default {
             acertosPorEtapa: response.data
           }
           this.listaCategoriaAcertos.push(acertosCategoria);
+          
 
         }).catch(()=>{
 
@@ -224,6 +260,11 @@ export default {
       listaCadastro: function (newContent) {
        this.getListaCategoriaAcertos(newContent);
       },
+
+      acertosCategoria:function(newContent){
+        this.obterAproveitamento(newContent)
+      },
+
     },
     async mounted() {
       await this.getListaCadastro();

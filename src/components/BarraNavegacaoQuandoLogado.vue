@@ -22,7 +22,7 @@
 
     <div class=" mt-1 avatar-menu nav-link d-none d-lg-block" v-b-tooltip.hover>
       <div class="avatar-button" @click="toggleSubMenu" title="Usuário">
-        {{ initials }}
+        <div style="font-size: 16px; font-weight: 600;">{{ initials }}</div>
       </div>
       <div class="submenu" v-show="showSubMenu">
         <div
@@ -206,8 +206,8 @@ export default {
 
 .avatar-button {
   margin-right: 10px;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   line-height: 33px;
   text-align: center;
   border-radius: 50%;
