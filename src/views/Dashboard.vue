@@ -1,9 +1,88 @@
 <template>
   <section>
-    <div >
+    <div v-if="isMobile">
+      <div class="accordion" role="tablist">
+        <b-card no-body class="mb-1" v-for="(item, index) in listaCadastro" :key="index">
+          <b-card-header header-tag="header" class="p-1" role="tab">
+            <b-button block v-b-toggle="obtemId(index)" variant="primary">{{ item.nomeCategoria }}</b-button>
+          </b-card-header>
+          <b-collapse :id="obtemId(index)" visible accordion="my-accordion" role="tabpanel">
+            <b-card-body>
+              <b-card-text>
+                <div>
+                  <b-row class="col-12 d-flex justify-content-center mb-3 ">
+                    <b-col class="col-12 mt-3">
+                      <b-card
+                          class="ms-2"
+                          bg-variant="white"
+                          style="width: 100%;height: 150px; border-radius: 0">
+                        <b-card-title >Questões</b-card-title>
 
+                        <b-card-body>
+                          <div class="container d-flex flex-column align-content-center justify-content-center mt-1" >
+                            <h3 class="d-flex justify-content-center">{{ item.totalQuestoes }}</h3>
+                          </div>
+                        </b-card-body>
+                      </b-card>
+                    </b-col>
+                    <b-col class="col-12 mt-3">
+                      <b-card
+                          class="ms-2"
+                          bg-variant="white"
+                          style="width: 100%;height: 150px;border-radius: 0">
+                        <b-card-title>Proficiência</b-card-title>
+                        <b-card-body>
+                          <div class="container d-flex flex-column align-content-center justify-content-center mt-1" >
+                            <h4 class="d-flex justify-content-center">{{ item.nivel }}</h4>
+                          </div>
+                        </b-card-body>
+                      </b-card>
+                    </b-col>
+                    <b-col class="col-12 mt-3">
+                      <b-card
+                          class="ms-2"
+                          bg-variant="white"
+                          style="width: 100%;height: 150px;border-radius: 0">
+                        <b-card-title>Aproveitamento</b-card-title>
+                        <b-card-body>
+                          <div class="container d-flex flex-column align-content-center justify-content-center mt-1" >
+                            <h4 class="d-flex justify-content-center">{{aproveitamento}} </h4>
+                          </div>
+                        </b-card-body>
+                      </b-card>
+                    </b-col>
+                    <!--
+                    <b-col class="col-12 mt-3">
+                      <b-card
+                          class="ms-2"
+                          bg-variant="white"
+                          style="width: 100%;height: 150px;border-radius: 0">
+                        <b-card-title>Maior Atraso</b-card-title>
+                        <b-card-body>
+                          <div class="container d-flex flex-column align-content-center justify-content-center mt-1" >
+                            <h4 class="d-flex justify-content-center">Moderado</h4>
+                          </div>
+                        </b-card-body>
+                      </b-card>
+                    </b-col>
+                  -->
+
+                </b-row>
+                <b-row class="col-12 d-flex justify-content-center mb-3">
+                  <b-col class="col-12 mt-3"><lines-chart :performance="acertosCategoria" :key="item.idCategoria"/></b-col>
+                  <b-col class="col-12 mt-3"><donut-chart :contagem="extrairContagem(item)"/></b-col>
+                </b-row>
+                </div>
+              </b-card-text>
+            </b-card-body>
+          </b-collapse>
+        </b-card>
+      </div>
+
+    </div>
+
+    <div v-else>
       <b-card no-body>
-
         <b-tabs
             pills
             card
@@ -107,6 +186,10 @@ section {
   padding-top: 75px;
 }
 
+.btn{
+  width: 100%;
+}
+
 </style>
 
 <script>
@@ -114,10 +197,17 @@ section {
 import DonutChart from "../components/DonutChart.vue";
 import LinesChart from '../components/LinesChart.vue';
 export default {
+
     components:{
       DonutChart,
       LinesChart,
     },
+
+    computed:{
+     
+
+    },
+
     data() {
         return {
           listaCadastro:[],
@@ -142,6 +232,10 @@ export default {
     },
 
     methods:{
+      
+      obtemId(id){
+        return `accordion-${id}`
+      },
 
       extrairContagem(item){
 
@@ -186,19 +280,17 @@ export default {
           let ap = 0
           let media = 0 
           acertoCategoria.acertosPorEtapa.forEach((e)=>{
-          cont++;
+            cont++;
             ap = ap+e.aproveitamento
             
           })
           if (cont>0){
             media = (ap / cont)
-            console.log('media:',media)
-          
-            if (media <= 6) this.aproveitamento =  'Baixo';
-            if (media >6 && media <=7) this.aproveitamento =  'Regular'
-            if (media>7 && media<=8) this.aproveitamento =  'Bom'
-            if (media>8 && media<=9) this.aproveitamento =  'Muito Bom' 
-            if (media>9 ) this.aproveitamento =  'Excelente' 
+            if (media <= 60) this.aproveitamento =  'Baixo';
+            if (media >60 && media <=70) this.aproveitamento =  'Regular'
+            if (media>70 && media<=80) this.aproveitamento =  'Bom'
+            if (media>80 && media<=90) this.aproveitamento =  'Muito Bom' 
+            if (media>90 ) this.aproveitamento =  'Excelente' 
           }
           else this.aproveitamento=""
           
@@ -268,17 +360,19 @@ export default {
     },
     async mounted() {
       await this.getListaCadastro();
+      window.addEventListener('resize', this.checkMobile);
     },
 
     created() {
       // Verificar se o usuário está em um dispositivo móvel
       this.checkMobile();
       // Adicionar um ouvinte de redimensionamento para verificar continuamente
-      window.addEventListener('resize', this.checkMobile);
+      //window.addEventListener('resize', this.checkMobile);
     },
     beforeDestroy() {
       // Remover o ouvinte de redimensionamento ao destruir o componente
       window.removeEventListener('resize', this.checkMobile);
     },
+    
 }
 </script>
