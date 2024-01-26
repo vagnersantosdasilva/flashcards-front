@@ -3,7 +3,7 @@
     <section class="bemvindo d-flex flex-column align-items-center justify-content-center">
       <div class="container">
         <div class="row justify-content-center mt-4">
-          <div class="col-md-6" >
+          <div class="col-lg-6 col-12" >
             <div class="login-content">
               <h3>Bem-vindo ao Memo Beam!</h3>
               <p>
@@ -22,108 +22,44 @@
             </div>
           </div>
 
-          <div class="col-md-6" >
+          <div class="col-lg-6 col-12 d-flex aling-column justify-content-center align-content-center" >
             <p class="text-danger" v-if="erroAutenticacao">Ocorreu um erro ao tentar autenticar</p>
-            <b-card class="shadow-lg">
+            <b-card class="shadow-lg" style="max-width: 400px;">
               <b-card-title class="custom-title">Seja bem vindo(a) de volta!</b-card-title>
               <b-card-body>
                 <div class="text-center mb-1">
 
                 </div>
                 <form>
-                  <b-row  class="d-flex justify-content-between">
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="cutom-button mt-1 mb-1 d-flex justify-content-center align-content-center"
-                          @click="loginGoogle"
-                      >
-                        <b-row class="col-12 d-flex justify-content-start">
-                          <b-col class="col-lg-2 col-2">
-                              <img class="me-0 mt-1" src="../assets/google2.jpg" height="22" width="22"/>
-<!--                            <span
-                                class="fa-brands fa-google  "
-                                style="color:cornflowerblue; cursor:pointer;font-size: 21px; margin: 3px; margin-right: 3px;" >
-                            </span>-->
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" ><strong>Entrar com o Google</strong></p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-
-                      </b-button>
-
-                    </b-col>
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="custom-button  d-flex justify-content-center align-content-center"
-                          @click="loginWithGithub"
-                      >
-                        <b-row class="d-flex col-12 justify-content-center">
-                          <b-col class="col-2 col-lg-2">
-                             <span
-                                 class="fa-brands fa-github "
-                                 style="color:black;">
-                             </span>
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" ><strong>Entrar com o GitHub</strong></p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-
-                      </b-button>
-
-                    </b-col>
-                    <b-col class="col-12 d-flex justify-content-center  ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="custom-button mt-1 d-flex justify-content-center align-content-center"
-                          @click="loginWithFacebook"
-                      >
-                        <b-row class="d-flex col-12 justify-content-center">
-                          <b-col class="col-2 col-lg-2">
-                             <span
-                                 class="fa-brands fa-facebook-square "
-                                 style="color:blue;">
-                             </span>
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" ><strong>Entrar com o Facebook</strong></p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-
-                      </b-button>
-
-                    </b-col>
-
-                  </b-row>
-
+                  
                   <b-form-group
-                      class="form-group mt-3"
+                      class="form-group mt-0"
                   >
-                    <b-row class="d-flex justify-content-center col-12 ms-0 mb-1" >
-                      <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
-                      <b-col class=" col-1 d-flex justify-content-center">
-                        <b-row><p><strong>ou</strong></p></b-row>
-                      </b-col>
-                      <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
-
-                    </b-row>
+                   
                   </b-form-group>
-                  <div class="form-group mt-0">
-                    <b-form-input v-model="usuario.email" placeholder="Email " class="form-control-lg"></b-form-input>
-                  </div>
-                  <div class="form-group mt-2">
+                  <b-form-group 
+                    style="font-weight: bold;font-size: 10px;color:black;font-family:'Open Sans', sans-serif;"
+                  >
+                    <label style="font-weight: bold; font-size: 13px; color: black; font-family: 'Open Sans', sans-serif;">E-MAIL</label>
+                    <b-form-input 
+                      style="font-family:'Open Sans', sans-serif; font-size: 13px;"
+                      v-model="usuario.email" 
+                      placeholder="nome@email.com" 
+                      class="form-control-lg">
+                    </b-form-input>
+
+                  </b-form-group>
+                  <b-form-group class="mt-2">
+                    <label style="font-weight: bold; font-size: 13px; color: black; font-family: 'Open Sans', sans-serif;">SENHA</label>
                     <b-input-group>
-                      <b-form-input v-model="usuario.password" :type="passwordInputType" placeholder="Senha"
-                                    class="form-control-lg"></b-form-input>
+                      <b-form-input
+                        style="font-family:'Open Sans', sans-serif; font-size: 13px;"
+                        v-model="usuario.password" 
+                        :type="passwordInputType" 
+                        placeholder="Insira sua senha"
+                        class="form-control-lg"
+                        >
+                      </b-form-input>
                       <b-input-group-append>
                         <b-input-group-text
                             @mousedown="changeInputType('text')"
@@ -132,38 +68,118 @@
                           <i
                               :class="
                                 passwordInputType === 'password'
-                                  ? 'far fa-eye'
-                                  : 'far fa-eye-slash'
+                                  ? 'far fa-eye-slash'
+                                  : 'far fa-eye'
                               "
                           ></i>
                         </b-input-group-text>
                       </b-input-group-append>
                     </b-input-group>
-
-                  </div>
-                  <div class="form-group mt-2 ">
-                    <b-button variant="primary" block size="lg" class="w-100 mb-1" @click="login"><strong>Entrar</strong></b-button>
-                  </div>
-  <!--                  <div class="text-center">
-                      <b-button variant="transparent" size="lg" class="w-100" @click="cadastrar">Ainda não tem cadastro ?</b-button>
-                    </div>-->
-
-                  <hr class="mt-1">
-                  <b-row class="d-flex  justify-content-center">
-                    <b-col>
-                      <router-link to="/">
-                        <div class="d-flex justify-content-sm-start">
-                          <a href="" class="text-primary ">Não tenho cadastro</a>
-                        </div>
-                      </router-link>
-                    </b-col>
-                    <b-col>
+                    <b-row class="d-flex justify-content-start">
+                      <div>
                       <router-link to="reset">
-                        <div class="d-flex justify-content-sm-end">
-                          <a href="" class="text-primary">Esqueci a senha</a>
+                        <div class="d-flex justify-content-sm-start mt-1" 
+                          style="font-size: 12px;">
+                          <a href="" class="text-primary">Esqueceu a senha?</a>
                         </div>
                       </router-link>
+                    </div>
+
+                    </b-row>
+
+                  </b-form-group>
+                  <div class="form-group mt-3 ">
+                    <b-button 
+                      variant="primary" 
+                      block size="lg" 
+                      class="w-100 " 
+                      @click="login">
+                      <strong>Entrar</strong>
+                    </b-button>
+                  </div>
+                  <b-row class="mt-3 d-flex justify-content-center col-12 ms-0 " >
+                      <b-col>
+                        <b-row style="margin-top: 12px;"><hr/></b-row>
+                      </b-col>
+                      <b-col class=" col-1 d-flex justify-content-center">
+                        <b-row class="text-secondary">ou</b-row>
+                      </b-col>
+                      <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
+
+                  </b-row>
+
+                  <b-row  class="d-flex justify-content-between mt-1">
+                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="custom-button-google mt-1 d-flex justify-content-center align-content-center"
+                          @click="loginGoogle"
+                      >
+                        <b-row class="col-12 d-flex justify-content-start">
+                          <b-col class="col-1">
+                            
+                              <span class="fa-brands fa-google  "></span>
+                            
+                              <!-- <img class="me-0 mt-1" src="../assets/google.png" height="22" width="22"/>-->
+                           
+                          </b-col>
+                          <b-col class="col-10">
+                            <div class="mt-1  d-flex justify-content-center" >
+                              <strong>Entrar com o Google</strong>
+                            </div>
+                          </b-col>
+                          <b-col class="col-1">
+                            
+                          </b-col>
+                        </b-row>
+
+                      </b-button>
+
                     </b-col>
+                 
+                    <b-col class="col-12 d-flex justify-content-center  ">
+                      <b-button
+                          style="border-color:#c5d4e3;"
+                          variant="transparent"
+                          class="custom-button-facebook mt-2 d-flex justify-content-center align-content-center"
+                          @click="loginWithFacebook"
+                      >
+                        <b-row class="d-flex col-12 justify-content-center">
+                          <b-col class="col-1 ">
+                             <span
+                                 class="fa-brands fa-facebook-square "
+                                 >
+                             </span>
+                          </b-col>
+                          <b-col class="col-10">
+                            <div class="mt-1  d-flex justify-content-center" >
+                              <strong>Entrar com o Facebook</strong>
+                            </div>
+                          </b-col>
+                          <b-col class=" col-1"></b-col>
+                        </b-row>
+
+                      </b-button>
+
+                    </b-col>
+
+                  </b-row>
+
+                  
+                  <b-row class="d-flex  justify-content-center mt-4">
+                    <b-col>
+                      <div 
+                        class="d-flex justify-content-sm-center" 
+                        style="font-size: 12px;"
+                        >
+                      <div class="text-secondary">Ainda não tem cadastro? </div>
+                        <router-link to="/">
+                            <a href="" class="text-primary ms-2">Criar uma conta</a>
+                        </router-link>
+                      </div>
+                    </b-col>
+                   
                   </b-row>
 
                 </form>
@@ -181,12 +197,6 @@
 </template>
 
 <script>
-
-//import http from '@/http'
-//import axios from 'axios'
-//import cadastroUsuario from "./CadastroUsuario.vue";
-
-//import axios from "axios";
 
 export default {
   components: {},
@@ -245,10 +255,36 @@ export default {
 </script>
 
 <style scoped>
+a {
+    text-decoration: none;
+}
 .custom-title {
-  color: #1e5f9b;
+  /*color: #1e5f9b;*/
+  color: black;
   margin-left: 15px;
   margin-top: 10px;
+}
+.custom-button-google{
+  color:#212529;
+  border: 1px solid #ced4da;
+}
+.custom-button-facebook{
+  color:#212529;
+  border: 1px solid #ced4da;
+}
+.custom-button-google span{
+  color:rgb(241, 39, 83);
+  font-size: 18px;
+  margin: 3px; 
+  margin-right: 3px;
+}
+
+.custom-button-facebook span{
+  color:rgb(42, 39, 241);
+  font-size: 20px;
+  margin: 3px; 
+  margin-right: 3px;
+  
 }
 
 .custom-button {
@@ -307,6 +343,7 @@ h3{
 input {
   border-radius: 0;
   border-color:#c5d4e3;
+  height: 40px;
 }
 
 section {
@@ -316,6 +353,7 @@ section {
 
 section p{
   text-align: justify;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .bemvindo {
