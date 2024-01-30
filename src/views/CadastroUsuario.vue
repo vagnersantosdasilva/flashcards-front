@@ -3,218 +3,10 @@
   <div class="main">
     <section class="bemvindo d-flex flex-column align-items-center justify-content-center" id="inicio">
       <div class="container">
-        <div class="row d-flex justify-content-center" v-if="cadastroFinalizado">
-          <div class="col-md-6">
+        <div class="row d-flex justify-content-between mt-4" >
+          <div class="col-lg-6 col-12">
             <div class="login-content">
-              <h3 class="text-sm-center text-md-start">Obrigado por se cadastrar!</h3>
-              <p class="d-flex justify-content-start" style="color: green">
-                <strong>Enviamos um link de ativação para o seu e-mail.</strong></p>
-              <p class="d-flex justify-content-start">
-                Para concluir o processo, por favor, verifique sua caixa de entrada e clique no link de ativação.
-                Assim, seu cadastro será efetivado com sucesso.
-              </p>
-            </div>
-          </div>
-
-          <div class="col-md-6">
-            <p class="text-danger" v-if="erroCadastro"><strong>{{ erro }}</strong></p>
-            <b-card class=" shadow-lg" style="background-color: #dfe0e3">
-              <b-card-title class="custom-title">Inscreva-se</b-card-title>
-              <b-card-body>
-                <form>
-
-                  <b-row  class="d-flex justify-content-between">
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="cutom-button mt-1 mb-1 d-flex justify-content-center align-content-center"
-                          disabled
-                      >
-                        <b-row class="col-12 d-flex justify-content-start">
-                          <b-col class="col-lg-2 col-2">
-                            <img class="me-0 mt-1" src="../assets/google2.jpg" height="22" width="22"/>
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" >
-                              <strong>Inscrever-se com o Google</strong>
-                            </p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-                      </b-button>
-                    </b-col>
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="custom-button  d-flex justify-content-center align-content-center"
-                          disabled
-                      >
-                        <b-row class="d-flex col-12 justify-content-center">
-                          <b-col class="col-2 col-lg-2">
-                             <span
-                                 class="fa-brands fa-github "
-                                 style="color:black;">
-                             </span>
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" >
-                              <strong>Inscrever-se com o GitHub</strong>
-                            </p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-                      </b-button>
-
-                    </b-col>
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="custom-button mt-1 d-flex justify-content-center align-content-center"
-                          disabled
-                      >
-                        <b-row class="d-flex col-12 justify-content-center">
-                          <b-col class="col-2 col-lg-2">
-                             <span
-                                 class="fa-brands fa-facebook-square "
-                                 style="color:blue;">
-                             </span>
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" >
-                              <strong>Inscrever-se com o Facebook</strong>
-                            </p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-                      </b-button>
-                    </b-col>
-                  </b-row>
-
-                  <b-form-group
-                      class="form-group mt-2"
-                      :invalid-feedback="errors.username"
-                      :state="errors.state.username"
-                      disabled
-
-                  >
-                    <b-form-input
-                        v-model="usuario.username"
-                        autocomplete="false"
-                        placeholder="Email"
-                        class="form-control-lg"
-                        required
-                        type="email"
-                        disabled
-                    ></b-form-input>
-                  </b-form-group>
-
-                  <b-form-group
-                      class="form-group mt-2"
-                      :invalid-feedback="errors.password"
-                      :state="errors.state.password"
-                      disabled
-                  >
-                    <b-input-group>
-                      <b-form-input
-                          v-model="usuario.password"
-                          autocomplete="false"
-                          :type="passwordInputType"
-                          placeholder="Senha"
-                          class="form-control-lg"
-                          disabled
-
-                      ></b-form-input>
-                      <b-input-group-append>
-                        <b-input-group-text
-                            @mousedown="changeInputType('text')"
-                            @mouseup="changeInputType('password')"
-                            disabled
-                            style="height: 100%;border-radius: 0">
-                          <i
-                              :class="
-                                passwordInputType === 'password'
-                                  ? 'far fa-eye'
-                                  : 'far fa-eye-slash'
-                              "
-                          ></i>
-                        </b-input-group-text>
-                      </b-input-group-append>
-                    </b-input-group>
-                  </b-form-group>
-
-                  <b-form-group
-                      class="form-group mt-2"
-                      :invalid-feedback="errors.confirmPassword"
-                      :state="errors.state.confirmPassword"
-                      disabled
-                  >
-                    <b-input-group>
-                      <b-form-input
-                          v-model="usuario.confirmPassword"
-                          autocomplete="false"
-                          :type="passwordInputType"
-                          placeholder="Confirme a senha"
-                          class="form-control-lg"
-                          disabled
-
-                          :state="errors.state.confirmPassword"
-                          trim
-                      ></b-form-input>
-                      <b-input-group-append>
-                        <b-input-group-text
-                            @mousedown="changeInputType('text')"
-                            @mouseup="changeInputType('password')"
-                            disabled
-                            style="height: 100%;border-radius: 0">
-                          <i
-                              :class="
-                                passwordInputType === 'password'
-                                  ? 'far fa-eye'
-                                  : 'far fa-eye-slash'
-                              "
-                          ></i>
-                        </b-input-group-text>
-                      </b-input-group-append>
-                    </b-input-group>
-                  </b-form-group>
-
-                  <b-form-group>
-                    <b-form-checkbox
-                        id="termos"
-                        v-model="aceitouTermos"
-                        name="aceitar-termos"
-                        required
-                        class="mt-2 m-2"
-                        disabled
-
-                    >
-                      <div class="ms-2">Eu li e aceito os <a href="#" v-b-modal.termos>Termos de Uso</a></div>
-                    </b-form-checkbox>
-                  </b-form-group>
-
-                  <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
-                    <b-button variant="primary" @click="cadastrar" disabled>
-                      Cadastrar
-                      <i class="fas fa-hourglass fa-spin fa-3x"
-                         v-show="estaCarregando"
-                         style="font-size: 12px"
-                      />
-                    </b-button>
-                  </b-row>
-                </form>
-              </b-card-body>
-            </b-card>
-          </div>
-
-
-        </div>
-        <div class="row d-flex justify-content-between mt-4" v-else>
-          <div class="col-md-6">
-            <div class="login-content">
-              <h3 class="text-sm-center text-md-start">Bem-vindo ao MemoBeam!</h3>
+              <h3 class="text-sm-center text-md-start">Bem-vindo ao Memo Beam!</h3>
               <p>
                 Você está prestes a entrar em um mundo de possibilidades educacionais.
                 Não perca a oportunidade de fazer parte desta jornada de aprendizado única.
@@ -235,207 +27,247 @@
             </div>
           </div>
 
-          <div class="col-md-6  flex-column  justify-content-center align-content-center"  align-self="center">
-            <p class="text-danger" v-if="erroCadastro">
-              <strong>{{ erro }}</strong></p>
-            <b-card class=" shadow-lg" style="">
-              <b-card-title class="custom-title">Inscreva-se</b-card-title>
-              <b-card-body>
-                <form>
-                  <b-row  class="d-flex justify-content-between">
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="cutom-button mt-1 mb-1 d-flex justify-content-center align-content-center"
-                          @click="loginGoogle"
-                      >
-                        <b-row class="col-12 d-flex justify-content-start">
-                          <b-col class="col-lg-2 col-2">
-                            <img class="me-0 mt-1" src="../assets/google2.jpg" height="22" width="22"/>
-                            <!--                            <span
-                                                            class="fa-brands fa-google  "
-                                                            style="color:cornflowerblue; cursor:pointer;font-size: 21px; margin: 3px; margin-right: 3px;" >
-                                                        </span>-->
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" >
-                              <strong>Inscrever-se com o Google</strong>
-                            </p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-                      </b-button>
-                    </b-col>
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="custom-button  d-flex justify-content-center align-content-center"
-                          @click="loginWithGithub"
-                      >
-                        <b-row class="d-flex col-12 justify-content-center">
-                          <b-col class="col-2 col-lg-2">
-                             <span
-                                 class="fa-brands fa-github "
-                                 style="color:black;">
-                             </span>
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" >
-                              <strong>Inscrever-se com o GitHub</strong>
-                            </p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-                      </b-button>
-
-                    </b-col>
-                    <b-col class="col-12 d-flex justify-content-center align-content-center ">
-                      <b-button
-                          style="border-color:#c5d4e3;"
-                          variant="transparent"
-                          class="custom-button mt-1 d-flex justify-content-center align-content-center"
-                          @click="loginWithFacebook"
-                      >
-                        <b-row class="d-flex col-12 justify-content-center">
-                          <b-col class="col-2 col-lg-2">
-                             <span
-                                 class="fa-brands fa-facebook-square "
-                                 style="color:blue;">
-                             </span>
-                          </b-col>
-                          <b-col class="col-lg-8 col-10">
-                            <p class="mt-1 d-flex justify-content-center" >
-                              <strong>Inscrever-se com o Facebook</strong>
-                            </p>
-                          </b-col>
-                          <b-col class="col-lg-2 col-2"></b-col>
-                        </b-row>
-                      </b-button>
-                    </b-col>
-                  </b-row>
-
-                  <b-form-group
-                      class="form-group mt-2"
-                  >
-                    <b-row class="d-flex justify-content-center col-12 ms-0 mb-1 mt-3" >
-                      <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
-                      <b-col class=" col-1 d-flex justify-content-center">
-                        <b-row><p><strong>ou</strong></p></b-row>
-                      </b-col>
-                      <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
-
+          <div class="col-lg-6 col-12 d-flex aling-column justify-content-center align-content-center"  align-self="center">
+            <b-row class="col-12 d-flex aling-column justify-content-center align-content-center">
+              <b-card 
+                class=" shadow-lg" 
+                :style="estiloCard"
+              >
+                <div v-if="cadastroFinalizado">
+                  
+                  <b-card-body class="d-block justify-content-center">
+                    <b-row >
+                        <i 
+                          style="margin-top: 130px; margin-left: 125px;margin-bottom: 100px;" 
+                          class="fas fa-check-circle fa-4x text-success animated bounceIn"></i>
                     </b-row>
-                  </b-form-group>
-
-                  <b-form-group
-                      :invalid-feedback="errors.username"
-                      :state="errors.state.username"
-
-                  >
-                    <b-form-input
-                        v-model="usuario.username"
-                        autocomplete="false"
-                        placeholder="Email"
-                        class="form-control-lg"
-                        required
-                        type="email"
-                    ></b-form-input>
-                  </b-form-group>
-
-                  <b-form-group
-                      class="form-group mt-2"
-                      :invalid-feedback="errors.password"
-                      :state="errors.state.password"
-                  >
-                    <b-input-group>
-                      <b-form-input
-                          v-model="usuario.password"
-                          autocomplete="false"
-                          :type="passwordInputType"
-                          placeholder="Senha"
-                          class="form-control-lg"
-
-                      ></b-form-input>
-                      <b-input-group-append>
-                        <b-input-group-text
-                            @mousedown="changeInputType('text')"
-                            @mouseup="changeInputType('password')"
-                            style="height: 100%;border-radius: 0">
-                          <i
-                              :class="
-                                passwordInputType === 'password'
-                                  ? 'far fa-eye'
-                                  : 'far fa-eye-slash'
-                              "
-                          ></i>
-                        </b-input-group-text>
-                      </b-input-group-append>
-                    </b-input-group>
-                  </b-form-group>
-
-                  <b-form-group
-                      class="form-group mt-2"
-
-                      :invalid-feedback="errors.confirmPassword"
-                      :state="errors.state.confirmPassword"
-                  >
-                    <b-input-group>
-                      <b-form-input
-                          v-model="usuario.confirmPassword"
-                          autocomplete="false"
-                          :type="passwordInputType"
-                          placeholder="Confirme a senha"
-                          class="form-control-lg"
-
-                          :state="errors.state.confirmPassword"
-                          trim
-                      ></b-form-input>
-                      <b-input-group-append>
-                        <b-input-group-text
-                            @mousedown="changeInputType('text')"
-                            @mouseup="changeInputType('password')"
-                            style="height: 100%;border-radius: 0">
-                          <i
-                              :class="
-                                passwordInputType === 'password'
-                                  ? 'far fa-eye'
-                                  : 'far fa-eye-slash'
-                              "
-                          ></i>
-                        </b-input-group-text>
-                      </b-input-group-append>
-                    </b-input-group>
-                  </b-form-group>
-
-                  <b-form-group
-                      :invalid-feedback="errors.termos"
-                      :state="errors.state.termos"
-                  >
-                    <b-form-checkbox
-                        id="termos"
-                        v-model="aceitouTermos"
-                        name="aceitar-termos"
-                        required
-                        class="mt-2 m-2"
+                    <h4>Parabéns! Seu cadastro foi concluído.</h4>
+                    <b-card-text 
+                      style="
+                      font-size: 13px;
+                      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                      color:#222;
+                      "
+                      
                     >
-                      <div class="ms-2">Eu li e aceito os <a href="#" v-b-modal.termos>Termos de Uso</a></div>
-                    </b-form-checkbox>
-                  </b-form-group>
+                      <div >Agora só falta ativar sua conta. Enviamos um e-mail para você contendo um link de ativação. Ao clicar no link seu login será habilitado para acessar ao Memo beam.</div>
+                    </b-card-text >
+                    
+                  </b-card-body>
+                </div>
+                <div v-else>
+                  <b-card-title class="custom-title" >Inscreva-se!</b-card-title>
+                  <b-card-title class="custom-title text-danger d-flex justify-content-start" v-if="erroCadastro" >
+                  <strong>{{ erro }}</strong>
+                  </b-card-title>
+                
+                  <b-card-body >
+                    <div class="text-center ">
 
-                  <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
-                    <b-button variant="primary" @click="cadastrar" :disabled="estaCarregando">
-                      <strong>Cadastrar</strong>
-                      <i class="fas fa-hourglass fa-spin fa-3x"
-                         v-show="estaCarregando"
-                         style="font-size: 12px"
-                      />
-                    </b-button>
-                  </b-row>
-                </form>
-              </b-card-body>
+                    </div>
+                    <form>
+                      <b-form-group
+                        class="form-group mt-0"
+                    >
+                    
+                    </b-form-group>
+                      
+                      <b-form-group
+                          :invalid-feedback="errors.username"
+                          :state="errors.state.username"
+
+                      >
+                        <label style="font-weight: bold; font-size: 13px; color: black; font-family: 'Open Sans', sans-serif;">E-MAIL:</label>
+                        <b-form-input
+                            style="font-family:'Open Sans', sans-serif; font-size: 13px;"
+                            v-model="usuario.username"
+                            autocomplete="false"
+                            placeholder="Informe seu melhor e-mail"
+                            class="form-control-lg"
+                            required
+                            type="email"
+                            :disabled="estaCarregando"
+                        ></b-form-input>
+                      </b-form-group>
+
+                      <b-form-group
+                          class="form-group mt-2"
+                          :invalid-feedback="errors.password"
+                          :state="errors.state.password"
+                      >
+                      <label style="font-weight: bold; font-size: 13px; color: black; font-family: 'Open Sans', sans-serif;">SENHA:</label>
+                        <b-input-group>
+                          <b-form-input
+                              style="font-family:'Open Sans', sans-serif; font-size: 13px;"
+                              v-model="usuario.password"
+                              autocomplete="false"
+                              :type="passwordInputType"
+                              placeholder="Crie uma senha de 6 dígitos"
+                              class="form-control-lg"
+                              :disabled="estaCarregando"
+
+                          ></b-form-input>
+                          <b-input-group-append>
+                            <b-input-group-text
+                                @mousedown="changeInputType('text')"
+                                @mouseup="changeInputType('password')"
+                                style="height: 100%;border-radius: 0">
+                              <i
+                                  :class="
+                                    passwordInputType === 'password'
+                                      ? 'far fa-eye-slash'
+                                      : 'far fa-eye'
+                                  "
+                              ></i>
+                            </b-input-group-text>
+                          </b-input-group-append>
+                        </b-input-group>
+                      </b-form-group>
+
+                      <b-form-group
+                          class="form-group mt-2"
+
+                          :invalid-feedback="errors.confirmPassword"
+                          :state="errors.state.confirmPassword"
+                      >
+                        <label style="font-weight: bold; font-size: 13px; color: black; font-family: 'Open Sans', sans-serif;">CONFIRMAÇÃO DE SENHA:</label>
+                        <b-input-group>
+                          <b-form-input
+                              style="font-family:'Open Sans', sans-serif; font-size: 13px;"
+                              v-model="usuario.confirmPassword"
+                              autocomplete="false"
+                              :type="passwordInputType"
+                              placeholder="Confirme a senha"
+                              class="form-control-lg"
+                              :disabled="estaCarregando"
+                              :state="errors.state.confirmPassword"
+                              trim
+                          ></b-form-input>
+                          <b-input-group-append>
+                            <b-input-group-text
+                                @mousedown="changeInputType('text')"
+                                @mouseup="changeInputType('password')"
+                                style="height: 100%;border-radius: 0">
+                              <i
+                                  :class="
+                                    passwordInputType === 'password'
+                                      ? 'far fa-eye-slash'
+                                      : 'far fa-eye'
+                                  "
+                              ></i>
+                            </b-input-group-text>
+                          </b-input-group-append>
+                        </b-input-group>
+                      </b-form-group>
+
+                      <b-form-group
+                          :invalid-feedback="errors.termos"
+                          :state="errors.state.termos"
+                          class="mt-1"
+                          
+                      >
+                        <b-form-checkbox
+                            id="termos"
+                            v-model="aceitouTermos"
+                            name="aceitar-termos"
+                            required
+                            class="mt-2"
+                            :disabled="estaCarregando"
+                            
+                        >
+                          <div 
+                            class="ms-1" 
+                            style="font-size: 16px;" 
+                            >
+                              Eu li e aceito os <a href="#" v-b-modal.termos>Termos de Uso</a>
+                          </div>
+                        </b-form-checkbox>
+                      </b-form-group>
+
+                      <b-row class="d-flex justify-content-start col-12 ms-0 mt-3">
+                        <b-button 
+                            variant="primary" 
+                            @click="cadastrar" 
+                            :disabled="estaCarregando"
+                        >
+                          <strong>Cadastrar</strong>
+                          <i class="ms-2 fas fa-spinner fa-pulse fa-3x"
+                            v-show="estaCarregando"
+                            style="font-size: 12px"
+                          />
+                        </b-button>
+                      </b-row>
+
+                      <b-form-group
+                          class="form-group mt-2"
+                      >
+                        <b-row class="d-flex justify-content-center col-12 ms-0 mb-1 mt-2" >
+                          <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
+                          <b-col class=" col-1 d-flex justify-content-center">
+                            <b-row class="text-secondary">ou</b-row>
+                          </b-col>
+                          <b-col><b-row style="margin-top: 12px;"><hr/></b-row></b-col>
+
+                        </b-row>
+                      </b-form-group>
+
+
+                      <b-row  class="d-flex justify-content-between">
+                        <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                          <b-button
+                              style="border-color:#c5d4e3;"
+                              variant="transparent"
+                              class="custom-button-google mt-1 mb-1 d-flex justify-content-center align-content-center"
+                              @click="loginGoogle"
+                              :disabled="estaCarregando"
+                          >
+                            <b-row class="col-12 d-flex justify-content-center">
+                              <b-col class="col-1 d-flex justify-content-center align-content-center" align-self="center">
+                                <span class="fa-brands fa-google">
+                                </span>
+                              </b-col>
+                              <b-col class=" col-10">
+                                <div class="mt-1 d-flex justify-content-center" >
+                                  <strong>Inscrever-se com o Google</strong>
+                                </div>
+                              </b-col>
+                              <b-col class="col-1"></b-col>
+                            </b-row>
+                          </b-button>
+                        </b-col>
+                      
+                        <b-col class="col-12 d-flex justify-content-center align-content-center ">
+                          <b-button
+                              style="border-color:#c5d4e3;"
+                              variant="transparent"
+                              class="custom-button-facebook mt-1 mb-1 d-flex justify-content-center align-content-center"
+                              @click="loginWithFacebook"
+                              :disabled="estaCarregando"
+                          >
+                            <b-row class="d-flex col-12 justify-content-center">
+                              <b-col class="col-1 d-flex justify-content-center align-content-center" align-self="center">
+                                <span
+                                    class="fa-brands fa-facebook-square "
+                                    style="color:blue;">
+                                </span>
+                              </b-col>
+                              <b-col class="col-10">
+                                <div class="mt-1 d-flex justify-content-center" >
+                                  <strong>Inscrever-se com o Facebook</strong>
+                                </div>
+                              </b-col>
+                              <b-col class="col-1"></b-col>
+                            </b-row>
+                          </b-button>
+                        </b-col>
+                      </b-row>
+                    </form>
+                  </b-card-body>
+              </div>
             </b-card>
+                
+              
+          </b-row>
           </div>
         </div>
       </div>
@@ -563,7 +395,8 @@
             <b-button
                 @click="scrollToSection('inicio')"
                 variant="primary"
-                style="height: 80px; width:350px ;border-radius: 0 "> Inscreva-se Gratuitamente!
+                style="height: 80px; width:350px ;border-radius: 0 ">
+                <strong> Inscreva-se Gratuitamente!</strong>
             </b-button>
           </div>
         </div>
@@ -711,6 +544,13 @@ export default {
         return this.erroResponse.response.message
 
       return "Um erro ocorreu ao tentar cadastrar! Tente mais tarde."
+    },
+
+    estiloCard(){
+      if (this.cadastroFinalizado){
+        return "max-width: 410px;height:560px;padding: 2px;border-color: #c0f7c7;";
+      }
+      return "max-width: 410px;min-height:560px;padding: 2px"
     }
   },
 
@@ -923,16 +763,41 @@ export default {
 
 <style scoped>
 
-
+.custom-title {
+  /*color: #1e5f9b;*/
+  color: black;
+  margin-left: 15px;
+  margin-top: 10px;
+}
+.row{
+  border:0px dashed red;
+}
 
 .col{
   border: 0px dashed black;
 }
 
-.custom-title {
-  color: #1e5f9b;
-  margin-left: 15px;
-  margin-top: 10px;
+.custom-button-google{
+  color:#212529;
+  border: 1px solid #ced4da;
+}
+.custom-button-facebook{
+  color:#212529;
+  border: 1px solid #ced4da;
+}
+.custom-button-google span{
+  color:rgb(241, 39, 83);
+  font-size: 18px;
+  margin: 3px; 
+  margin-right: 3px;
+}
+
+.custom-button-facebook span{
+  color:rgb(42, 39, 241);
+  font-size: 20px;
+  margin: 3px; 
+  margin-right: 3px;
+  
 }
 
 .custom-button {
