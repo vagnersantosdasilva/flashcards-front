@@ -174,9 +174,11 @@
           <b-card
               style="margin-left: 8px;margin-right: 8px;background: #FDFDFE;"
               class="mt-3" v-for="(q,index) in questoes" :key="index">
-            <b-card-title class="d-flex justify-content-between">
+            <b-card-title 
+              class="d-flex justify-content-between" 
+            >
               <div style="font-size: 16px; margin-left: 11px;color:#476493">Flashcard {{ index + 1 }}:</div>
-              <div>
+              <div class="d-flex justify-content-center">
                 <b-button variant="link" disabled v-show="q.isLoading">
                   <i class="fas fa-spinner fa-pulse fa-2x ms-4" style="font-size: 14px;"></i>
                 </b-button>
@@ -188,7 +190,11 @@
                 >
                   <b-icon icon="pencil"></b-icon>
                 </b-button>
-                <b-button variant="link" :disabled="q.isLoading" @click="deleteQuestao(q)">
+                <b-button 
+                    variant="link" 
+                    :disabled="q.isLoading" 
+                    @click="deleteQuestao(q)"
+                >
                   <b-icon icon="trash"></b-icon>
                 </b-button>
 
