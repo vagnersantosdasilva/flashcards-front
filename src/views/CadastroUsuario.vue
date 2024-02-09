@@ -531,9 +531,10 @@
 import {jwtDecode} from "jwt-decode";
 import {decode} from "jsonwebtoken";
 import router from "../router";
+import envVars from '../../env.js';
 
 export default {
-
+  
   computed: {
 
     erro() {
@@ -585,24 +586,24 @@ export default {
       erroResponse: {},
       cadastroFinalizado: false,
       estaCarregando: false,
-
+      baseURL : envVars.BASE_URL
     };
   },
 
   methods: {
 
     loginWithFacebook() {
-      const githubAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/facebook';
+      const githubAuthorizationUrl = `${this.baseURL}/oauth2/authorization/facebook`;
       window.location.href = githubAuthorizationUrl;
     },
 
     loginWithGithub(){
-      const githubAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/github';
+      const githubAuthorizationUrl = `${this.baseURL}/oauth2/authorization/github`;
       window.location.href = githubAuthorizationUrl;
     },
 
      loginGoogle(){
-       const githubAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/google';
+       const githubAuthorizationUrl = `${this.baseURL}/oauth2/authorization/google`;
        window.location.href = githubAuthorizationUrl;
     },
 
@@ -612,7 +613,7 @@ export default {
         token:response.credential
       }
 
-      this.$http.post(`http://localhost:8082/api/public/usuarioGoogle`,tokenGoogle).then(() => {
+      this.$http.post(`${this.baseURL}/api/public/usuarioGoogle`,tokenGoogle).then(() => {
         console.log('TOKEN enviado para o backend')
       }).catch(() => {
         console.log("Erro ao tentar enviar token para backend")
@@ -622,7 +623,7 @@ export default {
 
     handlerLoginFacebook(response){
       const token = response.authResponse.accessToken+response.authResponse.signedRequest
-      this.$http.post(`http://localhost:8082/api/public/usuarioGoogle`,token).then(() => {
+      this.$http.post(`${this.baseURL}/api/public/usuarioGoogle`,token).then(() => {
         console.log('TOKEN enviado para o backend')
       }).catch(() => {
         console.log("Erro ao tentar enviar token para backend")
