@@ -34,7 +34,7 @@ export default {
         ],
       },
       chartOptions: {
-        cutoutPercentage: 70, // Controle o tamanho do anel ajustando este valor
+        cutoutPercentage: 75, // Controle o tamanho do anel ajustando este valor
         circumference: 2 * Math.PI,
       },
     };

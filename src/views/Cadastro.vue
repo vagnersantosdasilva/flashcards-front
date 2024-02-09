@@ -845,7 +845,7 @@ export default {
               this.erroResponse = Object.assign({}, erro);
               this.categoria.isLoading = false;
               this.novoAssunto = false;
-              console.log(erro);
+              
 
             });
       } else {
@@ -860,7 +860,7 @@ export default {
                 this.erroResponse = Object.assign({}, erro);
                 this.categoria.isLoading = false;
                 this.novoAssunto = false;
-                console.log(erro);
+                
               })
         }
       }

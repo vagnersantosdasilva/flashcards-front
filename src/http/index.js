@@ -1,12 +1,10 @@
 import axios from 'axios'
 import provedor from "../provedor";
 //import router from "../router";
+import envVars from '../../env.js';
 
-const http = axios.create({
-    //baseURL: 'https://api.memobeam.com.br'
-    baseURL: 'http://localhost:8082'
-
-})
+const baseURL = envVars.BASE_URL;
+const http = axios.create({baseURL:baseURL})
 
 http.interceptors.request.use(function (config) {
     const token = provedor.state.token

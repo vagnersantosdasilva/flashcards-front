@@ -39,7 +39,7 @@ export default {
       },
       chartOptions: {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         scales: {
           x: {
             type: 'linear',
@@ -68,7 +68,6 @@ export default {
   },
   methods: {
     renderChart() {
-      console.log('Performance recebida',this.performance)
       this.chartData.labels =[]
       this.chartData.datasets[0].data =[]
       if (this.performance.acertosPorEtapa && this.performance.acertosPorEtapa!=null) {

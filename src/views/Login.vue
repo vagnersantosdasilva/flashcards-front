@@ -197,8 +197,17 @@
 </template>
 
 <script>
+import envVars from '../../env.js';
+
+
+// Usar as variáveis de ambiente conforme necessário
+console.log('na marra:',envVars);
+const baseURL = 'http://localhost:8082';
+//console.log('BASE_URL:', baseURL)
+//console.log('BASE_URL_env:', process.env)
 
 export default {
+  
   components: {},
   data() {
     return {
@@ -235,17 +244,17 @@ export default {
     },
 
     loginWithFacebook() {
-      const facebookAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/facebook';
+      const facebookAuthorizationUrl = `${baseURL}/oauth2/authorization/facebook`;
       window.location.href = facebookAuthorizationUrl;
     },
 
     loginGoogle() {
-      const googleAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/google';
+      const googleAuthorizationUrl = `${baseURL}/oauth2/authorization/google`;
       window.location.href = googleAuthorizationUrl;
     },
 
     loginWithGithub() {
-      const githubAuthorizationUrl = 'http://localhost:8082/oauth2/authorization/github';
+      const githubAuthorizationUrl = `${baseURL}/oauth2/authorization/github`;
       window.location.href = githubAuthorizationUrl;
     }
 
