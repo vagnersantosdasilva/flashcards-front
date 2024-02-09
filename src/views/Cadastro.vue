@@ -581,8 +581,13 @@ export default {
   methods: {
     formatDate(date) {
       if (date) {
-        return date.split('-')[2] + '/' + date.split('-')[1] + '/' + date.split('-')[0];
+          const formattedDate = new Date(date);
+          const day = String(formattedDate.getDate()).padStart(2, '0');
+          const month = String(formattedDate.getMonth() + 1).padStart(2, '0'); // Mês é indexado em 0
+          const year = formattedDate.getFullYear();
+          return `${day}/${month}/${year}`;
       }
+      return null;
     },
 
     async obterDatasRevisao() {
@@ -591,13 +596,15 @@ export default {
         const usuario = this.$store.state.usuario
         await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${this.categoria.id}/questao/datas`)
             .then((response) => {
-              this.listaRevisaoCategoriaCorrente = response.data
-                  .map(item => this.formatDate(item))
+              
+              let listaTemporaria = response.data
+                  .map(item => item?new Date(item):null)
                   .sort((a, b) => {
-                    const dateA = new Date(a);
-                    const dateB = new Date(b);
-                    return dateA - dateB;
+                    //const dateA = new Date(a);
+                    //onst dateB = new Date(b);
+                    return a - b;
                   });
+              this.listaRevisaoCategoriaCorrente = listaTemporaria.map(item=> this.formatDate(item))
             })
             .catch((response) => {
               this.erroResponse = Object.assign({}, response);
