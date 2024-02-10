@@ -344,17 +344,21 @@
     <b-modal
         id="dataRevisao"
         v-model="showModalRevisao"
-        title="Revisões pendentes:"
-        size="md"
+        title="Revisões a fazer:"
+        size="sm"
         ok-only
     >
-      <div style="height: 350px" class="mt-4">
+      <div style="" class="mt-4">
         <div v-for="(d,index) in listaRevisaoCategoriaCorrente" :key="index">
-          <p class="text-center">
+          <p class="text-center text-primary" v-if="noPrazo(d)">
+            {{ d }}
+          </p>
+          <p class="text-center text-danger" v-else>
             {{ d }}
           </p>
         </div>
       </div>
+ 
     </b-modal>
 
   </section>
@@ -574,12 +578,45 @@ export default {
         pergunta: '',
         resposta: '',
         id: null,
-      }
+      },
+      context:{
+        "selectedYMD": "",
+        "selectedDate": null,
+        "selectedFormatted": "No date selected",
+        "activeYMD": "2024-02-09",
+        "activeDate": "2024-02-09T03:00:00.000Z",
+        "activeFormatted": "Friday, February 9, 2024",
+        "disabled": false,
+        "locale": "en-US",
+        "calendarLocale": "en-US",
+        "rtl": false
+      },
     }
   },
 
   methods: {
+
+    noPrazo(data) {
+      const dataAtual = new Date(); // Obtém a data atual
+
+      // Divide a data atual em dia, mês e ano
+      const diaAtual = dataAtual.getDate();
+      const mesAtual = dataAtual.getMonth() + 1; // Mês é indexado em 0
+      const anoAtual = dataAtual.getFullYear();
+
+      // Divide a data do item em dia, mês e ano
+      const [diaItem, mesItem, anoItem] = data.split('/').map(Number);
+
+      // Cria objetos Date para a data atual e a data do item
+      const dataAtualObj = new Date(anoAtual, mesAtual - 1, diaAtual); // O mês é indexado em 0
+      const dataItemObj = new Date(anoItem, mesItem - 1, diaItem); // O mês é indexado em 0
+
+      // Compara as datas
+      return dataItemObj > dataAtualObj; // Retorna true se a data do item for maior que a data atual, caso contrário retorna false
+    },
+
     formatDate(date) {
+      console.log('data:',date)
       if (date) {
           const formattedDate = new Date(date);
           const day = String(formattedDate.getDate()).padStart(2, '0');
@@ -600,8 +637,6 @@ export default {
               let listaTemporaria = response.data
                   .map(item => item?new Date(item):null)
                   .sort((a, b) => {
-                    //const dateA = new Date(a);
-                    //onst dateB = new Date(b);
                     return a - b;
                   });
               this.listaRevisaoCategoriaCorrente = listaTemporaria.map(item=> this.formatDate(item))
