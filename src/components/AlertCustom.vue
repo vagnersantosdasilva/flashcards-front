@@ -1,19 +1,22 @@
 <template>
   <b-container>
     <b-row class="d-flex justify-content-center">
-      <b-col class="col-12 col-md-6">
+      
         <b-alert v-model="show"
                  :variant="typeMessage"
                  class="d-flex justify-content-between align-items-center">
-          {{message}}
-          <b-button
+          <b-col class="col-11">{{message}}</b-col>
+          <b-col class="col-1">
+            <b-button
               variant="outline-secondary-system"
               :style="decoracaoBtnClose"
               @click="show=!show"
           > X </b-button>
+          </b-col>  
+          
 
         </b-alert>
-      </b-col>
+      
     </b-row>
   </b-container>
 
