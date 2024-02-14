@@ -104,31 +104,5 @@ export default {
 .loader-icon {
   max-width: 100px; /* Customize the size as needed */
 }
-
-
-.btn {
-  width: 100%;
-  height: 40px;
-  border-radius: 0;
-  border-radius: 0;
-  font-family: Google Sans,arial,sans-serif;
-  font-size: 14px;
-  border-color:#c5d4e3;
-}
-
-input {
-  border-radius: 0;
-}
-
-.form-control-lg {
-  padding: 10px;
-  font-size: 16px;
-}
-
-.input-group-append {
-  border: 0;
-}
-
-
 </style>
 

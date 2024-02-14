@@ -616,7 +616,6 @@ export default {
     },
 
     formatDate(date) {
-      console.log('data:',date)
       if (date) {
           const formattedDate = new Date(date);
           const day = String(formattedDate.getDate()).padStart(2, '0');

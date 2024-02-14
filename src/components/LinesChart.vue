@@ -25,6 +25,8 @@ export default {
     return {
       chart: null,
       chartData: {
+        min: 0,
+        max: 100,
         /*labels: ['Etapa 1', 'Etapa 2', 'Etapa 3', 'Etapa 4', 'Etapa 5', 'Etapa 6'],*/
         labels: [],
         datasets: [
@@ -45,6 +47,13 @@ export default {
             type: 'linear',
             position: 'bottom',
           },
+          y: {
+             min: 0,
+             max: 100,
+              ticks: {
+                stepSize: 100
+              },beginAtZero: true
+          }
         },
       },
     };
@@ -75,7 +84,9 @@ export default {
         this.performance.acertosPorEtapa.forEach(e => {
           this.chartData.labels.push(e.etapa);
           const taxaAcertos = e.aproveitamento == null ? 0 : e.aproveitamento;
-          this.chartData.datasets[0].data.push(taxaAcertos);
+          const taxaArredondada = Math.round(taxaAcertos); // Arredonda para o inteiro mais próximo
+          this.chartData.datasets[0].data.push(taxaArredondada);
+          //this.chartData.datasets[0].data.push(taxaAcertos);
         });
       }
 

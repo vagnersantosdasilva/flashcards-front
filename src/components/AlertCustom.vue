@@ -1,7 +1,6 @@
 <template>
   <b-container>
     <b-row class="d-flex justify-content-center">
-      
         <b-alert v-model="show"
                  :variant="typeMessage"
                  class="d-flex justify-content-between align-items-center">
