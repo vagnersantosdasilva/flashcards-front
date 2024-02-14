@@ -213,9 +213,9 @@ export default {
           listaCadastro:[],
           listaCategoriaAcertos:[],
           isMobile: false,
-          proficiencia:['Iniciante','Básico','Intermediário','Avançado','Fluente'],
-          aproveitamento:['Baixo','Regular','Bom','Excelente'],
-          ritmo:['Baixo','Moderado','Intenso'],
+          proficiencia:'',
+          aproveitamento:'',
+          ritmo:'',
           quantidadeQuestao:0,
           contagem:{
             labels:[],
