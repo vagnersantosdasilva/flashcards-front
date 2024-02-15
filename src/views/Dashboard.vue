@@ -314,6 +314,8 @@ export default {
             const usuario = this.$store.state.usuario
             this.$http.get(`/api/usuario/${usuario.idUser}/categoria/etapas`).then((response)=>{
                 this.listaCadastro = Object.assign([],response.data);
+                this.listaCadastro.sort((a, b) => a.nomeCategoria.localeCompare(b.nomeCategoria));
+                console.log(this.listaCadastro)
             }).catch(()=>{
 
             })
