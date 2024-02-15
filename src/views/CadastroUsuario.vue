@@ -593,16 +593,19 @@ export default {
   methods: {
 
     loginWithFacebook() {
+      this.estaCarregando = true
       const githubAuthorizationUrl = `${this.baseURL}/oauth2/authorization/facebook`;
       window.location.href = githubAuthorizationUrl;
     },
 
     loginWithGithub(){
+      this.estaCarregando = true
       const githubAuthorizationUrl = `${this.baseURL}/oauth2/authorization/github`;
       window.location.href = githubAuthorizationUrl;
     },
 
      loginGoogle(){
+       this.estaCarregando = true
        const githubAuthorizationUrl = `${this.baseURL}/oauth2/authorization/google`;
        window.location.href = githubAuthorizationUrl;
     },

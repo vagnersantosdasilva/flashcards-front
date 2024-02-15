@@ -48,7 +48,9 @@
                       style="font-family:'Open Sans', sans-serif; font-size: 13px;"
                       v-model="usuario.email" 
                       placeholder="nome@email.com" 
-                      class="form-control-lg">
+                      class="form-control-lg"
+                      :disabled="estaCarregando"
+                    >
                     </b-form-input>
 
                   </b-form-group>
@@ -61,6 +63,7 @@
                         :type="passwordInputType" 
                         placeholder="Insira sua senha"
                         class="form-control-lg"
+                        :disabled="estaCarregando"
                         >
                       </b-form-input>
                       <b-input-group-append>
@@ -96,8 +99,14 @@
                       variant="primary" 
                       block size="lg" 
                       class="w-100 " 
-                      @click="login">
-                      <strong>Entrar</strong>
+                      @click="login"
+                      :disabled="estaCarregando"
+                    >
+                      <strong>Entrar</strong> 
+                      <i class="ms-2 fas fa-spinner fa-pulse fa-3x"
+                            v-show="estaCarregando"
+                            style="font-size: 12px"
+                      />
                     </b-button>
                   </div>
                   <b-row class="mt-3 d-flex justify-content-center col-12 ms-0 " >
@@ -209,6 +218,7 @@ export default {
   components: {},
   data() {
     return {
+      estaCarregando : false,
       baseURL : envVars.BASE_URL,
       email: '',
       password: '',
@@ -224,13 +234,16 @@ export default {
   },
   methods: {
     async login() {
+      this.estaCarregando = true;
       this.$store.dispatch('efetuarLogin', this.usuario)
           .then(() => {
             //this.getUserInfo()
+            this.estaCarregando = false;
             this.$router.push({name: 'home'})
           })
           .catch(() => {
             this.erroAutenticacao = true;
+            this.estaCarregando = false;
           })
     },
 
@@ -243,16 +256,19 @@ export default {
     },
 
     loginWithFacebook() {
+      this.estaCarregando = true;
       const facebookAuthorizationUrl = `${this.baseURL}/oauth2/authorization/facebook`;
       window.location.href = facebookAuthorizationUrl;
     },
 
     loginGoogle() {
+      this.estaCarregando = true;
       const googleAuthorizationUrl = `${this.baseURL}/oauth2/authorization/google`;
       window.location.href = googleAuthorizationUrl;
     },
 
     loginWithGithub() {
+      this.estaCarregando = true;
       const githubAuthorizationUrl = `${this.baseURL}/oauth2/authorization/github`;
       window.location.href = githubAuthorizationUrl;
     }
