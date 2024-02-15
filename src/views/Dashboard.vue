@@ -4,7 +4,13 @@
       <div class="accordion" role="tablist">
         <b-card no-body class="mb-1" v-for="(item, index) in listaCadastro" :key="index">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button block v-b-toggle="obtemId(index)" variant="primary">{{ item.nomeCategoria }}</b-button>
+            <b-button
+              block
+              v-b-toggle="obtemId(index)"
+              @click="handlerTab(item)"
+              variant="primary">
+              {{ item.nomeCategoria }}
+            </b-button>
           </b-card-header>
           <b-collapse :id="obtemId(index)" visible accordion="my-accordion" role="tabpanel">
             <b-card-body>
