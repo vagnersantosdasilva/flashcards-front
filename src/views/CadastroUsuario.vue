@@ -748,6 +748,18 @@ export default {
   },
 
   async mounted() {
+    if(this.$route.query.page) {
+      //const page = this.$route.query.page;
+      console.log('valor da query',this.$route.query.page)
+      if (this.$route.query.page) {
+        const pagina = this.$route.query.page
+        if (pagina =='termos') this.$router.push("/termos")
+        if (pagina =='privacidade') this.$router.push("/privacidade")
+        
+      }
+      //await  this.$router.push(`/${page}`)
+      
+    }
     if(this.$route.query.token) {
       const token = this.$route.query.token;
       const jwt_decoded = decode(token);

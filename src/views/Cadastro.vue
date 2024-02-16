@@ -627,22 +627,21 @@ export default {
     },
 
     async obterDatasRevisao() {
-
       if (this.categoria.id) {
-        const usuario = this.$store.state.usuario
-        await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${this.categoria.id}/questao/datas`)
-            .then((response) => {
-              
-              let listaTemporaria = response.data
-                  .map(item => item?new Date(item):null)
-                  .sort((a, b) => {
-                    return a - b;
-                  });
-              this.listaRevisaoCategoriaCorrente = listaTemporaria.map(item=> this.formatDate(item))
-            })
-            .catch((response) => {
-              this.erroResponse = Object.assign({}, response);
-            });
+          const usuario = this.$store.state.usuario;
+          await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${this.categoria.id}/questao/datas`)
+              .then((response) => {
+                  let listaTemporaria = response.data
+                      .map(item =>{ 
+                        const parts = item.split('/');
+                        return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+                      })
+                      .sort((a, b) => a - b);
+                  this.listaRevisaoCategoriaCorrente = listaTemporaria.map(item => this.formatDate(item));
+              })
+              .catch((response) => {
+                  this.erroResponse = Object.assign({}, response);
+              });
       }
     },
 

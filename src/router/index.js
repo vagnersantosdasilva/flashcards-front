@@ -11,6 +11,7 @@ import Perfil from "../views/Perfil.vue";
 import ResetPrivado from "../views/ResetPrivado.vue";
 import Help from "../views/Help.vue";
 import Dashboard from "../views/Dashboard.vue";
+import PrivacidadeTermos from '../views/PrivacidadeTermos.vue';
 
 Vue.use(VueRouter)
 
@@ -76,6 +77,22 @@ const routes = [
       publica: true
     },
     component: CadastroUsuario,
+  },
+  {
+    path:'/privacidade',
+    name:'privacidade',
+    component: PrivacidadeTermos,
+    meta:{
+      publica: true
+    }
+  },
+  {
+    path:'/termos',
+    name:'termos',
+    component: PrivacidadeTermos,
+    meta:{
+      publica: true
+    }
   },
   /*
   {
