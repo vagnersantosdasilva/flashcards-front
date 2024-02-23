@@ -7,6 +7,7 @@
           <div class="col-lg-6 col-12">
             <div class="login-content">
               <h3 class="text-sm-center text-md-start">Bem-vindo ao Memo Beam!</h3>
+            
               <p>
                 Você está prestes a entrar em um mundo de possibilidades educacionais.
                 Não perca a oportunidade de fazer parte desta jornada de aprendizado única.
@@ -24,6 +25,7 @@
                 Chegou a hora de dar um passo adiante em direção ao sucesso educacional.
                 Cadastre-se agora e comece sua jornada de aprendizado com os MemoBeam!
               </p>
+            
             </div>
           </div>
 
@@ -56,7 +58,7 @@
                   </b-card-body>
                 </div>
                 <div v-else>
-                  <b-card-title class="custom-title" >Inscreva-se!</b-card-title>
+                  <b-card-title class="custom-title"><strong>Inscreva-se!</strong></b-card-title>
                   <b-card-title class="custom-title text-danger d-flex justify-content-start" v-if="erroCadastro" >
                   <strong>{{ erro }}</strong>
                   </b-card-title>
@@ -228,7 +230,8 @@
                               </b-col>
                               <b-col class=" col-10">
                                 <div class="mt-1 d-flex justify-content-center" >
-                                  <strong>Inscrever-se com o Google</strong>
+                                  <strong v-if="isMobile">Use com o Google</strong>
+                                  <strong v-else>Iscrever-se com o Google</strong>
                                 </div>
                               </b-col>
                               <b-col class="col-1"></b-col>
@@ -251,12 +254,13 @@
                                     style="color:blue;">
                                 </span>
                               </b-col>
-                              <b-col class="col-10">
+                              <b-col class="col-10 ">
                                 <div class="mt-1 d-flex justify-content-center" >
-                                  <strong>Inscrever-se com o Facebook</strong>
+                                  <strong  v-if="isMobile">Use com o Facebook</strong>
+                                  <strong  v-else>Inscrever-se com o Facebook</strong>
                                 </div>
                               </b-col>
-                              <b-col class="col-1"></b-col>
+                              <b-col class="col-1 "></b-col>
                             </b-row>
                           </b-button>
                         </b-col>
@@ -276,14 +280,15 @@
     <section class="d-flex flex-column justify-content-center align-items-center has-cards" style="background: white">
       <div class="container">
         <div class="row justify-content-center">
-          <div class="col-md-6" align-self="center">
+          <div class="col-md-6" align-self="center" v-show="!isMobile">
             <img src="../assets/annie-spratt-4-4WPFLVhAY-unsplash.jpg" height="427" width="640"
                  style="margin-top: 30px"
                  class="shadow-lg"
             />
           </div>
           <div class="col-md-6" style="margin-top: 20px">
-            <h3 class="text-sm-center text-md-start mt-4">Por que usar a técnica de repetição espaçada?</h3>
+            <h4 v-show="isMobile" class="text-sm-center text-md-start mt-4">Por que usar a técnica de repetição espaçada?</h4>
+            <h3 v-show="!isMobile" class="text-sm-center text-md-start mt-4">Por que usar a técnica de repetição espaçada?</h3>
             <p>
               Estudos científicos comprovam que a repetição espaçada é uma das estratégias mais eficientes para
               melhorar a retenção de conhecimento a longo prazo. Essa técnica se baseia em revisar o conteúdo em
@@ -306,7 +311,8 @@
         <div class="row justify-content-center">
 
           <div class="col-md-6">
-            <h3 class="text-sm-center text-md-start mt-4">Como funciona o método de repetição espaçada?</h3>
+            <h4 v-show="isMobile" class="text-sm-center text-md-start mt-4">Como funciona o método de repetição espaçada?</h4>
+            <h3 v-show="!isMobile" class="text-sm-center text-md-start mt-4">Como funciona o método de repetição espaçada?</h3>
             <p>
               O algoritmo de repetição espaçada baseia-se em seis etapas de conhecimento, onde cada questão
               presente na revisão é associada a uma dessas etapas.
@@ -335,7 +341,8 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <h3 class="text-sm-center text-md-start">Crie flashcards personalizados</h3>
+            <h4 v-show="isMobile" class="text-sm-center text-md-start">Crie flashcards personalizados</h4>
+            <h3 v-show="!isMobile" class="text-sm-center text-md-start">Crie flashcards personalizados</h3>
             <p>
               Com o MemoBeam, você pode  personalizar flashcards com imagens, mudar fontes
               de texto e cores, focando nos tópicos relevantes e desafiando sua memória
@@ -381,16 +388,17 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-md-6">
-            <h3 class="text-md-start text-sm-center ">Comece agora sua jornada de aprendizado!</h3>
-            <p style="font-family:Open Sans">
-              Não perca tempo! Cadastre-se gratuitamente e desbloqueie todo o potencial da técnica de repetição
+            <h3 v-show="!isMobile" class="text-md-start text-sm-center ">Comece agora sua jornada de aprendizado!</h3>
+            <h4 v-show="isMobile" class="text-md-start text-sm-center ">Comece agora sua jornada!</h4>
+            <p style="font-family:Open Sans" >
+              Não perca mais tempo! Cadastre-se gratuitamente e desbloqueie todo o potencial da técnica de repetição
               espaçada. Aumente sua retenção de conhecimento e alcance melhores resultados nos seus estudos,
               atividades acadêmicas ou profissionais.
             </p>
           </div>
 
           <div
-              class="col d-flex flex-column justify-content-center align-items-center"
+              class="col d-flex flex-column justify-content-center align-items-center mt-4"
           >
             <b-button
                 @click="scrollToSection('inicio')"
@@ -586,11 +594,20 @@ export default {
       erroResponse: {},
       cadastroFinalizado: false,
       estaCarregando: false,
-      baseURL : envVars.BASE_URL
+      baseURL : envVars.BASE_URL,
+      isMobile:false,
     };
   },
 
   methods: {
+
+    checkIfMobile() {
+      this.isMobile = window.innerWidth <= 768; // Altere o valor conforme necessário para determinar quando a tela é considerada um dispositivo móvel
+    },
+   
+    beforeDestroy() {
+     window.removeEventListener('resize', this.checkIfMobile);
+    },
 
     loginWithFacebook() {
       this.estaCarregando = true
@@ -748,6 +765,11 @@ export default {
   },
 
   async mounted() {
+
+    this.checkIfMobile();
+    
+    window.addEventListener('resize', this.checkIfMobile);
+
     if(this.$route.query.page) {
       //const page = this.$route.query.page;
       console.log('valor da query',this.$route.query.page)
@@ -784,7 +806,9 @@ export default {
   color: black;
   margin-left: 15px;
   margin-top: 10px;
+  font-size: 19px;
 }
+
 .row{
   border:0px dashed red;
 }
@@ -920,6 +944,12 @@ h3 {
   color: #284f79;
 }
 
+h4 {
+  font-family: 'Open Sans', sans-serif;
+  color: #284f79;
+  font-size: 22px;
+}
+
 input {
   border-radius: 0;
 }
@@ -1009,64 +1039,64 @@ input {
   .btn {
     width: 100%;
   }
+
+  .card {
+    width: 100%;
+  }
+
+  section {
+    padding: 10px;
+  }
+
+  .invalid-feedback {
+    color: #cc6262;
+  }
+
+
+
+  section h3, h4, h5 {
+    text-align: center;
+  }
+
+  #customBtn {
+    display: inline-block;
+    background: white;
+    color: #444;
+    width: 190px;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    width: 100%;
+  }
+  #customBtn:hover {
+    cursor: pointer;
+  }
+  span.label {
+    font-family: serif;
+    font-weight: normal;
+  }
+  span.icon {
+    background: url('../assets/google2.jpg') transparent 5px 50% no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+    align-content: center;
+    width: 42px;
+    height: 42px;
+  }
+  span.buttonText {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 0px;
+    padding-right: 42px;
+    font-size: 14px;
+    font-weight: bold;
+    /* Use the Roboto font that is loaded in the <head> */
+    font-family: 'Roboto', sans-serif;
+  }
+
 }
 
-.card {
-  width: 100%;
-}
-
-section {
-  padding: 10px;
-}
-
-.invalid-feedback {
-  color: #cc6262;
-}
-
-section p {
-  text-align: justify;
-}
-
-section h3, h4, h5 {
-  text-align: center;
-}
-
-#customBtn {
-  display: inline-block;
-  background: white;
-  color: #444;
-  width: 190px;
-  border-radius: 5px;
-  border: thin solid #888;
-  box-shadow: 1px 1px 1px grey;
-  white-space: nowrap;
-  width: 100%;
-}
-#customBtn:hover {
-  cursor: pointer;
-}
-span.label {
-  font-family: serif;
-  font-weight: normal;
-}
-span.icon {
-  background: url('../assets/google2.jpg') transparent 5px 50% no-repeat;
-  display: inline-block;
-  vertical-align: middle;
-  align-content: center;
-  width: 42px;
-  height: 42px;
-}
-span.buttonText {
-  display: inline-block;
-  vertical-align: middle;
-  padding-left: 0px;
-  padding-right: 42px;
-  font-size: 14px;
-  font-weight: bold;
-  /* Use the Roboto font that is loaded in the <head> */
-  font-family: 'Roboto', sans-serif;
-}
 
 
 </style>

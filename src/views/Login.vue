@@ -128,7 +128,7 @@
                           class="custom-button-google mt-1 d-flex justify-content-center align-content-center"
                           @click="loginGoogle"
                       >
-                        <b-row class="col-12 d-flex justify-content-start">
+                        <b-row class="col-12 d-flex justify-content-center">
                           <b-col class="col-1">
                             
                               <span class="fa-brands fa-google  "></span>
@@ -287,6 +287,7 @@ a {
   color: black;
   margin-left: 15px;
   margin-top: 10px;
+  font-size: 19px;
 }
 .custom-button-google{
   color:#212529;

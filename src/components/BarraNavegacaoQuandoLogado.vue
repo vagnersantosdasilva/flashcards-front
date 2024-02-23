@@ -7,6 +7,12 @@
       </router-link>
     </li>
 
+    <li class="nav-item mt-2 d-none d-lg-block" v-b-tooltip.hover >
+      <router-link class="nav-link" to="questao">
+        <box-icon name='book-open' title="Estudar.." class="icon"></box-icon>
+      </router-link>
+    </li>
+
     <li v-if="isFullscreen" class="nav-item mt-2 nav-link d-none d-lg-block" v-b-tooltip.hover  style="cursor: pointer;" @click="fullscreen">
       <box-icon name='exit-fullscreen' title="Sair de tela cheia" class="icon"></box-icon>
     </li>
@@ -65,9 +71,13 @@
           <box-icon name='help-circle' class="me-1" type="solid" title="Ajuda" ></box-icon>
           Ajuda
         </div>
+        <div class="mobile-submenu-item" @click="selectSubitem('questao')">
+          <box-icon name='book-open' class="me-1" type="solid" title="Estudar" ></box-icon>
+          Estudar
+        </div>
         <div v-if="isFullscreen" class="mobile-submenu-item" @click="fullscreen">
           <box-icon name='exit-fullscreen' class="me-1" type="solid" title="Sair de Tela cheia" ></box-icon>
-          Tela Cheia
+          Sair de Tela Cheia
         </div>
         <div v-else class="mobile-submenu-item" @click="fullscreen">
           <box-icon name='fullscreen' class="me-1" type="solid" title="Tela cheia" ></box-icon>
@@ -156,10 +166,9 @@ export default {
     selectSubitem(subitem) {
       this.activeSubitem = subitem;
       this.showSubMenu = false;
-      if (subitem === 'perfil') this.$router.push({name: 'perfil'})
-      if (subitem === 'cadastro') this.$router.push({name: 'cadastro'})
-      if (subitem === 'help') this.$router.push({name: 'help'})
-      if (subitem === 'dashboard') this.$router.push({name: 'dashboard'})
+      if (subitem!=null){
+        this.$router.push({name: `${subitem}`})
+      }
       this.$emit('close-menu');
     },
     efetuarLogout() {
