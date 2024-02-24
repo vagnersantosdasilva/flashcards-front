@@ -32,7 +32,7 @@
           </div>
         </div>
 
-        <div v-if="!carregando && !mostrarSucesso" class="px-4 py-2">
+        <div v-if="!carregando && !mostrarSucesso" class="py-2 px-4 container-ck-especial">
           <div class="row mt-4 ">
             <h5 style="color:#476493">Elabore a pergunta (Frente)</h5>
           </div>
@@ -83,7 +83,7 @@
             <b-button
                 :variant="btnSalvarVariant"
                 :disabled="btnSalvarEstado"
-                class="w-100 mt-2"
+                class="btn-salvar-questao"
                 @click="salvarQuestao"
             >
               Salvar
@@ -1202,9 +1202,49 @@ button.close {
   box-shadow: 0px 0px 3px 3px #AAE3F9;
 }
 
+
+@media screen and (max-width: 960px){
+  .b-sidebar {
+   width: 420px;
+   max-width: 100%;
+   max-height: 100%;
+}
+  
+}
+
+@media screen and (max-width: 575px) {
+
+  .b-sidebar {
+   width: 400px;
+   max-width: 100%;
+   max-height: 100%;
+  }
+  
+  .container-ck-especial{
+    display: block;
+    justify-content: center;
+    padding: 0;  
+    zoom:0.9
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container-ck-especial{
+    zoom:0.88
+  }
+}
+
+
+
+
 </style>
 
 <style scoped>
+
+.btn-salvar-questao{
+  width: 100%;
+  margin-top:20px;
+}
 
 section{
   height: 100vh;
