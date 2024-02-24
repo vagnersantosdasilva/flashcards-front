@@ -116,7 +116,7 @@
             </b-icon>
           </b-button>
         </b-row>
-        <b-card>
+        <b-card :style="estiloCardPrincipal">
           <b-card-title>
             <b-row class="col-12">
               <div class="col-12 col-md-6">
@@ -158,74 +158,83 @@
               </div>
             </b-row>
           </b-card-title>
-          <hr style="margin: 10px"/>
-          <b-row class="d-flex justify-content-start" style="margin-left: -5px;margin-right: 10px;">
+          
+          <b-card-body>     
+            <hr style="margin: 0 0 10px 0;"/>     
             <b-button
-                variant="primary"
-                v-b-toggle.sidebar-1
-                @click="verConteudo"
-                class="btn-novo-flashcard  d-flex align-items-center justify-content-center"
+                  variant="primary"
+                  v-b-toggle.sidebar-1
+                  @click="verConteudo"
+                  class="btn-novo-flashcard  d-flex align-items-center justify-content-center"
 
-            >
-              <b-icon icon="plus-circle" class="me-1"></b-icon>
-              Novo Flashcard
+              >
+                <b-icon icon="plus-circle" class="me-1"></b-icon>
+                Novo Flashcard
             </b-button>
-          </b-row>
-          <b-card
-              style="margin-left: 8px;margin-right: 8px;background: #FDFDFE;"
-              class="mt-3" v-for="(q,index) in questoes" :key="index">
-            <b-card-title 
-              class="d-flex justify-content-between" 
-            >
-              <div style="font-size: 16px; margin-left: 11px;color:#476493">Flashcard {{ index + 1 }}:</div>
-              <div class="d-flex justify-content-center">
-                <b-button variant="link" disabled v-show="q.isLoading">
-                  <i class="fas fa-spinner fa-pulse fa-2x ms-4" style="font-size: 14px;"></i>
-                </b-button>
-                <b-button
-                    v-b-toggle.sidebar-1
-                    variant="link"
-                    :disabled="q.isLoading"
-                    @click="verConteudo(q,index)"
-                >
-                  <b-icon icon="pencil"></b-icon>
-                </b-button>
-                <b-button 
-                    variant="link" 
-                    :disabled="q.isLoading" 
-                    @click="deleteQuestao(q)"
-                >
-                  <b-icon icon="trash"></b-icon>
-                </b-button>
+          
+            <div class = "card-edicao"
+                v-for="(q,index) in questoes" :key="index">
+              <b-row
+                class="d-flex  justify-content-start" 
+              >
+                <b-col class="card-edicao-titulo">Flashcard {{ index + 1 }}:</b-col>
+                <b-col class="d-flex justify-content-center ">
+                  <b-row class="col-12 d-flex justify-content-end mt-3">
+                    <b-button 
+                      variant="link" 
+                      disabled v-show="q.isLoading" 
+                      class="btn-edicao" 
+                    >
+                      <i class="fas fa-spinner fa-pulse fa-2x ms-4" style="font-size: 14px;"></i>
+                    </b-button>
+                    
+                    <b-button
+                        v-b-toggle.sidebar-1
+                        variant="link"
+                        :disabled="q.isLoading"
+                        @click="verConteudo(q,index)"
+                        class="btn-edicao"
+                    >
+                      <b-icon icon="pencil"></b-icon>
+                    </b-button>
+                    
+                    <b-button 
+                        variant="link" 
+                        :disabled="q.isLoading" 
+                        @click="deleteQuestao(q)"
+                        class="btn-edicao"
+                    >
+                      <b-icon icon="trash"></b-icon>
+                    </b-button>
+                  </b-row>
+                </b-col>
+              </b-row>
 
-              </div>
-            </b-card-title>
+              <b-row class="mt-2 ms-1 mr-1">
+                <b-col class="col-sm-12  col-lg-1 ms-1 label-resumo" align-self="center">
+                  Frente
+                </b-col>
+                <b-col align-self="center" class="col-md-12 col-lg-10">
+                  <div class="resumo">
+                    {{ q.pergunta | sanitizeContent(true) }}
+                  </div>
+                </b-col>
 
-            <b-row class="mt-2 ms-1">
-              <b-col class="col-md-12  col-lg-1 ms-1" align-self="center">
-                Frente
-              </b-col>
-              <b-col align-self="center" class="col-md-12 col-lg-10">
-                <div class="resumo">
-                  {{ q.pergunta | sanitizeContent(true) }}
-                </div>
-              </b-col>
-
-            </b-row>
-            <b-row class="mt-2 ms-1">
-              <b-col class="col-md-12 col-lg-1 ms-1" align-self="center">
-                Verso
-              </b-col>
-              <b-col class="col-md-12 col-lg-10" align-self="center">
-                <div class="resumo">{{ q.resposta | sanitizeContent(true) }}</div>
-              </b-col>
+              </b-row>
+              <b-row class="mt-2 ms-1 mr-1">
+                <b-col class="col-sm-12 col-lg-1 ms-1 label-resumo" align-self="center">
+                  Verso
+                </b-col>
+                <b-col class="col-sm-12 col-lg-10" align-self="center">
+                  <div class="resumo">{{ q.resposta | sanitizeContent(true) }}</div>
+                </b-col>
 
 
-            </b-row>
+              </b-row>
 
 
-          </b-card>
-
+            </div>
+          </b-card-body>
         </b-card>
       </div>
     </div>
@@ -263,7 +272,7 @@
 
           <b-row class="d-flex justify-content-lg-start" style="margin-left: 10px;margin-right: 10px;">
             <b-button
-                class="btn-novo-flashcard  d-flex align-items-center justify-content-center g-0 m-0"
+                class="btn-novo-assunto d-flex align-items-center justify-content-center g-0 m-0"
                 variant="primary"
                 @click="novoAssuntoMethod"
             >
@@ -284,31 +293,42 @@
                   class="col-especial-cadastro text-center mt-2"
               >
                 <b-row>
-                  <b-col>
-                    <b-form-group>
-                      <b-form-input
-                          v-model="categoria.nome"
-                          placeholder="Digite aqui qual será o novo assunto para estudo"
-                      >
-                      </b-form-input>
-                    </b-form-group>
+                  <b-col class="col-12 col-sm-11" style="padding:0">
+                    <b-row class="d-flex justify-content-end">
+                      <b-form-group>
+                        <b-form-input
+                            v-model="categoria.nome"
+                            placeholder="Ex : Física Quântica"
+                            class="input-novo-assunto"
+                        >
+                        </b-form-input>
+                      </b-form-group>
+                    </b-row>
                   </b-col>
-                  <b-col class="col-1">
-                    <b-button
-                        variant="link"
-                        v-if="categoria.isLoading"
-                        disabled
-                    >
-                      <i class="fas fa-spinner fa-pulse fa-3x" style="font-size: 14px;"></i>
-                    </b-button>
-                    <b-button
-                        variant="link"
-                        class="primary"
-                        @click="salvarCategoria"
-                        v-else
-                    >
-                      <b-icon icon="save"></b-icon>
-                    </b-button>
+                  <b-col class="col-12 col-sm-1" >
+                    <b-row class="d-flex justify-content-start">
+                      <b-button
+                          :variant="btnSalvarAssuntoVariant"
+                          class="btn-salvar-assunto"
+                          @click="salvarCategoria"
+                          :disabled="categoria.isLoading"
+
+                      >
+                        <i v-if="categoria.isLoading" 
+                          class="fas fa-spinner fa-pulse fa-3x " style="font-size: 15px;">
+                        </i> 
+                        <div v-else >
+                          <div class="d-sm-none">
+                            Salvar Assunto 
+                            <!--<b-icon  class="ms-1" icon="save"></b-icon>-->
+                          </div>
+
+                          <div class="d-none d-sm-flex">
+                            <b-icon class="mt-1"  icon="save"></b-icon>
+                          </div>
+                        </div>
+                      </b-button>
+                    </b-row>
                   </b-col>
                 </b-row>
 
@@ -422,8 +442,12 @@ export default {
 
     porcentagemLimiteResposta() {
       return (this.charCount2 / this.characterLimit) * 100
-    }
+    },
 
+    btnSalvarAssuntoVariant(){
+      if (this.isMobile) return "link"
+      return "primary"
+    }
   },
 
   components: {
@@ -446,6 +470,7 @@ export default {
   data() {
 
     return {
+      isMobile:false,
       showModalRevisao: false,
       listaRevisaoCategoriaCorrente: [],
       pergunta: '',
@@ -591,10 +616,19 @@ export default {
         "calendarLocale": "en-US",
         "rtl": false
       },
+      
     }
   },
 
   methods: {
+    checkIfMobile() {
+      this.isMobile = window.innerWidth <= 575; // Altere o valor conforme necessário para determinar quando a tela é considerada um dispositivo móvel
+    },
+   
+    beforeDestroy() {
+     window.removeEventListener('resize', this.checkIfMobile);
+    },
+
 
     noPrazo(data) {
       const dataAtual = new Date(); // Obtém a data atual
@@ -951,6 +985,8 @@ export default {
     },
   },
   mounted() {
+    this.checkIfMobile();
+    window.addEventListener('resize', this.checkIfMobile);
     this.getCategorias();
   },
 
@@ -982,7 +1018,7 @@ export default {
 
 </script>
 
-<style >
+<style>
 
 .titulo-sidebar {
   position: fixed;
@@ -1167,13 +1203,26 @@ button.close {
 }
 
 </style>
+
 <style scoped>
 
 section{
   height: 100vh;
 }
-.col{
-  border:0px red dashed;
+
+.card-edicao{
+  margin: 10px 0 10px 0;
+  padding: 10px 15px 25px 0;
+  background: #FDFDFE;
+  border :1px solid #cacae9;
+  border-radius: 5px;
+}
+
+.card-edicao-titulo{
+  font-size: 18px;
+  margin-left: 20px;
+  margin-top:20px;
+  color:#476493;
 }
 
 
@@ -1182,11 +1231,23 @@ section{
   margin-left: 10px;
 }
 
-.btn-novo-flashcard {
+.btn-edicao{
+  margin-top: 0;
+  width: 40px;
+}
+
+.btn-novo-flashcard  {
+  width: 200px;
+  max-width: 100%;
+  margin-left: 0px;
+}
+.btn-novo-assunto {
   width: 200px;
   max-width: 100%;
   margin-left: 14px;
+  margin-top: 0;
 }
+
 
 .flashcard-editor {
   padding: 30px;
@@ -1213,13 +1274,13 @@ section{
   left: 0;
   width: 100%;
   height: 100%;
-//background-color: rgba(255, 255, 255, 0.8); z-index: 9999;
+  /* background-color: rgba(255, 255, 255, 0.8); z-index: 9999; */
 }
 .resumo {
   display: block;
   width: 100%;
   padding: 0.700rem 0.90rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   line-height: 1.5;
   color: #212529;
@@ -1242,6 +1303,28 @@ section{
   text-align: left;
 }
 
+.btn-salvar-assunto{
+    justify-content: center;
+    align-items: center;
+    min-width: 40px;
+    max-width: 40px;
+    height: 40px;
+    border-radius: 0;
+    text-align: left;
+    
+  }
+
+  input{
+    border-radius: 0;
+    height: 40px;
+  }
+
+  input:focus  {
+    box-shadow: none !important;
+    border: 0.5px solid rgb(159, 159, 182); /* Adicione o estilo que você deseja para realçar a borda */
+}
+
+
 @media screen and (max-width: 960px) {
 
   .flashcard-editor {
@@ -1259,5 +1342,65 @@ section{
     border-radius: 0;
     font-family: 'Open Sans', sans-serif;
   }
+  
 }
+
+@media screen and (max-width: 768px) {
+ 
+  input{
+    width: 103%;
+  }
+  .resumo{
+    margin: 0;
+    min-width: 100%;
+  }
+  .label-resumo{
+    min-width: 100%;
+  }
+
+  .btn-novo-assunto{
+    width: 100%;
+  }
+  .btn-novo-flashcard{
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .btn-edicao{
+    margin-top: 0;
+    width: 50px;
+  }
+
+  .btn-salvar-assunto{
+    height: 40px;
+    margin-top: 0px;
+  }
+
+  .card-edicao{
+    margin: 10px 10px 10px 0px;
+    padding: 10px 15px 15px 0;
+    background: #FDFDFE;
+    /* background: #d5d16f; */
+    width:100%;
+    border :1px solid #cacae9;
+    border-radius: 5px;
+  }
+}
+
+
+@media screen and (max-width: 575px) {
+ 
+ .btn-salvar-assunto{
+   font-size: 14px;
+   min-width: 250px;
+   max-width: 250px;
+   margin-left: 3px;
+   padding: 0;
+   
+ }
+ input {
+  width: 100%;
+ }
+}
+
 </style>
