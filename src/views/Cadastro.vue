@@ -1068,7 +1068,7 @@ export default {
 .b-sidebar {
   display: flex;
   flex-direction: column;
-  width: 485px;
+  width: 450px;
   max-width: 100%;
   max-height: 100%;
   margin: 0;
@@ -1290,17 +1290,20 @@ section{
 
 
 .flashcard-editor {
-  padding: 30px;
+  /* padding: 30px; */
   display: block;
   border: 1px solid #cfdccf;
   align-content: center;
   background-color: white;
   cursor: pointer;
   margin: 1px;
-  max-width: 414px;
-  min-width: 414px;
-
-  height: 400px;
+  /* max-width: 414px;
+  min-width: 414px; */
+  padding: 0;
+  max-width: 386px;
+  min-width: 370px;
+  height: 370px;
+  /* height: 400px; */
   border-radius: 0;
   font-family: 'Open Sans', sans-serif;
 }

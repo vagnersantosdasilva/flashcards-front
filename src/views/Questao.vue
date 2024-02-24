@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section >
     <div class="container">
       <div v-if="estaCarregando">
         <b-row class="d-flex justify-content-center mt-4">
@@ -136,7 +136,7 @@
               <h5 class="text-center">{{ questao.pergunta }}</h5>
               -->
             </b-row>
-            <b-row class="col-md-12 ">
+            <b-row class="col-md-12 questionario">
               <div v-if="!respondeu">
                 <b-row class="d-flex justify-content-center ">
                   <div class="flashcard_questao"
@@ -450,17 +450,20 @@ section {
 }
 
 .flashcard_questao {
-  padding: 30px;
+  /* padding: 30px; */
+  padding: 0;
   display: block;
   /*border: 1px solid #cfdccf;*/
   align-content: center;
   background-color: white;
   cursor: pointer;
   margin: 1px;
-  max-width: 414px;
-  min-width: 414px;
-
-  height: 400px;
+  /* max-width: 414px;
+  min-width: 414px; */
+  max-width: 384px;
+  min-width: 370px;
+  height: 370px;
+  /* height: 400px; */
   border-radius: 0;
   font-family: 'Open Sans', sans-serif;
 }
@@ -561,5 +564,13 @@ section {
   .btn{
     width: 90%;
   }
+ 
 }
+
+@media screen and (max-width: 575px) {
+  .questionario{
+    zoom: 0.90;
+  }
+ }
 </style>
+
