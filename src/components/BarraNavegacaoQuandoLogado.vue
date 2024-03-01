@@ -75,13 +75,15 @@
           <box-icon name='book-open' class="me-1" type="solid" title="Estudar" ></box-icon>
           Estudar
         </div>
-        <div v-if="isFullscreen" class="mobile-submenu-item" @click="fullscreen">
-          <box-icon name='exit-fullscreen' class="me-1" type="solid" title="Sair de Tela cheia" ></box-icon>
-          Sair de Tela Cheia
-        </div>
-        <div v-else class="mobile-submenu-item" @click="fullscreen">
-          <box-icon name='fullscreen' class="me-1" type="solid" title="Tela cheia" ></box-icon>
-          Tela Cheia
+        <div class="mobile-submenu-item" @click="fullscreen">
+          <div v-if="isFullscreen"  class="mobile-submenu-item">
+            <box-icon name='exit-fullscreen' class="me-1" type="solid" title="Sair de Tela cheia" ></box-icon>
+            Sair de Tela Cheia
+          </div>
+          <div v-else  class="mobile-submenu-item">
+            <box-icon name='fullscreen' class="me-1" type="solid" title="Tela cheia" ></box-icon>
+            Tela Cheia
+          </div>
         </div>
         <div class="mobile-submenu-item" @click="selectSubitem('perfil')">
           <box-icon name="id-card" type="solid" class="me-1"/>
@@ -133,7 +135,23 @@ export default {
       this.initFullScreen();
     },
 
+    handleKeyDown(event) {
+      if (event.key == 'Escape') {
+        console.log('scapa precionado , isFullScreen',this.isFullscreen)
+        if (this.isFullscreen) this.isFullscreen=false;
+      }
+    },
+
+    handleFullscreenChange() {
+      if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+        this.isFullscreen = false
+      }
+    },
+
+    
+
     initFullScreen() {
+
       document.body.classList.toggle("fullscreen-enable");
       if (
           !document.fullscreenElement &&
@@ -175,6 +193,11 @@ export default {
       this.$emit('logout'); // Emitindo o evento de logout para o componente pai
     }
   },
+  mounted(){
+    document.addEventListener('keydown', this.handleKeyDown)
+    document.addEventListener('fullscreenchange', this.handleFullscreenChange)
+    document.addEventListener('webkitfullscreenchange', this.handleFullscreenChange)
+  }
 };
 </script>
 

@@ -7,7 +7,7 @@
           <div class="col-lg-6 col-12">
             <div class="login-content">
               <h3 class="text-sm-center text-md-start">Bem-vindo ao Memo Beam!</h3>
-            
+            f
               <p>
                 Você está prestes a entrar em um mundo de possibilidades educacionais.
                 Não perca a oportunidade de fazer parte desta jornada de aprendizado única.
@@ -230,7 +230,7 @@
                               </b-col>
                               <b-col class=" col-10">
                                 <div class="mt-1 d-flex justify-content-center" >
-                                  <strong v-if="isMobile">Use com o Google</strong>
+                                  <strong v-if="isMobile">Com o Google</strong>
                                   <strong v-else>Iscrever-se com o Google</strong>
                                 </div>
                               </b-col>
@@ -250,13 +250,13 @@
                             <b-row class="d-flex col-12 justify-content-center">
                               <b-col class="col-1 d-flex justify-content-center align-content-center" align-self="center">
                                 <span
-                                    class="fa-brands fa-facebook-square "
-                                    style="color:blue;">
+                                    class="fa-brands fa-facebook-square icone-social-face"
+                                    >
                                 </span>
                               </b-col>
                               <b-col class="col-10 ">
                                 <div class="mt-1 d-flex justify-content-center" >
-                                  <strong  v-if="isMobile">Use com o Facebook</strong>
+                                  <strong  v-if="isMobile">Com o Facebook</strong>
                                   <strong  v-else>Inscrever-se com o Facebook</strong>
                                 </div>
                               </b-col>
@@ -1033,6 +1033,10 @@ input {
   display: block;
   justify-content: center;
   align-content: center;
+}
+
+.icone-social-face{
+  font-size: 10px;
 }
 
 @media screen and (max-width: 960px) {

@@ -67,7 +67,7 @@ export default {
   .show{
     justify-content: start;
     text-align: justify;
-    //border: 1px dashed black;
+    /*border: 1px dashed black;*/
 
     margin-left:  5px;
     padding: 1px;
