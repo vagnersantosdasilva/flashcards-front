@@ -34,7 +34,12 @@
                 style="height: 200px;"
                 class="col-xxl-3 col-xl-3 col-lg-3 col-md-5 col-sm-12 m-1"
             >
-              <b-card-title style="font-size: 17px;">{{ categoria.nome }}</b-card-title>
+              <b-card-title class="d-flex justify-content-between align-items-center;" style="font-size: 17px;">
+                {{ categoria.nome }}  
+                <div style="cursor: pointer; font-size: 14px;" title="Datas de revisão" @click = "datasRevisao(categoria.id)">
+                  <b-icon icon="calendar"/>
+                </div>
+              </b-card-title>
 
               <b-card-body class="w-100">
                 <b-button
@@ -209,7 +214,33 @@
 
       </div>
     </div>
+    <b-modal
+        ref="dataRevisao"
+        v-model="showModalRevisao"
+        title="Revisões a fazer:"
+        size="sm"
+        ok-only
+    >
+      <div style="" class="mt-4">
+        <div v-if="listaRevisaoCategoriaCorrente.length==0" >
+          <h5 class="mt-3 d-flex justify-content-center">Você não tem revisões </h5>
+        </div>
+        <div v-else>
+          
+          <div v-for="(d,index) in listaRevisaoCategoriaCorrente" :key="index">
+           
+          <p class="text-center text-primary" v-if="noPrazo(d)">
+            {{ d }}
+          </p>
+          <p class="text-center text-danger" v-else>
+            {{ d }}
+          </p>
+        </div>
+        </div>
+      </div>
+    </b-modal>
   </section>
+
 </template>
 
 <script>
@@ -252,6 +283,8 @@ export default {
       showDismissibleAlert: false,
       erroResponse: {},
       estaCarregando: false,
+      showModalRevisao:false,
+      listaRevisaoCategoriaCorrente:[],
     }
   },
 
@@ -276,6 +309,53 @@ export default {
   },
 
   methods: {
+
+    async datasRevisao(id){
+      await this.obterDatasRevisao(id)
+      this.showModalRevisao = true;
+
+    },
+
+    noPrazo(data) {
+      const dataAtual = new Date(); 
+      const diaAtual = dataAtual.getDate();
+      const mesAtual = dataAtual.getMonth() + 1;
+      const anoAtual = dataAtual.getFullYear();
+      const [diaItem, mesItem, anoItem] = data.split('/').map(Number);
+      const dataAtualObj = new Date(anoAtual, mesAtual - 1, diaAtual); 
+      const dataItemObj = new Date(anoItem, mesItem - 1, diaItem); 
+      return dataItemObj > dataAtualObj;
+    },
+
+    formatDate(date) {
+      if (date) {
+          const formattedDate = new Date(date);
+          const day = String(formattedDate.getDate()).padStart(2, '0');
+          const month = String(formattedDate.getMonth() + 1).padStart(2, '0'); 
+          const year = formattedDate.getFullYear();
+          return `${day}/${month}/${year}`;
+      }
+      return null;
+    },
+
+    async obterDatasRevisao(idCategoria) {
+      if (idCategoria) {
+          const usuario = this.$store.state.usuario;
+          await this.$http.get(`api/usuario/${usuario.idUser}/categoria/${idCategoria}/questao/datas`)
+              .then((response) => {
+                  let listaTemporaria = response.data
+                      .map(item =>{ 
+                        const parts = item.split('/');
+                        return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+                      })
+                      .sort((a, b) => a - b);
+                  this.listaRevisaoCategoriaCorrente = listaTemporaria.map(item => this.formatDate(item));
+              })
+              .catch((response) => {
+                  this.erroResponse = Object.assign({}, response);
+              });
+      }
+    },
 
     async onReadyNoToolbar(editor) {
       editor.isReadOnly = true;

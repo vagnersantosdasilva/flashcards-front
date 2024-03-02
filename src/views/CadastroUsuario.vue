@@ -7,7 +7,7 @@
           <div class="col-lg-6 col-12">
             <div class="login-content">
               <h3 class="text-sm-center text-md-start">Bem-vindo ao Memo Beam!</h3>
-            f
+            
               <p>
                 Você está prestes a entrar em um mundo de possibilidades educacionais.
                 Não perca a oportunidade de fazer parte desta jornada de aprendizado única.
@@ -311,8 +311,8 @@
         <div class="row justify-content-center">
 
           <div class="col-md-6">
-            <h4 v-show="isMobile" class="text-sm-center text-md-start mt-4">Como funciona o método de repetição espaçada?</h4>
-            <h3 v-show="!isMobile" class="text-sm-center text-md-start mt-4">Como funciona o método de repetição espaçada?</h3>
+            <h4 v-show="isMobile" class="text-sm-center text-md-start mt-4">Como funciona o algoritmo?</h4>
+            <h3 v-show="!isMobile" class="text-sm-center text-md-start mt-4">Como funciona o algoritmo do Memo Beam?</h3>
             <p>
               O algoritmo de repetição espaçada baseia-se em seis etapas de conhecimento, onde cada questão
               presente na revisão é associada a uma dessas etapas.
@@ -321,7 +321,7 @@
             </p>
             <p>
               Se você responder corretamente, a questão será movida para a próxima etapa e será apresentada novamente
-              para revisão após um intervalo de 4 a 180 dias (dependendo da nova etapa).
+              para revisão após um intervalo de 1 a 180 dias (dependendo da nova etapa).
               Por outro lado, se você errar, a questão voltará algumas etapas e será apresentada novamente no dia
               seguinte.
             </p>
