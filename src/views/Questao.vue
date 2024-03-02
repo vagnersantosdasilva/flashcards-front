@@ -165,7 +165,7 @@
                 <b-row class="d-flex justify-content-center">
                   <b-row class=" d-flex justify-content-center cards">
 
-                    <div class="flashcard_questao" :class="{active:respondeu}">
+                    <div class="flashcard_questao" :class="{active:respondeu, 'slide-out-left': slideOutLeft, 'slide-out-right': slideOutRight}">
 
                       <ckeditor
                           :editor="editor"
@@ -285,6 +285,8 @@ export default {
       estaCarregando: false,
       showModalRevisao:false,
       listaRevisaoCategoriaCorrente:[],
+      slideOutLeft: false,
+      slideOutRight: false,
     }
   },
 
@@ -431,25 +433,36 @@ export default {
       if (acerto) {
         this.acertou = true
         this.errou = false
+        this.slideOutLeft =true;
+        this.slideOutRight=false;
       } else {
         this.acertou = false
         this.errou = true
+        this.slideOutLeft =false;
+        this.slideOutRight=true;
       }
 
       if (this.correcao == false && this.isRevisao) {
         this.showDismissibleAlert = false;
         await this.$http.put(`api/usuario/${idUsuario}/questao/responder`, questao)
+        
             .then(() => {
               setTimeout(() => {
                 this.atualiza(questao);
+                this.slideOutLeft =false;
+                this.slideOutRight=false;
               }, 300)
             }).catch((erro) => {
               this.showDismissibleAlert = true;
               this.erroResponse = Object.assign(erro);
+              this.slideOutLeft =false;
+              this.slideOutRight=false;
             })
       } else {
         setTimeout(() => {
           this.atualiza(questao);
+          this.slideOutLeft =false;
+          this.slideOutRight=false;
         }, 300)
       }
     },
@@ -513,6 +526,34 @@ export default {
 
 
 <style scoped>
+@keyframes slideOutLeft {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slideOutRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.5s ease forwards;
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.5s ease forwards;
+}
+
 .linha-btn-continuar{
   justify-content: flex-start !important;
 }
